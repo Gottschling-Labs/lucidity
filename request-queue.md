@@ -22,7 +22,7 @@ Purpose: capture proposed improvements that need Brandon approval before impleme
 
 ### 7) Git remote and push target for Ops Deck work
 - Observation: this workspace repo currently has no git remote configured, so I cannot actually push `ops-deck-ui`.
-- Current impact: I can commit locally, but `git push` fails. There is now at least one local commit waiting to be pushed.
+- Current impact: I can commit locally, but `git push` fails. There are now multiple local commits waiting to be pushed (latest: `d2a3d66`).
 - Also: the repo contents look like notes and mission-control docs, not a UI project (no `package.json` in the top couple levels).
 - Proposal: confirm the canonical remote URL and confirm whether the Ops Deck UI lives in this repo or a separate one.
 - Why: NIGHTSHIFT needs a safe, repeatable push path.
