@@ -1,0 +1,17 @@
+# OpenClaw personal workspace artifacts
+.openclaw/
+memory/
+notes/
+MEMORY.md
+USER.md
+SOUL.md
+IDENTITY.md
+TOOLS.md
+HEARTBEAT.md
+AGENTS.md
+
+# OS
+.DS_Store
+
+# Node
+node_modules/
