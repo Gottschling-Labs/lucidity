@@ -4,6 +4,12 @@ Purpose: capture proposed improvements that need Brandon approval before impleme
 
 ## Pending approval
 
+### 8) Fix web research plumbing (keys plus browser tool)
+- Observation: `web_search` is currently blocked by `missing_brave_api_key`, and the `browser` tool cannot reach the browser control service (timeout).
+- Proposal: set up either Brave or Perplexity keys, then restart the gateway to bring `web_search` back. Also investigate why the browser control service is unreachable.
+- Why: NIGHTSHIFT research work is crippled without search or a working browser.
+- Risk: low to medium (touches keys and gateway restart, but reversible).
+
 ### 4) Multi-model routing policy
 - Proposal: formalize model routing rules: cheap model for routine tasks, stronger model only when needed, with explicit budget limits.
 - Why: reduce token burn.
