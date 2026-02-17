@@ -45,23 +45,18 @@ function parseNote(filePath, filename, content) {
     .map((t) => t.trim())
     .filter(Boolean)
 
-  // excerpt: first non-empty line after metadata, but before first ##
-  let excerpt = ''
-  let sawMeta = false
-  for (const line of lines) {
-    if (/^#\s+/.test(line)) continue
-    if (/^[A-Za-z][A-Za-z0-9_-]*:/.test(line)) {
-      sawMeta = true
-      continue
-    }
-    if (/^##\s+/.test(line)) break
+  // excerpt: first meaningful line after the header block, but before the first ##
+  // Works even if a note has no metadata lines.
+  const firstSectionIdx = lines.findIndex((l) => /^##\s+/.test(l))
+  const headerLines = (firstSectionIdx === -1 ? lines : lines.slice(0, firstSectionIdx))
 
-    if (!sawMeta) continue
-    if (!line.trim()) continue
+  const bodyCandidates = headerLines
+    .filter((l) => !/^#\s+/.test(l))
+    .filter((l) => !/^[A-Za-z][A-Za-z0-9_-]*:\s*/.test(l))
+    .map((l) => l.trim())
+    .filter(Boolean)
 
-    excerpt = line.trim()
-    break
-  }
+  const excerpt = bodyCandidates[0] || ''
 
   return {
     slug: toSlug(filename),
@@ -95,7 +90,6 @@ async function main() {
   })
 
   const payload = {
-    generatedAt: new Date().toISOString(),
     count: notes.length,
     notes,
   }
