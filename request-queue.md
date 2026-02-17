@@ -22,9 +22,10 @@ Purpose: capture proposed improvements that need Brandon approval before impleme
 
 ### 7) Git remote and push target for Ops Deck work
 - Observation: this workspace repo currently has no git remote configured, so I cannot actually push `ops-deck-ui`.
-- Proposal: define the canonical remote URL and whether this repo is the Ops Deck UI repo or just the notes repo.
-- Why: nightshift needs a safe, repeatable push path.
-- Risk: low (mostly process), but mispointing the remote would be ugly.
+- Also: the repo contents look like notes and mission-control docs, not a UI project (no `package.json` in the top couple levels).
+- Proposal: confirm the canonical remote URL and confirm whether the Ops Deck UI lives in this repo or a separate one.
+- Why: NIGHTSHIFT needs a safe, repeatable push path.
+- Risk: low (process), but mispointing the remote would be ugly.
 
 ## Approved and in progress
 
