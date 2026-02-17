@@ -1,0 +1,58 @@
+{
+  "generatedAt": "2026-02-17T02:55:24.171Z",
+  "count": 4,
+  "notes": [
+    {
+      "slug": "2026-02-16-distilled-notes-format-and-indexing",
+      "path": "mission-control/ops-notes/distilled/2026-02-16-distilled-notes-format-and-indexing.md",
+      "title": "Distilled notes format and indexing plan",
+      "date": "2026-02-16",
+      "tags": [
+        "research",
+        "ops-deck",
+        "notes",
+        "indexing"
+      ]
+    },
+    {
+      "slug": "2026-02-16-git-remote-and-push-path",
+      "path": "mission-control/ops-notes/distilled/2026-02-16-git-remote-and-push-path.md",
+      "title": "Git remote and push path (Ops Deck nightshift)",
+      "date": "2026-02-16",
+      "tags": [
+        "research",
+        "git",
+        "ops",
+        "process",
+        "ops-deck"
+      ]
+    },
+    {
+      "slug": "2026-02-16-token-cost-memory-hygiene",
+      "path": "mission-control/ops-notes/distilled/2026-02-16-token-cost-memory-hygiene.md",
+      "title": "Token, cost, and memory hygiene (OpenClaw field notes)",
+      "date": "2026-02-16",
+      "tags": [
+        "research",
+        "cost",
+        "tokens",
+        "memory",
+        "ops"
+      ]
+    },
+    {
+      "slug": "2026-02-16-web-search-and-browser-fallbacks",
+      "path": "mission-control/ops-notes/distilled/2026-02-16-web-search-and-browser-fallbacks.md",
+      "title": "Web search and browser fallbacks (OpenClaw field notes)",
+      "date": "2026-02-16",
+      "tags": [
+        "research",
+        "web",
+        "brave",
+        "perplexity",
+        "browser",
+        "ops"
+      ]
+    }
+  ]
+}
