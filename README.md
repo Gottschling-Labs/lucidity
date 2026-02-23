@@ -72,6 +72,10 @@ Lucidity’s job is to keep those tiers well-structured and easy to retrieve.
 
 GPL-3.0-or-later (see `LICENSE`).
 
+## Maintainers
+
+See `MAINTAINERS.md` for the public release checklist and recommended improvements.
+
 ## Status
 
 Private repo for now (Gottschling Labs). Public release should follow a security + sandboxing review.
