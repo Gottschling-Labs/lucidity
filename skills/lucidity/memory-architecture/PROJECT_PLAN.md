@@ -96,9 +96,9 @@ This addendum tracks those items.
 - [x] Wire recall tracking telemetry emission (JSONL event emission for maintenance/apply runs; stored at `workspace/state/memory-recall-events.jsonl`).
 - [x] Expand test suite to 10 queries across multiple topics and record PASS/FAIL (`memory-architecture/test-scenarios.md`, `memory-architecture/test-results.md`).
 - [x] Add configuration surface in a skill bundle (defaults + docs) and verify on a fresh agent workspace (`skills/lucidity`).
-- [x] Add install script to create cron job(s) for a new agent with sane defaults (skill: `memory-manager/install.sh`).
-- [x] (Optional) Add `memorySearch.extraPaths` installer helper for meta-awareness indexing, with safe allowlist (skill doc: `memory-manager/extra-paths.md`).
-- [x] (Optional) Implement T-S encryption tooling using GPG (initial scripts in skill: `memory-manager/scripts/sensitive_store_gpg.py`, `sensitive_get_gpg.py`).
+- [x] Add install script to create cron job(s) for a new agent with sane defaults (skill: `skills/lucidity/install.sh`).
+- [x] (Optional) Add `memorySearch.extraPaths` installer helper for meta-awareness indexing, with safe allowlist (skill doc: `skills/lucidity/extra-paths.md`).
+- [x] (Optional) Implement T-S encryption tooling using GPG (initial scripts in skill: `skills/lucidity/scripts/sensitive_store_gpg.py`, `skills/lucidity/scripts/sensitive_get_gpg.py`).
 
 ## ClawHub-Ready Shipping Plan (Prioritized)
 
@@ -149,7 +149,7 @@ RC4 (public-ready): sandboxing plan implemented (or clearly documented constrain
 - [x] Performance benchmarks: measure recall latency (p50/p90/p99) on demo corpus + real private corpus.
   - **Public repo:** commit **demo/sanitized** results only.
   - **Private corpus results:** must remain **local-only** (do not commit).
-- [x] Benchmark harness: run on (a) real private workspace corpus and (b) sanitized demo corpus committed to repo (bundle: `skills/lucidity/scripts/bench_memory_search.py`, `benchmarks/`, `demo-workspace/`).
+- [x] Benchmark harness: run on (a) real private workspace corpus and (b) sanitized demo corpus committed to repo (bundle: `skills/lucidity/memory-architecture/scripts/bench_memory_search.py`, `benchmarks/`, `demo-workspace/`).
 - [x] Token efficiency benchmark: snippet injection proxy vs naive baseline on both corpora (commit demo results only).
 - [x] Recall quality benchmark: PASS/FAIL suite on both corpora with reproducible query sets (commit demo results only).
 
@@ -180,10 +180,10 @@ RC4 (public-ready): sandboxing plan implemented (or clearly documented constrain
 - 2026-02-19: production: define require-review mode spec for safe first-week installs
 - 2026-02-19: testing: expand retrieval suite to 10 queries (PASS/FAIL) and record results
 - 2026-02-19: production: emit JSONL telemetry events for apply/maintenance runs
-- 2026-02-19: production: package memory-manager skill bundle (defaults+docs+scripts) and verify on fresh workspace
-- 2026-02-19: production: add memory-manager install script to create cron job and initialize workspace dirs
+- 2026-02-19: production: package lucidity skill bundle (defaults+docs+scripts) and verify on fresh workspace
+- 2026-02-19: production: add lucidity install script to create cron job and initialize workspace dirs
 - 2026-02-19: production: add safe extraPaths guidance doc for optional meta-awareness indexing
-- 2026-02-19: security: add minimal GPG-based sensitive tier scripts to memory-manager bundle
+- 2026-02-19: security: add minimal GPG-based sensitive tier scripts to lucidity bundle
 - 2026-02-19: robustness: add full hardening addendum + QA test plan scaffold
 - 2026-02-19: robustness: add workspace-bundled backup script + retention policy + daily cron
 - 2026-02-19: robustness: add rollback tool restoring dest files from pre-apply backup via apply manifest

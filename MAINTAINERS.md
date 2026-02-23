@@ -25,17 +25,18 @@ Overall status: **Not yet public-ready**, but close.
 ### Governance
 - [x] `CONTRIBUTING.md`
 - [x] `SECURITY.md`
-- [ ] `CODE_OF_CONDUCT.md` (recommended)
+- [x] `CODE_OF_CONDUCT.md`
 
 ### Documentation
 - [x] Tier architecture (T0-T4) documented
 - [x] LLM/indexing dependencies documented
-- [ ] Root quickstart: "clone, install, verify" (recommended)
-- [ ] Explicit safe-defaults callout in root README (recommended)
+- [x] Root quickstart: "clone, install, verify"
+- [x] Explicit safe-defaults callout in root README
 
 ### Releases
 - [x] License: GPL-3.0-or-later
-- [ ] Root `CHANGELOG.md` + tag `v0.1.0` (recommended)
+- [x] Root `CHANGELOG.md`
+- [ ] Tag `v0.1.0` (recommended)
 
 ## 2) Critical review (recommended improvements)
 

@@ -9,6 +9,28 @@ It provides:
 - Backups + rollback + receipts/manifests for reversibility
 - A documented recall + prompt-injection policy to stay token-efficient
 
+## Quickstart
+
+```bash
+git clone https://github.com/Gottschling-Labs/lucidity.git
+cd lucidity
+cd skills/lucidity
+./install.sh
+
+# Verify indexing (recommended)
+openclaw status --deep
+
+# Run a first staging pass (safe)
+python3 memory-architecture/scripts/distill_daily.py --workspace ~/.openclaw/workspace --staging-only
+python3 memory-architecture/scripts/dedupe_staging.py --workspace ~/.openclaw/workspace
+```
+
+## Safe defaults (read this)
+
+- The installer schedules **staging-only** distill + dedupe and daily backups.
+- **Apply** (merging into `MEMORY.md`) is optional and should be human-reviewed for new installs.
+- Keep secrets out of always-loaded tiers.
+
 ## Where to start
 
 - **Installable skill bundle:** `skills/lucidity/`
