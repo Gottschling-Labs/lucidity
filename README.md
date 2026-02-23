@@ -142,6 +142,27 @@ GPL-3.0-or-later (see `LICENSE`).
 
 See `MAINTAINERS.md` for the public release checklist and recommended improvements.
 
+## Updates
+
+Lucidity does not auto-update itself.
+
+To check whether an update is available:
+
+```bash
+cd ~/code/gottschling-labs/lucidity
+python3 skills/lucidity/scripts/check_update.py
+```
+
+To upgrade:
+
+```bash
+cd ~/code/gottschling-labs/lucidity
+git pull --ff-only
+# Re-run installer to refresh cron block if needed
+cd skills/lucidity
+./install.sh
+```
+
 ## Security + sandboxing
 
 Before making Lucidity public, review:

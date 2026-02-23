@@ -14,6 +14,11 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.1] - 2026-02-23
+
+### Added
+- Update notification script (`skills/lucidity/scripts/check_update.py`) and repo `VERSION` file.
+
 ## [0.1.0] - 2026-02-23
 
 ### Added
