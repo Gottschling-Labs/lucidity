@@ -2,9 +2,20 @@
 
 This document is the "full manual" for Lucidity.
 
-If you want the fast path, start with:
-- `README.md` (repo root)
-- `skills/lucidity/README.md`
+Recommended reading order:
+- `README.md` (repo root): quickstart + safe defaults
+- `skills/lucidity/README.md`: install/verify overview
+- This file: deeper concepts, pipeline, apply automation
+
+Quick navigation:
+- Concepts + tiers: section 1
+- Dependencies (memory-core indexing): section 2
+- Portability + demo workspace: section 3
+- Recall model: section 4
+- Maintenance pipeline (distill/dedupe): section 5
+- Automation (cron/heartbeat): section 6
+- Apply (promotion): section 7
+- Verification + security notes: sections 9-10
 
 ---
 
@@ -193,7 +204,7 @@ Practical reasons to use both:
 
 ---
 
-## 3) The maintenance pipeline
+## 5) The maintenance pipeline
 
 Lucidity’s pipeline is **staging-first**:
 
@@ -268,7 +279,7 @@ References:
 
 ---
 
-## 4) Cron vs Heartbeat operation
+## 6) Cron vs Heartbeat operation
 
 ### 4.1 Cron (recommended default)
 
@@ -300,7 +311,7 @@ Instructions:
 
 ---
 
-## 5) Apply (promotion) guide
+## 7) Apply (promotion) guide
 
 Apply is the step that turns staged, deduped candidates into canonical memory. It is where most of the day-to-day value comes from.
 
@@ -364,7 +375,7 @@ Example cron line (conceptual):
 - Keep apply off by default for new installs. Use dry-run first.
 - Always keep backups before applying.
 
-## 6) Examples (episodic vs procedural)
+## 8) Examples (episodic vs procedural)
 
 These examples show how a raw daily note can be distilled into structured candidates that are easy to retrieve via `memory_search`.
 
@@ -408,7 +419,7 @@ Why this helps retrieval:
 Why this helps retrieval:
 - If you later ask "how do I install Lucidity?" or "what command runs staging distill?", `memory_search` can find this SOP quickly.
 
-## 6) Verification / "How do I know it works?"
+## 9) Verification / "How do I know it works?"
 
 Minimum verification checklist:
 
@@ -424,7 +435,7 @@ References:
 
 ---
 
-## 6) Security / privacy notes
+## 10) Security / privacy notes
 
 - Keep secrets out of always-loaded files.
 - Prefer staging-first + review for the first week of a new install.
