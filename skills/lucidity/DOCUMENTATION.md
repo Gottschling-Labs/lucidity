@@ -4,7 +4,7 @@ This document is the "full manual" for Lucidity.
 
 Recommended reading order:
 - `README.md` (repo root): quickstart + safe defaults
-- `skills/lucidity/README.md`: install/verify overview
+- `skills/lucidity/README.md`: install/verify overview (Gateway cron recommended)
 - This file: deeper concepts, pipeline, apply automation
 
 Quick navigation:

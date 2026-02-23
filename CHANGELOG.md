@@ -14,6 +14,14 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.2] - 2026-02-23
+
+### Added
+- Gateway cron installer (`skills/lucidity/gateway-cron-install.sh`) so jobs show up in `openclaw cron list`.
+
+### Changed
+- Documentation now recommends Gateway cron by default.
+
 ## [0.1.1] - 2026-02-23
 
 ### Added

@@ -17,7 +17,26 @@ It organizes memory into tiers and provides a staged pipeline:
   - `install.sh` - cron-based install (recommended default)
   - `heartbeat.md` - how to run it via HEARTBEAT instead
 
-## Installation (cron, recommended)
+## Installation (Gateway cron, recommended)
+
+Gateway cron jobs are visible to OpenClaw and are the expected user experience.
+
+```bash
+cd skills/lucidity
+./gateway-cron-install.sh
+```
+
+This will:
+- ask for consent + workspace root
+- ask for cron verbosity (announce to chat by default)
+- detect timezone from the host when possible
+- create Gateway cron jobs visible via `openclaw cron list`
+
+Docs: `skills/lucidity/GATEWAY_CRON.md`
+
+## Installation (OS cron, alternative)
+
+If you prefer OS-level crontab:
 
 ```bash
 cd skills/lucidity
@@ -27,7 +46,9 @@ cd skills/lucidity
 This will:
 - ask for consent + PII minimization defaults
 - create required workspace directories under `~/.openclaw/workspace/`
-- install cron entries for maintenance + backups
+- install OS cron entries for maintenance + backups
+
+Note: OS cron jobs will not appear in `openclaw cron list`.
 
 ## Installation (heartbeat)
 

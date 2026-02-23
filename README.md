@@ -15,7 +15,12 @@ It provides:
 git clone https://github.com/Gottschling-Labs/lucidity.git
 cd lucidity
 cd skills/lucidity
-./install.sh
+
+# Recommended: Gateway cron (jobs visible in OpenClaw)
+./gateway-cron-install.sh
+
+# Alternative: OS crontab
+# ./install.sh
 
 # Verify indexing (recommended)
 openclaw status --deep
@@ -64,7 +69,8 @@ Automation maturity model:
 - **Installable skill bundle:** `skills/lucidity/`
   - `skills/lucidity/README.md` (install + verification)
   - `skills/lucidity/DOCUMENTATION.md` (comprehensive manual)
-  - `skills/lucidity/install.sh` (cron-based default)
+  - `skills/lucidity/gateway-cron-install.sh` (Gateway cron, recommended)
+  - `skills/lucidity/install.sh` (OS crontab, alternative)
   - `skills/lucidity/heartbeat.md` (heartbeat-based alternative)
 
 ## Tier architecture (T0-T4)
