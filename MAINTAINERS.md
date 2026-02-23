@@ -6,7 +6,7 @@ It is intentionally concise and is safe to keep in the public repo.
 
 ## 1) Public release checklist (status)
 
-Overall status: **Not yet public-ready**, but close.
+Overall status: **Public**.
 
 ### Repository hygiene
 - [x] Repo contains only Lucidity skill + documentation
@@ -32,28 +32,25 @@ Overall status: **Not yet public-ready**, but close.
 ### Documentation
 - [x] Tier architecture (T0-T4) documented
 - [x] LLM/indexing dependencies documented
-- [x] Root quickstart: "clone, install, verify"
+- [x] Root quickstart: "clone, install, verify" (Gateway cron)
 - [x] Explicit safe-defaults callout in root README
+- [x] Demo workspace committed (sanitized)
+- [x] Apply (promotion) guide (manual + automation maturity model)
+- [x] Gateway cron guide (`skills/lucidity/GATEWAY_CRON.md`)
+- [x] Upgrade guide (`skills/lucidity/UPGRADING.md`)
 
 ### Releases
 - [x] License: GPL-3.0-or-later
 - [x] Root `CHANGELOG.md`
-- [x] Tag `v0.1.0`
+- [x] Tags published (v0.1.0+)
 
-## 2) Critical review (recommended improvements)
+## 2) Ongoing improvements (post-public)
 
-High priority:
-- Add `CODE_OF_CONDUCT.md` (Contributor Covenant)
-- Add root `CHANGELOG.md` and create tag `v0.1.0`
-- Add a prominent "safe defaults" section to root `README.md`
-
-Medium priority:
-- Add a tiny sanitized `demo-workspace/` so users can validate without private data
-- Commit demo-only benchmark outputs (never private-corpus results)
-
-Nice-to-have:
+Nice-to-have (future):
 - Add a wrapper command or Makefile target to run the standard pipeline
-  - distill (staging-only) -> dedupe -> optional apply
+  - distill -> dedupe -> optional apply
+- Add a demo-only benchmark harness + committed demo outputs (never private-corpus results)
+- Add CI smoke test that runs the demo pipeline with `--workspace demo-workspace`
 
 ## 3) Policy reminders
 
