@@ -29,7 +29,6 @@ Lucidity’s job is to keep those tiers well-structured and easy to retrieve.
 ## Repo structure (high level)
 
 - `skills/lucidity/` — the distributable OpenClaw skill bundle
-- `memory-architecture/` — source project docs (historical; the skill bundle includes a copy)
 
 ## Status
 
