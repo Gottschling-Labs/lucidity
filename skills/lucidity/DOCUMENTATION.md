@@ -259,12 +259,23 @@ Lucidity’s pipeline is **staging-first**:
 Purpose:
 - Convert raw daily notes into structured memory candidates.
 
-Command:
+Deterministic catch-up (recommended for scheduled runs):
+- Use `distill_pending.py` to process any unprocessed days deterministically.
+
+Command (manual single-day distill):
 
 ```bash
 python3 skills/lucidity/memory-architecture/scripts/distill_daily.py \
   --workspace ~/.openclaw/workspace \
-  --staging-only
+  --date <YYYY-MM-DD>
+```
+
+Command (scheduled catch-up distill):
+
+```bash
+python3 skills/lucidity/memory-architecture/scripts/distill_pending.py \
+  --workspace ~/.openclaw/workspace \
+  --limit 7
 ```
 
 Outputs:
@@ -341,7 +352,7 @@ cd skills/lucidity
 
 Default cron installs:
 - nightly backup
-- staging-only distill
+- deterministic pending distill (catch-up)
 - staging dedupe
 
 > Apply is intentionally *not* enabled by default.

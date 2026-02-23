@@ -22,7 +22,7 @@ The installer will prompt for:
 
 By default it creates these Gateway cron jobs:
 - `lucidity.backup` (03:45 daily)
-- `lucidity.distill` (04:05 daily, staging-first)
+- `lucidity.distill` (04:05 daily, deterministic "pending distill" - catches up any unprocessed days)
 - `lucidity.dedupe` (04:15 daily)
 
 Apply is intentionally not scheduled by default.

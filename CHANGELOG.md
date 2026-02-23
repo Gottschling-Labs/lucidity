@@ -14,6 +14,14 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.5] - 2026-02-23
+
+### Added
+- Deterministic catch-up distill (`distill_pending.py`) to process any unprocessed daily logs.
+
+### Changed
+- Gateway cron distill job now uses pending distill to avoid missing days.
+
 ## [0.1.4] - 2026-02-23
 
 ### Added

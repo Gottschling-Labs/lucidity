@@ -1,6 +1,6 @@
 ---
 name: lucidity
-version: 0.1.4
+version: 0.1.5
 description: "Local-first, auditable, tiered memory maintenance + recall policy for OpenClaw. Distill → dedupe → (optional) apply to curated long-term memory, with receipts + backups."
 metadata:
   openclaw:
