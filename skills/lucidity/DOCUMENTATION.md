@@ -99,7 +99,43 @@ Lucidity does not hardcode a specific provider/model, but it assumes:
 - embeddings are configured and available to memory-core
 - your agent can call `memory_search` before answering memory-dependent questions
 
-## 3) How recall works in OpenClaw
+## 3) OpenClaw-specific vs portable
+
+### 3.1 What depends on OpenClaw + LLM configuration
+
+OpenClaw-specific pieces:
+- `memory_search` / `memory_get` tools and the agent policy of using them.
+- `memory-core` indexing, including:
+  - embeddings (vector search)
+  - FTS (keyword search)
+- Health checks such as `openclaw status --deep`.
+
+### 3.2 What is portable (runs without OpenClaw)
+
+The Lucidity scripts are local-first and can run against any folder that follows the workspace layout:
+- `MEMORY.md`
+- `memory/YYYY-MM-DD.md`
+
+You can use them to produce staging outputs and receipts even if you are not using OpenClaw retrieval.
+
+### 3.3 Demo workspace (sanitized)
+
+This repo includes a tiny sanitized corpus you can use to validate Lucidity without using private data:
+- `skills/lucidity/demo-workspace/`
+
+How to run the pipeline on the demo corpus:
+
+```bash
+cd skills/lucidity
+python3 memory-architecture/scripts/distill_daily.py --path demo-workspace/memory/2026-02-23.md
+python3 memory-architecture/scripts/dedupe_staging.py
+python3 memory-architecture/scripts/apply_staging.py --dry-run
+```
+
+Inspect outputs under:
+- `skills/lucidity/memory/staging/`
+
+## 4) How recall works in OpenClaw
 
 OpenClaw recall is typically implemented as:
 
@@ -117,7 +153,7 @@ References:
 - `skills/lucidity/memory-architecture/prompt-injection-policy.md`
 - `skills/lucidity/memory-architecture/hybrid-retrieval-policy.md`
 
-### 3.1 How episodic and procedural memories get created
+### 4.1 How episodic and procedural memories get created
 
 Lucidity does **not** magically create memories just because tiers exist. It creates structured episodic/procedural content via the **distillation pipeline**.
 
@@ -143,7 +179,7 @@ Where to see the distillation pipeline rules/flow:
 
 > Important: for retrieval, the only hard requirement is that the resulting Markdown ends up under paths searched by recall (typically `MEMORY.md` and `memory/*.md`).
 
-### 3.2 `memory_search` vs `memory_get`
+### 4.2 `memory_search` vs `memory_get`
 
 These are designed to be used together:
 
