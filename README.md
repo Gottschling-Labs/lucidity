@@ -31,8 +31,33 @@ python3 memory-architecture/scripts/distill_daily.py --workspace demo-workspace 
 ## Safe defaults (read this)
 
 - The installer schedules **staging-only** distill + dedupe and daily backups.
-- **Apply** (merging into `MEMORY.md`) is optional and should be human-reviewed for new installs.
+- **Apply** is where candidates become canonical memory (topic briefs and/or curated long-term). It is optional and should be human-reviewed for new installs.
 - Keep secrets out of always-loaded tiers.
+
+## Apply (promotion) - making memory updates real
+
+Apply is the step that merges deduped staging candidates into canonical memory files:
+
+- Procedural and episodic notes (as configured) into `memory/topics/*.md`
+- High-confidence semantic candidates into `MEMORY.md`
+
+Start with a dry run:
+
+```bash
+cd skills/lucidity
+python3 memory-architecture/scripts/apply_staging.py --workspace ~/.openclaw/workspace --dry-run
+```
+
+Then write:
+
+```bash
+python3 memory-architecture/scripts/apply_staging.py --workspace ~/.openclaw/workspace --write
+```
+
+Automation maturity model:
+- Manual apply (recommended first)
+- Scheduled apply `--dry-run` + review (first week)
+- Scheduled apply `--write` (only after confidence)
 
 ## Where to start
 

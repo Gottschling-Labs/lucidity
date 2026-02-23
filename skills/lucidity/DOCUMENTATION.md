@@ -300,7 +300,71 @@ Instructions:
 
 ---
 
-## 5) Examples (episodic vs procedural)
+## 5) Apply (promotion) guide
+
+Apply is the step that turns staged, deduped candidates into canonical memory. It is where most of the day-to-day value comes from.
+
+### 5.1 What apply does
+
+`apply_staging.py` reads:
+- `memory/staging/deduped/topics/*.md`
+- `memory/staging/deduped/MEMORY.candidates.md`
+
+and writes (when `--write` is used) into:
+- `memory/topics/*.md`
+- `MEMORY.md`
+
+It also emits an apply manifest under:
+- `memory/staging/manifests/apply-<timestamp>.json`
+
+### 5.2 How to run apply manually
+
+Dry run first:
+
+```bash
+python3 memory-architecture/scripts/apply_staging.py --workspace ~/.openclaw/workspace --dry-run
+```
+
+Then write:
+
+```bash
+python3 memory-architecture/scripts/apply_staging.py --workspace ~/.openclaw/workspace --write
+```
+
+If you want to use a specific config:
+
+```bash
+python3 memory-architecture/scripts/apply_staging.py \
+  --workspace ~/.openclaw/workspace \
+  --config memory-architecture/config/auto-merge.json \
+  --write
+```
+
+### 5.3 Making apply automatic (recommended progression)
+
+Stage 0: Manual only
+- Run apply manually while you learn what gets promoted.
+
+Stage 1: Scheduled dry-run + review (first week)
+- Schedule apply with `--dry-run` and review the manifest.
+
+Stage 2: Scheduled write (after confidence)
+- Add a nightly cron entry to run apply with `--write`.
+- Keep backups scheduled before apply.
+
+Example cron line (conceptual):
+
+```cron
+30 4 * * * WORKSPACE_ROOT="$HOME/.openclaw/workspace" python3 "/path/to/skills/lucidity/memory-architecture/scripts/apply_staging.py" --workspace "$WORKSPACE_ROOT" --write >/dev/null 2>&1
+```
+
+### 5.4 Safety notes
+
+- Apply is designed to be idempotent. Re-running should not duplicate blocks.
+- Keep apply off by default for new installs. Use dry-run first.
+- Always keep backups before applying.
+
+## 6) Examples (episodic vs procedural)
 
 These examples show how a raw daily note can be distilled into structured candidates that are easy to retrieve via `memory_search`.
 
