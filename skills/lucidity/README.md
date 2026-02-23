@@ -37,6 +37,7 @@ Docs:
 - `skills/lucidity/GATEWAY_CRON.md`
 - `skills/lucidity/INSTALL.md`
 - `skills/lucidity/UPGRADING.md`
+- `skills/lucidity/CHAT_COMMANDS.md` (chat command cheat sheet)
 
 ## Installation (heartbeat)
 

@@ -36,6 +36,10 @@ python3 memory-architecture/scripts/distill_daily.py --workspace demo-workspace 
 - **Apply** is where candidates become canonical memory (topic briefs and/or curated long-term). It is optional and should be human-reviewed for new installs.
 - Keep secrets out of always-loaded tiers.
 
+## Chat commands (manual runs)
+
+See `skills/lucidity/CHAT_COMMANDS.md` for copy/paste chat commands and a deterministic helper wrapper.
+
 ## Apply (promotion) - making memory updates real
 
 Apply is the step that merges deduped staging candidates into canonical memory files:
@@ -69,6 +73,7 @@ Automation maturity model:
   - `skills/lucidity/gateway-cron-install.sh` (Gateway cron, recommended)
   - `skills/lucidity/gateway-cron-uninstall.sh` (remove Gateway cron jobs)
   - `skills/lucidity/heartbeat.md` (heartbeat-based alternative)
+  - `skills/lucidity/CHAT_COMMANDS.md` (chat command cheat sheet)
 
 ## Tier architecture (T0-T4)
 

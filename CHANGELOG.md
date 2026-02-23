@@ -14,6 +14,12 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.7] - 2026-02-23
+
+### Added
+- Chat command cheat sheet (`skills/lucidity/CHAT_COMMANDS.md`).
+- Deterministic helper wrapper (`skills/lucidity/scripts/lucidity_chat.py`).
+
 ## [0.1.6] - 2026-02-23
 
 ### Fixed
