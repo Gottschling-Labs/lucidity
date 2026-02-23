@@ -9,7 +9,7 @@ metadata:
       bins: ["python3", "bash"]
 ---
 
-# Lucidity (Memory Manager)
+# Lucidity
 
 This skill packages a **tiered memory architecture** plus **maintenance pipelines** for OpenClaw deployments.
 

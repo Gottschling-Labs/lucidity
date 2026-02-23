@@ -95,7 +95,7 @@ This addendum tracks those items.
 - [x] Implement optional `--require-review` mode spec (generate diff + require confirm) for first 7 days of a new install (`memory-architecture/require-review.md`).
 - [x] Wire recall tracking telemetry emission (JSONL event emission for maintenance/apply runs; stored at `workspace/state/memory-recall-events.jsonl`).
 - [x] Expand test suite to 10 queries across multiple topics and record PASS/FAIL (`memory-architecture/test-scenarios.md`, `memory-architecture/test-results.md`).
-- [x] Add configuration surface in a skill bundle (defaults + docs) and verify on a fresh agent workspace (`skills/memory-manager`).
+- [x] Add configuration surface in a skill bundle (defaults + docs) and verify on a fresh agent workspace (`skills/lucidity`).
 - [x] Add install script to create cron job(s) for a new agent with sane defaults (skill: `memory-manager/install.sh`).
 - [x] (Optional) Add `memorySearch.extraPaths` installer helper for meta-awareness indexing, with safe allowlist (skill doc: `memory-manager/extra-paths.md`).
 - [x] (Optional) Implement T-S encryption tooling using GPG (initial scripts in skill: `memory-manager/scripts/sensitive_store_gpg.py`, `sensitive_get_gpg.py`).
@@ -133,22 +133,22 @@ RC4 (public-ready): sandboxing plan implemented (or clearly documented constrain
 - [x] Observability dashboard hook (e.g. `/memory-stats`): implemented as local stats script `memory-architecture/scripts/memory_stats.py` (JSON/text) reporting last apply/backup, staging sizes, telemetry counts.
 
 ### Privacy & consent
-- [x] Explicit user consent and PII minimization on install (install-time prompt + safe defaults; `skills/memory-manager/install.sh`).
+- [x] Explicit user consent and PII minimization on install (install-time prompt + safe defaults; `skills/lucidity/install.sh`).
 
 ### Release engineering
-- [x] Version pinning + `CHANGELOG.md` (skill bundle: `skills/memory-manager/VERSION`, `skills/memory-manager/CHANGELOG.md`).
-- [x] Full ClawHub 13-point checklist compliance (bundle: `skills/memory-manager/CLAWHUB_CHECKLIST.md`, SKILL.md frontmatter + required sections).
-- [x] Alignment with OpenClaw security checklist (doc: `skills/memory-manager/OPENCLAW_SECURITY_ALIGNMENT.md`).
-- [x] CI/CD publishing snippet for GitHub Actions (skill bundle includes `.github/workflows/*` + `skills/memory-manager/CI_CD.md`).
+- [x] Version pinning + `CHANGELOG.md` (skill bundle: `skills/lucidity/VERSION`, `skills/lucidity/CHANGELOG.md`).
+- [x] Full ClawHub 13-point checklist compliance (bundle: `skills/lucidity/CLAWHUB_CHECKLIST.md`, SKILL.md frontmatter + required sections).
+- [x] Alignment with OpenClaw security checklist (doc: `skills/lucidity/OPENCLAW_SECURITY_ALIGNMENT.md`).
+- [x] CI/CD publishing snippet for GitHub Actions (skill bundle includes `.github/workflows/*` + `skills/lucidity/CI_CD.md`).
 
 ### Security hardening
-- [x] Best-effort local hardening + explicit disclaimer that sandboxing is required before public release (bundle: `skills/memory-manager/HARDENING.md`; scripts refuse root + require workspace root).
-- [x] Sandboxed execution guidance for all scripts (doc + required sandbox image prerequisites) (`skills/memory-manager/SANDBOXING.md`).
+- [x] Best-effort local hardening + explicit disclaimer that sandboxing is required before public release (bundle: `skills/lucidity/HARDENING.md`; scripts refuse root + require workspace root).
+- [x] Sandboxed execution guidance for all scripts (doc + required sandbox image prerequisites) (`skills/lucidity/SANDBOXING.md`).
 
 ### Performance
-- [x] Performance benchmarks: measure recall latency (p50/p90/p99) on demo corpus + real private corpus; outputs saved to `skills/memory-manager/benchmarks/results-demo.json` and `memory-architecture/benchmarks-private-real.json` (target remains < 200 ms p50; current results exceed target).
-- [x] Benchmark harness: run on (a) real private workspace corpus and (b) sanitized demo corpus committed to repo (bundle: `skills/memory-manager/scripts/bench_memory_search.py`, `benchmarks/`, `demo-workspace/`).
-- [x] Token efficiency benchmark: snippet injection proxy vs naive baseline on both corpora (bundle script: `skills/memory-manager/scripts/bench_token_efficiency.py`; outputs: `benchmarks/results-token-demo.json`, local-only `memory-architecture/benchmarks-token-private-real.json`).
+- [x] Performance benchmarks: measure recall latency (p50/p90/p99) on demo corpus + real private corpus; outputs saved to `skills/lucidity/benchmarks/results-demo.json` and `memory-architecture/benchmarks-private-real.json` (target remains < 200 ms p50; current results exceed target).
+- [x] Benchmark harness: run on (a) real private workspace corpus and (b) sanitized demo corpus committed to repo (bundle: `skills/lucidity/scripts/bench_memory_search.py`, `benchmarks/`, `demo-workspace/`).
+- [x] Token efficiency benchmark: snippet injection proxy vs naive baseline on both corpora (bundle script: `skills/lucidity/scripts/bench_token_efficiency.py`; outputs: `benchmarks/results-token-demo.json`, local-only `memory-architecture/benchmarks-token-private-real.json`).
 - [x] Recall quality benchmark: PASS/FAIL suite on both corpora with reproducible query sets (bundle: `scripts/bench_recall_quality.py`, `benchmarks/recall-cases.json`; outputs: `benchmarks/results-recall-demo.json`, local-only `memory-architecture/benchmarks-recall-private-real.json`).
 
 ## Change Log

@@ -11,10 +11,10 @@ It provides:
 
 ## Where to start
 
-- **Installable skill bundle:** `skills/memory-manager/`
-  - `skills/memory-manager/README.md` (install + verification)
-  - `skills/memory-manager/install.sh` (cron-based default)
-  - `skills/memory-manager/heartbeat.md` (heartbeat-based alternative)
+- **Installable skill bundle:** `skills/lucidity/`
+  - `skills/lucidity/README.md` (install + verification)
+  - `skills/lucidity/install.sh` (cron-based default)
+  - `skills/lucidity/heartbeat.md` (heartbeat-based alternative)
 
 ## How recall works (T2/T3 vs T4)
 
@@ -25,20 +25,10 @@ OpenClaw recall is driven by **searching files** (e.g., `memory_search`) and inj
 
 Lucidity’s job is to keep those tiers well-structured and easy to retrieve.
 
-## What is `mission-control/ops-notes`?
-
-This folder is **internal operations notes** created during development (a lightweight “captain’s log”).
-
-- `mission-control/ops-notes/distilled/` contains short, dated writeups of key decisions/lessons.
-- `mission-control/ops-notes/tools/` contains small utilities for indexing those notes.
-
-It’s included primarily for maintainers who want context on why things are designed the way they are.
-
 ## Repo structure (high level)
 
-- `skills/memory-manager/` — the distributable OpenClaw skill bundle
+- `skills/lucidity/` — the distributable OpenClaw skill bundle
 - `memory-architecture/` — source project docs (historical; the skill bundle includes a copy)
-- `mission-control/ops-notes/` — maintainer notes (design/ops context)
 
 ## Status
 

@@ -24,3 +24,7 @@ node_modules/
 # Python
 __pycache__/
 *.pyc
+
+# External repo; not part of lucidity
+mission-control/
+

@@ -32,7 +32,7 @@ mkdir -p "$WORKSPACE_ROOT/memory/staging" \
 
 say "Installing cron jobs"
 # NOTE: We keep the commands simple and workspace-relative.
-# You can edit schedules in: skills/memory-manager/memory-architecture/automation-jobs.md
+# You can edit schedules in: skills/lucidity/memory-architecture/automation-jobs.md
 
 CRON_MARK_BEGIN="# BEGIN lucidity"
 CRON_MARK_END="# END lucidity"

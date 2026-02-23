@@ -11,7 +11,7 @@ It organizes memory into tiers and provides a staged pipeline:
 
 ## What’s in this repo
 
-- `skills/memory-manager/` — the OpenClaw skill bundle (what you install)
+- `skills/lucidity/` — the OpenClaw skill bundle (what you install)
   - `memory-architecture/` — full docs + scripts + policies
   - `install.sh` — cron-based install (recommended default)
   - `heartbeat.md` — how to run it via HEARTBEAT instead
@@ -19,7 +19,7 @@ It organizes memory into tiers and provides a staged pipeline:
 ## Installation (cron, recommended)
 
 ```bash
-cd skills/memory-manager
+cd skills/lucidity
 ./install.sh
 ```
 
@@ -32,7 +32,7 @@ This will:
 
 If you prefer batching work into heartbeats (lower overhead, less rigid timing):
 
-1. Read: `skills/memory-manager/heartbeat.md`
+1. Read: `skills/lucidity/heartbeat.md`
 2. Copy the provided checklist into your `HEARTBEAT.md`
 3. Disable cron jobs (or set them to staging-only)
 
@@ -48,14 +48,14 @@ Lucidity works because:
 - `memory_search` searches `MEMORY.md` + `memory/*.md` so tier files are eligible
 - the prompt injection policy limits how much content gets injected and prefers higher-signal snippets
 
-See: `skills/memory-manager/memory-architecture/prompt-injection-policy.md`.
+See: `skills/lucidity/memory-architecture/prompt-injection-policy.md`.
 
 ## Verification
 
 See:
-- `skills/memory-manager/memory-architecture/test-scenarios.md`
-- `skills/memory-manager/memory-architecture/test-results.md`
-- `skills/memory-manager/memory-architecture/eval-harness.md`
+- `skills/lucidity/memory-architecture/test-scenarios.md`
+- `skills/lucidity/memory-architecture/test-results.md`
+- `skills/lucidity/memory-architecture/eval-harness.md`
 
 ## License
 
