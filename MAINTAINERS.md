@@ -16,6 +16,8 @@ Overall status: **Not yet public-ready**, but close.
 ### Security / secrets
 - [x] Basic secret-pattern scan over tracked files (no hits)
 - [x] Scripts are local-first; no network calls required by default
+- [x] Hardening guide (`skills/lucidity/HARDENING.md`)
+- [x] Sandboxing guide (`skills/lucidity/SANDBOXING.md`)
 
 ### Quality gates
 - [x] Python compile sanity: `python3 -m compileall` on scripts

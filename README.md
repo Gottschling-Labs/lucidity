@@ -142,6 +142,12 @@ GPL-3.0-or-later (see `LICENSE`).
 
 See `MAINTAINERS.md` for the public release checklist and recommended improvements.
 
+## Security + sandboxing
+
+Before making Lucidity public, review:
+- `skills/lucidity/HARDENING.md`
+- `skills/lucidity/SANDBOXING.md`
+
 ## Status
 
 Private repo for now (Gottschling Labs). Public release should follow a security + sandboxing review.
