@@ -33,7 +33,10 @@ This will:
 - detect timezone from the host when possible
 - create Gateway cron jobs visible via `openclaw cron list`
 
-Docs: `skills/lucidity/GATEWAY_CRON.md`
+Docs:
+- `skills/lucidity/GATEWAY_CRON.md`
+- `skills/lucidity/INSTALL.md`
+- `skills/lucidity/UPGRADING.md`
 
 ## Installation (heartbeat)
 

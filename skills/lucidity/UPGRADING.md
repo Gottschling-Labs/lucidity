@@ -1,6 +1,6 @@
 # Upgrading Lucidity
 
-Lucidity does not auto-update itself.
+Lucidity does not auto-update itself. See `INSTALL.md` for install/reinstall/uninstall.
 
 ## Check for updates
 
