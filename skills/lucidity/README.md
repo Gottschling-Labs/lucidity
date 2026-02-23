@@ -1,4 +1,4 @@
-# Gottschling Labs — Lucidity
+# Gottschling Labs - Lucidity
 
 Lucidity is a **local-first memory architecture + maintenance toolkit** for OpenClaw.
 
@@ -11,11 +11,11 @@ It organizes memory into tiers and provides a staged pipeline:
 
 ## What’s in this repo
 
-- `skills/lucidity/` — the OpenClaw skill bundle (what you install)
-  - `DOCUMENTATION.md` — comprehensive manual (concepts, pipeline, retrieval model)
-  - `memory-architecture/` — full design docs + scripts + policies
-  - `install.sh` — cron-based install (recommended default)
-  - `heartbeat.md` — how to run it via HEARTBEAT instead
+- `skills/lucidity/` - the OpenClaw skill bundle (what you install)
+  - `DOCUMENTATION.md` - comprehensive manual (concepts, pipeline, retrieval model)
+  - `memory-architecture/` - full design docs + scripts + policies
+  - `install.sh` - cron-based install (recommended default)
+  - `heartbeat.md` - how to run it via HEARTBEAT instead
 
 ## Installation (cron, recommended)
 
@@ -41,7 +41,7 @@ If you prefer batching work into heartbeats (lower overhead, less rigid timing):
 
 - `skills/lucidity/DOCUMENTATION.md`
 
-## Tier architecture (T0–T4)
+## Tier architecture (T0-T4)
 
 Lucidity uses a tiered model to keep memory **cheap, auditable, and useful**:
 
@@ -57,13 +57,21 @@ See: `skills/lucidity/memory-architecture/tier-design.md`.
 
 Lucidity’s scripts are local-first, but `memory_search` recall depends on OpenClaw **memory indexing** (memory-core) with **embeddings + vector search** and **FTS** enabled.
 
+Verify indexing health:
+
+```bash
+openclaw status --deep
+```
+
+You should see the memory plugin reporting `vector ready` and `fts ready`.
+
 See:
 - `skills/lucidity/memory-architecture/indexing-inputs.md`
 - `skills/lucidity/memory-architecture/hybrid-retrieval-policy.md`
 
 ## How recall works (T2/T3 vs T4)
 
-OpenClaw recall is driven by **searching files**, not by a tier “switch”.
+OpenClaw recall is driven by **searching files**, not by a tier "switch".
 
 - **T4**: `MEMORY.md` (curated long-term, stable facts / preferences / decisions)
 - **T2/T3**: files under `memory/` (near-term episodic + topic/procedural notes)

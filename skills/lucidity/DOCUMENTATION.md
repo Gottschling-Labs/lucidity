@@ -1,6 +1,6 @@
-# Lucidity — Comprehensive Documentation
+# Lucidity - Comprehensive Documentation
 
-This document is the “full manual” for Lucidity.
+This document is the "full manual" for Lucidity.
 
 If you want the fast path, start with:
 - `README.md` (repo root)
@@ -20,7 +20,7 @@ Lucidity is designed to:
 - Preserve **reversibility** (backups + rollback)
 - Minimize privacy risk via **staging-first** and **consent/PII defaults**
 
-### 1.2 Memory tiers (T0–T4)
+### 1.2 Memory tiers (T0-T4)
 
 Lucidity’s tier naming matches the architecture docs in `skills/lucidity/memory-architecture/`.
 
@@ -67,9 +67,24 @@ Practical expectations:
   - **Vector (embeddings) search** for semantic similarity
   - **FTS** (full-text search) for exact/keyword matching
 
+#### How to verify indexing is healthy
+
+On the host running OpenClaw:
+
+```bash
+openclaw status --deep
+```
+
+You should see the memory plugin reporting something equivalent to:
+- `plugin memory-core` enabled
+- `vector ready`
+- `fts ready`
+
+If you do not see that, verify your OpenClaw configuration enables memory-core and has an embeddings provider configured. (Exact configuration varies by deployment.)
+
 If indexing is disabled or unhealthy:
 - Lucidity maintenance pipelines still produce well-structured Markdown files.
-- But retrieval will not work via `memory_search`; you’ll need to manually open files in prompts.
+- But retrieval will not work via `memory_search`; you will need to manually open files in prompts.
 
 See:
 - `skills/lucidity/memory-architecture/indexing-inputs.md`
@@ -102,7 +117,7 @@ References:
 - `skills/lucidity/memory-architecture/prompt-injection-policy.md`
 - `skills/lucidity/memory-architecture/hybrid-retrieval-policy.md`
 
-### 2.1 How episodic and procedural memories get created
+### 3.1 How episodic and procedural memories get created
 
 Lucidity does **not** magically create memories just because tiers exist. It creates structured episodic/procedural content via the **distillation pipeline**.
 
@@ -114,7 +129,7 @@ Generation mechanism:
 - `dedupe_staging.py` canonicalizes and de-duplicates those staged candidates.
 - Optionally, `apply_staging.py` promotes only high-confidence, durable items into `MEMORY.md` (T4).
 
-What makes something “episodic” vs “procedural” is the **schema** + **heuristics** used during distillation.
+What makes something "episodic" vs "procedural" is the **schema** + **heuristics** used during distillation.
 
 - **Episodic** candidates typically capture: what happened, when, who/what was involved, decisions/outcomes, and any follow-ups.
 - **Procedural** candidates typically capture: a reusable workflow/SOP, commands, preconditions, expected output, and known pitfalls.
@@ -128,12 +143,12 @@ Where to see the distillation pipeline rules/flow:
 
 > Important: for retrieval, the only hard requirement is that the resulting Markdown ends up under paths searched by recall (typically `MEMORY.md` and `memory/*.md`).
 
-### 2.2 `memory_search` vs `memory_get`
+### 3.2 `memory_search` vs `memory_get`
 
 These are designed to be used together:
 
-- **`memory_search(query)`**: discovery. It searches across eligible memory sources and returns the best matching snippets (think “search results”).
-- **`memory_get(path, from, lines)`**: precision. It fetches a specific slice of a specific file once you know where the relevant content is (think “open the source around these lines”).
+- **`memory_search(query)`**: discovery. It searches across eligible memory sources and returns the best matching snippets (think "search results").
+- **`memory_get(path, from, lines)`**: precision. It fetches a specific slice of a specific file once you know where the relevant content is (think "open the source around these lines").
 
 Practical reasons to use both:
 - `memory_search` is broad/ranked; `memory_get` is narrow/controlled.
@@ -178,7 +193,7 @@ Outputs:
 - `memory/staging/deduped/…`
 - `memory/staging/reports/…`
 
-### 3.3 Apply (optional) — merge into `MEMORY.md`
+### 3.3 Apply (optional) - merge into `MEMORY.md`
 
 Purpose:
 - Promote only high-confidence, non-time-bound, safe items into curated long-term memory.
@@ -254,7 +269,7 @@ These examples show how a raw daily note can be distilled into structured candid
 
 ### 5.1 Episodic example
 
-**Raw daily note (source)** — `memory/2026-02-23.md` (example):
+**Raw daily note (source)** - `memory/2026-02-23.md` (example):
 
 - Met with BD proposal team about RFP response workflow.
 - Decision: standardize compliance matrix format for all RFPs.
@@ -269,7 +284,7 @@ These examples show how a raw daily note can be distilled into structured candid
 - **Follow-ups:** Request latest template from Alex; update checklist
 
 Why this helps retrieval:
-- The “decision” and “follow-ups” become explicit fields/phrases that are easy to match.
+- The "decision" and "follow-ups" become explicit fields/phrases that are easy to match.
 
 ### 5.2 Procedural example
 
@@ -290,9 +305,9 @@ Why this helps retrieval:
 - **Verify:** staging files exist under `memory/staging/` and a dedupe report exists under `memory/staging/reports/`.
 
 Why this helps retrieval:
-- If you later ask “how do I install Lucidity?” or “what command runs staging distill?”, `memory_search` can find this SOP quickly.
+- If you later ask "how do I install Lucidity?" or "what command runs staging distill?", `memory_search` can find this SOP quickly.
 
-## 6) Verification / “How do I know it works?”
+## 6) Verification / "How do I know it works?"
 
 Minimum verification checklist:
 

@@ -1,4 +1,4 @@
-# Lucidity — Public Release Audit
+# Lucidity - Public Release Audit
 
 This document captures a repo audit for public readiness.
 
@@ -49,7 +49,7 @@ Completed:
 
 ### 4) Public-facing documentation polish
 Recommended:
-- Add a short “Quickstart for OpenClaw users” at repo root
+- Add a short "Quickstart for OpenClaw users" at repo root
 - Clarify what parts are safe-by-default (staging-only) vs risky (apply)
 
 ### 5) Benchmark policy
