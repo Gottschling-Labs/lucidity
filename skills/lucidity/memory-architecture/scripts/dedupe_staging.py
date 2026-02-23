@@ -121,8 +121,15 @@ def dedupe_blocks(blocks: List[str]) -> Tuple[List[str], DedupeStats]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--workspace", help="Workspace root (default: auto-detected)")
     ap.add_argument("--write", action="store_true", help="Write deduped outputs")
     args = ap.parse_args()
+
+    global WORKSPACE, MEMORY_DIR, STAGING
+    if args.workspace:
+        WORKSPACE = Path(args.workspace).expanduser().resolve()
+        MEMORY_DIR = WORKSPACE / "memory"
+        STAGING = MEMORY_DIR / "staging"
 
     (STAGING / "deduped" / "topics").mkdir(parents=True, exist_ok=True)
     (STAGING / "reports").mkdir(parents=True, exist_ok=True)

@@ -123,17 +123,18 @@ You can use them to produce staging outputs and receipts even if you are not usi
 This repo includes a tiny sanitized corpus you can use to validate Lucidity without using private data:
 - `skills/lucidity/demo-workspace/`
 
-How to run the pipeline on the demo corpus:
+How to run the pipeline on the demo corpus (isolated staging under the demo workspace):
 
 ```bash
 cd skills/lucidity
-python3 memory-architecture/scripts/distill_daily.py --path demo-workspace/memory/2026-02-23.md
-python3 memory-architecture/scripts/dedupe_staging.py
-python3 memory-architecture/scripts/apply_staging.py --dry-run
+python3 memory-architecture/scripts/distill_daily.py --workspace demo-workspace --path memory/2026-02-23.md
+python3 memory-architecture/scripts/distill_daily.py --workspace demo-workspace --path memory/2026-02-24.md
+python3 memory-architecture/scripts/dedupe_staging.py --workspace demo-workspace
+python3 memory-architecture/scripts/apply_staging.py --workspace demo-workspace --dry-run
 ```
 
 Inspect outputs under:
-- `skills/lucidity/memory/staging/`
+- `skills/lucidity/demo-workspace/memory/staging/`
 
 ## 4) How recall works in OpenClaw
 

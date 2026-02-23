@@ -191,12 +191,19 @@ def prune(backups: List[Tuple[dt.datetime, Path]], keep: set[Path], write: bool)
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--workspace", help="Workspace root (default: current working directory)")
     ap.add_argument("--write", action="store_true", help="Write backup and prune old backups")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--keep-daily", type=int, default=7)
     ap.add_argument("--keep-weekly", type=int, default=30)
     ap.add_argument("--keep-monthly", type=int, default=90)
     args = ap.parse_args()
+
+    global WORKSPACE, MEMORY_DIR, BACKUP_ROOT
+    if args.workspace:
+        WORKSPACE = Path(args.workspace).expanduser().resolve()
+        MEMORY_DIR = WORKSPACE / "memory"
+        BACKUP_ROOT = MEMORY_DIR / "backups"
 
     if args.dry_run:
         args.write = False

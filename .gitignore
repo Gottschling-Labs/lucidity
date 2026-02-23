@@ -25,6 +25,10 @@ node_modules/
 __pycache__/
 *.pyc
 
+# Do not commit generated artifacts when running scripts inside the skill folder
+skills/lucidity/memory/
+skills/lucidity/state/
+
 # Allow sanitized demo corpus to be committed (even though it uses MEMORY.md/memory/ names)
 !skills/lucidity/demo-workspace/
 !skills/lucidity/demo-workspace/**

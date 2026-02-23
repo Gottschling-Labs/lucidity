@@ -71,8 +71,13 @@ def count_events(jsonl: Path, types: List[str]) -> Dict[str, int]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--workspace", help="Workspace root (default: current working directory)")
     ap.add_argument("--text", action="store_true")
     args = ap.parse_args()
+
+    global WORKSPACE
+    if args.workspace:
+        WORKSPACE = Path(args.workspace).expanduser().resolve()
 
     last_backup = newest_file("memory/backups/**/backup-*.tar.gz")
     last_apply = newest_file("memory/staging/manifests/apply-*.json")

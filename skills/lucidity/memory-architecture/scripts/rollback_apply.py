@@ -67,9 +67,15 @@ def pick_backup(before: dt.datetime, backups: List[Tuple[dt.datetime, Path]]) ->
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--workspace", help="Workspace root (default: current working directory)")
     ap.add_argument("--manifest", required=True)
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args()
+
+    global WORKSPACE, BACKUPS
+    if args.workspace:
+        WORKSPACE = Path(args.workspace).expanduser().resolve()
+        BACKUPS = WORKSPACE / "memory" / "backups"
 
     mpath = WORKSPACE / args.manifest
     manifest = json.loads(mpath.read_text(encoding="utf-8"))

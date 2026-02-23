@@ -121,12 +121,21 @@ def append_memory_candidates(content: str) -> Path:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--workspace", help="Workspace root (default: auto-detected)")
+    ap.add_argument("--staging-only", action="store_true", help="Accepted for compatibility; distill is always staging-first")
     ap.add_argument("--date", help="YYYY-MM-DD")
     ap.add_argument("--path", help="Path to daily md, relative to workspace")
     args = ap.parse_args()
 
+    # Allow running against an arbitrary workspace root (e.g., demo-workspace or ~/.openclaw/workspace)
+    global WORKSPACE, MEMORY_DIR, STAGING_DIR
+    if args.workspace:
+        WORKSPACE = Path(args.workspace).expanduser().resolve()
+        MEMORY_DIR = WORKSPACE / "memory"
+        STAGING_DIR = MEMORY_DIR / "staging"
+
     if args.path:
-        in_path = WORKSPACE / args.path
+        in_path = (WORKSPACE / args.path).resolve()
     elif args.date:
         in_path = MEMORY_DIR / f"{args.date}.md"
     else:

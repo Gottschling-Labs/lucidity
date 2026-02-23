@@ -239,10 +239,15 @@ def merge_into_topic(dest_path: Path, new_blocks: List[str]) -> Tuple[int, int, 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--workspace", help="Workspace root (default: auto-detected)")
     ap.add_argument("--config", default="memory-architecture/config/auto-merge.json")
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+
+    global WORKSPACE
+    if args.workspace:
+        WORKSPACE = Path(args.workspace).expanduser().resolve()
 
     cfg_path = WORKSPACE / args.config
     cfg = json.loads(read_text(cfg_path) or "{}")

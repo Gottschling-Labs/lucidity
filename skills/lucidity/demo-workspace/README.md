@@ -24,20 +24,23 @@ From `skills/lucidity/`:
 ```bash
 cd skills/lucidity
 
-# 1) Distill the demo daily logs (writes to memory/staging under skills/lucidity/)
-# Episodic-only example
+# 1) Distill the demo daily logs into demo staging (isolated)
 python3 memory-architecture/scripts/distill_daily.py \
-  --path demo-workspace/memory/2026-02-23.md
+  --workspace demo-workspace \
+  --path memory/2026-02-23.md
 
-# Episodic + procedural example (includes a Steps: section)
 python3 memory-architecture/scripts/distill_daily.py \
-  --path demo-workspace/memory/2026-02-24.md
+  --workspace demo-workspace \
+  --path memory/2026-02-24.md
 
-# 2) Dedupe staging (dry-run by default; add --write to materialize deduped outputs)
-python3 memory-architecture/scripts/dedupe_staging.py
+# 2) Dedupe demo staging (dry-run by default; add --write to materialize deduped outputs)
+python3 memory-architecture/scripts/dedupe_staging.py \
+  --workspace demo-workspace
 
-# 3) (Optional) Apply staging (use --dry-run first)
-python3 memory-architecture/scripts/apply_staging.py --dry-run
+# 3) (Optional) Apply demo staging (use --dry-run first)
+python3 memory-architecture/scripts/apply_staging.py \
+  --workspace demo-workspace \
+  --dry-run
 ```
 
 Then inspect:

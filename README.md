@@ -23,6 +23,9 @@ openclaw status --deep
 # Run a first staging pass (safe)
 python3 memory-architecture/scripts/distill_daily.py --workspace ~/.openclaw/workspace --staging-only
 python3 memory-architecture/scripts/dedupe_staging.py --workspace ~/.openclaw/workspace
+
+# Demo corpus run (isolated)
+python3 memory-architecture/scripts/distill_daily.py --workspace demo-workspace --path memory/2026-02-24.md
 ```
 
 ## Safe defaults (read this)

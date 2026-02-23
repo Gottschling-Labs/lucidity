@@ -49,9 +49,17 @@ def is_under(path: Path, root: Path) -> bool:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--workspace", help="Workspace root (default: auto-detected)")
     ap.add_argument("--days", type=int, default=14)
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args()
+
+    global WORKSPACE, MEMORY, STAGING, ARCHIVE_ROOT
+    if args.workspace:
+        WORKSPACE = Path(args.workspace).expanduser().resolve()
+        MEMORY = WORKSPACE / "memory"
+        STAGING = MEMORY / "staging"
+        ARCHIVE_ROOT = MEMORY / "archive" / "staging"
 
     if not STAGING.exists():
         print("No staging directory; nothing to prune")
