@@ -1,10 +1,10 @@
-# Memory Architecture — Handover & Operating Guide
+# Memory Architecture - Handover & Operating Guide
 
 This is the practical checklist for running the tiered memory system day-to-day.
 
-## What is “done” vs “future”
+## What is "done" vs "future"
 Done in this project:
-- Tier definitions (T0–T4) + schemas
+- Tier definitions (T0-T4) + schemas
 - Hybrid retrieval policies (vector + FTS) documented
 - Recall tracking model documented (JSONL schema)
 - Staging-first distillation + dedupe + pruning scripts implemented
@@ -95,7 +95,7 @@ python3 memory-architecture/scripts/prune_staging.py --days 14 --write
 
 ---
 
-## “Sensitive tier” (T‑S) next steps (if you want it)
+## "Sensitive tier" (T‑S) next steps (if you want it)
 1) Choose encryption tool: `age` recommended.
 2) Decide key management: recipients vs passphrase.
 3) Implement explicit flows:

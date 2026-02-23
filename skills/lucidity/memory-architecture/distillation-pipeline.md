@@ -1,4 +1,4 @@
-# Phase 4 — Distillation Pipeline (Daily → Topic → Long-term)
+# Phase 4 - Distillation Pipeline (Daily → Topic → Long-term)
 
 This document defines and implements the **non-destructive** distillation flow that moves information from:
 - **T2** daily logs (`memory/YYYY-MM-DD.md`)
@@ -47,7 +47,7 @@ Heuristics:
 - Else derive from keywords (openclaw/memory/telegram/gateway/etc.)
 
 ### Step D: Distill
-- Episodic: keep in T2; optionally produce short “what changed” for topic file
+- Episodic: keep in T2; optionally produce short "what changed" for topic file
 - Procedural: produce/merge a procedure section in a topic candidate
 - Semantic (high-confidence): add to `MEMORY.candidates.md` with evidence
 

@@ -1,4 +1,4 @@
-# Phase 4 — Dedupe + Canonicalization
+# Phase 4 - Dedupe + Canonicalization
 
 This document defines how we prevent duplicate memory facts/procedures from accumulating as we distill (T2 → staged → T3/T4).
 
@@ -11,7 +11,7 @@ Goals:
 
 ## Canonicalization rules
 
-Applied to **staged outputs** (first), then to canonical files when we implement “apply staged”:
+Applied to **staged outputs** (first), then to canonical files when we implement "apply staged":
 
 1) **Whitespace normalization**
 - Trim trailing spaces

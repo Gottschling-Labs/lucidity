@@ -1,4 +1,4 @@
-# Phase 5 — Prompt Injection Policy (RAG)
+# Phase 5 - Prompt Injection Policy (RAG)
 
 This document defines **what memory gets injected into prompts**, **where**, and **under what budgets**, so we get strong recall without token bloat.
 
@@ -37,9 +37,9 @@ T2/T3/T4 are **not** injected wholesale.
 Instead we retrieve snippets and inject only the minimum needed to answer.
 
 Priority order for retrieved snippet injection:
-1) **T3** (`memory/topics/*.md`) — best signal-to-size
-2) **T4** (`MEMORY.md`) — curated durability
-3) **T2** (`memory/YYYY-MM-DD.md`) — raw episodic evidence
+1) **T3** (`memory/topics/*.md`) - best signal-to-size
+2) **T4** (`MEMORY.md`) - curated durability
+3) **T2** (`memory/YYYY-MM-DD.md`) - raw episodic evidence
 
 ---
 
@@ -55,7 +55,7 @@ Early stop:
 
 ---
 
-## “State injection” policy (`workspace/state/*.json`)
+## "State injection" policy (`workspace/state/*.json`)
 We want meta-awareness without leaking noise.
 
 Rules:
@@ -101,4 +101,4 @@ Compaction should:
 ## Open questions (for integration milestone)
 - Exact hook points inside OpenClaw agent prompt builder
 - Whether injection budgets are per-agent config or global
-- How to expose “why was this injected?” receipts to the Control UI
+- How to expose "why was this injected?" receipts to the Control UI

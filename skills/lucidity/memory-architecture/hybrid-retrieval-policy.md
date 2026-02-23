@@ -1,4 +1,4 @@
-# Phase 3 — Hybrid Retrieval Policy (Vector + FTS)
+# Phase 3 - Hybrid Retrieval Policy (Vector + FTS)
 
 This document defines how OpenClaw memory retrieval should combine **semantic vector search** with **keyword (FTS/BM25) search**, while staying cost-aware and safe.
 
@@ -36,7 +36,7 @@ Used for most queries.
 4) **Early-stop**
    - If the top 3 results are from ≤2 files AND each has score above threshold, stop.
 
-### Mode B: Exact-first (when query includes “exact”, codes, filenames)
+### Mode B: Exact-first (when query includes "exact", codes, filenames)
 If the query appears to be:
 - contains backticks or quoted strings
 - resembles an error code (e.g. `EADDRINUSE`, `404`, `SQLITE_BUSY`)
@@ -46,7 +46,7 @@ Then:
 1) Run FTS first (topK_fts=20)
 2) If FTS finds ≥3 strong hits, only then run vector (topK_vec=6) for augmentation.
 
-### Mode C: Semantic-first (broad “what was that thing…” questions)
+### Mode C: Semantic-first (broad "what was that thing…" questions)
 1) Run vector first (topK_vec=20)
 2) Run FTS second (topK_fts=8) only if:
    - vector confidence is low (spread too flat), OR
@@ -59,11 +59,11 @@ To improve recall without bloating results, generate small expansions:
 
 ### Lightweight expansions (no extra model call)
 - Lowercase + strip punctuation
-- Add singular/plural variants for 1–2 key nouns
+- Add singular/plural variants for 1-2 key nouns
 - If query contains a year/date, also search without it
 
 ### LLM-based expansion (optional, future)
-If enabled, produce 2–4 short variants:
+If enabled, produce 2-4 short variants:
 - synonyms
 - alternative phrasings
 - include/exclude the user name or project name

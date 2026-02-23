@@ -1,4 +1,4 @@
-# Phase 3 — Memory-core Indexing Inputs (Current State)
+# Phase 3 - Memory-core Indexing Inputs (Current State)
 
 This doc records what OpenClaw’s `memory-core` is *currently* indexing on this host, based on inspection of the local memory store.
 
@@ -20,14 +20,14 @@ From `files` table (`path`, `source`, `size`, `mtime`, `hash`):
 
 ## Current chunking (observed)
 From `chunks` table (`path`, `start_line`, `end_line`):
-- `MEMORY.md`: lines 1–9 (1 chunk)
-- `memory/2026-02-16.md`: split into 2 chunks (1–24, 19–34)
+- `MEMORY.md`: lines 1-9 (1 chunk)
+- `memory/2026-02-16.md`: split into 2 chunks (1-24, 19-34)
 
 Notes:
-- Chunk ranges overlap (e.g., 1–24 and 19–34). This is a common retrieval tactic to avoid “boundary loss” across chunks.
+- Chunk ranges overlap (e.g., 1-24 and 19-34). This is a common retrieval tactic to avoid "boundary loss" across chunks.
 
 ## Implications
-- `MEMORY.md` is already indexed today — good alignment with the desired future state.
+- `MEMORY.md` is already indexed today - good alignment with the desired future state.
 - Index scope appears intentionally narrow: only the curated long-term file + at least one daily log.
 - Both vector and FTS are provisioned and share the same chunk corpus.
 

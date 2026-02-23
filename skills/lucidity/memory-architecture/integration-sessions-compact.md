@@ -1,4 +1,4 @@
-# Phase 5 — Integration: `sessions_history` + `/compact`
+# Phase 5 - Integration: `sessions_history` + `/compact`
 
 This document specifies how the memory architecture integrates with:
 - `sessions_history` (session transcript access)
@@ -74,7 +74,7 @@ This is complementary to pre-compaction flush.
 
 ---
 
-## Operational workflow (what “good” looks like)
+## Operational workflow (what "good" looks like)
 
 1) Normal conversation proceeds.
 2) When session nears compaction, gateway triggers silent flush:

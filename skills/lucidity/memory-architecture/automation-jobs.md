@@ -1,4 +1,4 @@
-# Phase 6 — Automation Jobs (Heartbeat + Cron)
+# Phase 6 - Automation Jobs (Heartbeat + Cron)
 
 This document defines the background maintenance automations that keep memory healthy without manual effort.
 

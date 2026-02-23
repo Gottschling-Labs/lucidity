@@ -1,4 +1,4 @@
-# Phase 8 — Final Validation + Handover
+# Phase 8 - Final Validation + Handover
 
 This document records end-to-end validation steps and results.
 

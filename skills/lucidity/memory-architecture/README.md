@@ -43,7 +43,7 @@ Outputs:
 - `memory/staging/reports/dedupe-report.json`
 
 ### Apply (auto-merge, high-confidence)
-Auto-merge deduped staging candidates into canonical topic briefs (and later curated memory), gated by a configurable “high-confidence” policy.
+Auto-merge deduped staging candidates into canonical topic briefs (and later curated memory), gated by a configurable "high-confidence" policy.
 
 Dry run:
 

@@ -1,4 +1,4 @@
-# Phase 7 — Sensitive Tier Design + Encryption Approach
+# Phase 7 - Sensitive Tier Design + Encryption Approach
 
 This document defines how OpenClaw memory should handle **sensitive** information in a way that is:
 - local-first
@@ -28,7 +28,7 @@ Introduce a dedicated tier:
 - **T‑S: Sensitive memory (encrypted)**
 
 Properties:
-- Not part of T0–T4.
+- Not part of T0-T4.
 - Not indexed by default.
 - Not injected by default.
 - Access requires explicit intent and explicit tool flow.
@@ -127,7 +127,7 @@ Receipt location (proposal):
 ---
 
 ## Operational guidance (human-facing)
-- If the user provides secrets, do not store them in T0–T4.
+- If the user provides secrets, do not store them in T0-T4.
 - Offer T‑S storage only when the user requests it.
 - Prefer storing *procedures that reference where to find a secret* (e.g., "token stored in 1Password") in T3/T4 rather than storing the secret itself.
 

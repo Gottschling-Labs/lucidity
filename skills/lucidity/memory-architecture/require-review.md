@@ -1,4 +1,4 @@
-# Productionization — Require-Review Mode (First 7 Days)
+# Productionization - Require-Review Mode (First 7 Days)
 
 Goal: make new installs safe by default by requiring a human review before any canonical write.
 

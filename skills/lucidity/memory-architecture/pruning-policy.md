@@ -1,4 +1,4 @@
-# Phase 6 — Pruning Without Data Loss
+# Phase 6 - Pruning Without Data Loss
 
 This document defines safe pruning/rotation rules for the **staging area** and maintenance artifacts.
 

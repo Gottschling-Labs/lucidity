@@ -1,6 +1,6 @@
 # Tier Transition Rules (Thresholds + Promotion/Demotion)
 
-This document defines *when* information moves between tiers (T0–T4) and how it is kept compact, auditable, and safe.
+This document defines *when* information moves between tiers (T0-T4) and how it is kept compact, auditable, and safe.
 
 Design goals:
 - Keep always-loaded content small.
@@ -22,7 +22,7 @@ These are intended as config values later (env/config). For now, treat as projec
 
 Time thresholds:
 - **T1 decay**: items older than 14 days should be removed or moved to T3/T4 (unless actively referenced)
-- **T3 refresh**: if a topic hasn’t been referenced in 90 days, mark it “stale” and consider archiving to T4 archive
+- **T3 refresh**: if a topic hasn’t been referenced in 90 days, mark it "stale" and consider archiving to T4 archive
 
 Recall thresholds (tracked via retrieval logs later):
 - **Promote to T3**: referenced/retrieved ≥3 times in 30 days OR required for an active project
@@ -52,7 +52,7 @@ Recall thresholds (tracked via retrieval logs later):
 - Create/update `memory/topics/<topic>.md` with:
   - semantic facts (confidence + evidence)
   - procedures (trigger + verification)
-  - short “what changed” notes
+  - short "what changed" notes
 
 **Compression**:
 - Prefer bullet lists.
@@ -108,7 +108,7 @@ Recall thresholds (tracked via retrieval logs later):
 - Split into subtopics (`<topic>-<subtopic>.md`) OR move older sections to `memory/archive/<year>/<topic>.md`.
 
 **Receipt**:
-- Keep an “Archive map” section listing what moved where.
+- Keep an "Archive map" section listing what moved where.
 
 ---
 
@@ -135,6 +135,6 @@ When an encrypted sensitive tier is implemented later:
 
 ## Examples
 
-- “Brandon prefers being called Brando”: likely T4; only move to T0 (USER.md) if it’s stable and always relevant.
-- “The cron tool requires sessionTarget=isolated for agentTurn”: procedural → T3 topic brief.
-- “We restarted OpenClaw due to config.patch”: episodic → T2, maybe distilled into T3 ops topic.
+- "Brandon prefers being called Brando": likely T4; only move to T0 (USER.md) if it’s stable and always relevant.
+- "The cron tool requires sessionTarget=isolated for agentTurn": procedural → T3 topic brief.
+- "We restarted OpenClaw due to config.patch": episodic → T2, maybe distilled into T3 ops topic.

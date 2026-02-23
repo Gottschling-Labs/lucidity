@@ -1,10 +1,10 @@
-# Phase 8 — Token Efficiency Comparison vs Baseline
+# Phase 8 - Token Efficiency Comparison vs Baseline
 
 This document estimates memory-related token overhead for answering a memory-dependent query.
 
 Because we do not yet have full retrieval telemetry wired into the agent loop, this is an **approximation** based on:
 - size of retrieved snippet text (from `memory_search`)
-- size of naive baseline “inject whole memory files” behavior
+- size of naive baseline "inject whole memory files" behavior
 
 We use a rough conversion:
 - **1 token ≈ 4 characters** (English prose heuristic)
@@ -17,7 +17,7 @@ Query: `OpenClaw running in WSL Ubuntu`
 ### Retrieved approach (current policy)
 `memory_search` returned 1 snippet:
 - `MEMORY.md#L1-L9`
-- snippet length: ~229 characters (from indexed chunk `MEMORY.md` 1–9)
+- snippet length: ~229 characters (from indexed chunk `MEMORY.md` 1-9)
 
 Estimated tokens injected from memory:
 - 229 / 4 ≈ **57 tokens**

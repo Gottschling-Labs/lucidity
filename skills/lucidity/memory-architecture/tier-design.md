@@ -58,7 +58,7 @@ Goal: keep memory local-first, auditable, and cheap by default while still enabl
 
 **Notes**
 - Append-only.
-- This is not “curated.” It is the paper trail.
+- This is not "curated." It is the paper trail.
 
 ---
 
@@ -98,7 +98,7 @@ Goal: keep memory local-first, auditable, and cheap by default while still enabl
 
 **Notes**
 - This tier should be small and high signal.
-- Everything here should be true “for a long time.”
+- Everything here should be true "for a long time."
 
 ## Access patterns
 - Default prompt injection should prefer T0 plus a very small slice of T1.

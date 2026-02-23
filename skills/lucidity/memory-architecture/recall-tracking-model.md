@@ -1,4 +1,4 @@
-# Phase 3 — Recall Tracking Data Model
+# Phase 3 - Recall Tracking Data Model
 
 This document defines *what to log* so we can measure whether the memory system is improving recall and token efficiency over time.
 
@@ -10,7 +10,7 @@ Design goals:
 
 ---
 
-## What “recall tracking” means here
+## What "recall tracking" means here
 We want to answer questions like:
 - Did retrieval return the right memory for a query?
 - Did the assistant actually *use* the retrieved memory?
@@ -143,7 +143,7 @@ Logged after we can infer whether retrieval helped.
 ```
 
 How do we set `self_reported_helpful`?
-- Initially: heuristic based on the user’s follow-up (“yes”, “that’s it”, “perfect”, etc.)
+- Initially: heuristic based on the user’s follow-up ("yes", "that’s it", "perfect", etc.)
 - Later: explicit thumbs-up/down UI hook (if we add it)
 
 ---

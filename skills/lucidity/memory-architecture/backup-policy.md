@@ -1,4 +1,4 @@
-# Robustness Addendum — Automated Backups (7/30/90)
+# Robustness Addendum - Automated Backups (7/30/90)
 
 This document defines the automated backup strategy for the modular memory solution.
 

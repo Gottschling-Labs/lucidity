@@ -22,7 +22,7 @@ Add something like this to your `~/.openclaw/workspace/HEARTBEAT.md`:
 
 ## Why this works
 
-The Lucidity pipeline is **staging-first**. Heartbeat execution just changes *when* it runs — it does not change the safety model.
+The Lucidity pipeline is **staging-first**. Heartbeat execution just changes *when* it runs - it does not change the safety model.
 
 ## Further reading
 

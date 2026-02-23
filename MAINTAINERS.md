@@ -36,7 +36,7 @@ Overall status: **Not yet public-ready**, but close.
 ### Releases
 - [x] License: GPL-3.0-or-later
 - [x] Root `CHANGELOG.md`
-- [ ] Tag `v0.1.0` (recommended)
+- [x] Tag `v0.1.0`
 
 ## 2) Critical review (recommended improvements)
 

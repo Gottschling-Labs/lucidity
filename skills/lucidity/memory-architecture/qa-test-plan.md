@@ -1,4 +1,4 @@
-# Robustness Addendum — QA Test Plan
+# Robustness Addendum - QA Test Plan
 
 This plan verifies correctness, safety, and idempotency of the memory-manager pipeline.
 

@@ -24,9 +24,9 @@ This skill packages a **tiered memory architecture** plus **maintenance pipeline
 
 ## Layout
 
-- `memory-architecture/` — full documentation + scripts + benchmarks + operating guide
-- `install.sh` — installs cron jobs + initializes required directories (with consent)
-- `heartbeat.md` — how to run the same maintenance via HEARTBEAT instead of cron
+- `memory-architecture/` - full documentation + scripts + benchmarks + operating guide
+- `install.sh` - installs cron jobs + initializes required directories (with consent)
+- `heartbeat.md` - how to run the same maintenance via HEARTBEAT instead of cron
 
 ## Quick start
 
