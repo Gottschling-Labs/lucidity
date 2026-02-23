@@ -25,6 +25,10 @@ node_modules/
 __pycache__/
 *.pyc
 
+# Allow sanitized demo corpus to be committed (even though it uses MEMORY.md/memory/ names)
+!skills/lucidity/demo-workspace/
+!skills/lucidity/demo-workspace/**
+
 # External repo; not part of lucidity
 mission-control/
 

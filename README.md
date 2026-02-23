@@ -86,9 +86,25 @@ OpenClaw recall is driven by **searching files** (e.g., `memory_search`) and inj
 
 Lucidity’s job is to keep those tiers well-structured and easy to retrieve.
 
+## OpenClaw-specific vs portable
+
+- OpenClaw-specific:
+  - The *agent behavior* (calling `memory_search` / `memory_get` before answering memory-dependent questions).
+  - `openclaw status --deep` health checks.
+  - Memory indexing (`memory-core`) providing embeddings (vector) + FTS.
+
+- Portable:
+  - The Lucidity scripts operate on local Markdown files under a workspace root.
+  - Distill, dedupe, apply, backup, rollback, and prune are file transforms with receipts.
+
+## Demo workspace (sanitized)
+
+See `skills/lucidity/demo-workspace/` for a tiny, sanitized corpus you can use to validate Lucidity without touching private data.
+
 ## Repo structure (high level)
 
 - `skills/lucidity/` - the distributable OpenClaw skill bundle
+- `skills/lucidity/demo-workspace/` - sanitized demo corpus for validation
 
 ## License
 
