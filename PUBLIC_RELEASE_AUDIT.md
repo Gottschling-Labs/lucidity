@@ -34,15 +34,18 @@ Public repos should ship a clear license.
 Chosen: **GPL-3.0-or-later** (`LICENSE` added).
 
 ### 2) Contribution + governance docs
-Recommended:
-- `CONTRIBUTING.md` (how to report issues / PR process)
-- `SECURITY.md` (how to report vulnerabilities privately)
-- Optional: `CODE_OF_CONDUCT.md`
+Completed:
+- `CONTRIBUTING.md`
+- `SECURITY.md`
+
+Optional:
+- `CODE_OF_CONDUCT.md`
 
 ### 3) CI / basic automation
-Recommended minimal CI:
-- Run `python3 -m compileall` on scripts
-- Run `test_apply_idempotency.py`
+Completed:
+- `.github/workflows/ci.yml` runs:
+  - `python3 -m compileall` on scripts
+  - `test_apply_idempotency.py`
 
 ### 4) Public-facing documentation polish
 Recommended:

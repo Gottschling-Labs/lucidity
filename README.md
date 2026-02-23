@@ -34,6 +34,19 @@ Lucidity uses a tiered model so you can keep high-signal memory small and cheap,
 
 See the canonical tier spec: `skills/lucidity/memory-architecture/tier-design.md`.
 
+## LLM + configuration dependencies
+
+Lucidity assumes an OpenClaw deployment with:
+
+- **Memory indexing enabled** (OpenClaw `memory-core` plugin) so that `memory_search` can retrieve snippets.
+- An **embeddings/vector index** available (for semantic retrieval) and **FTS** available (for exact/keyword retrieval).
+
+If memory indexing is disabled, Lucidity’s maintenance scripts still work (distill/dedupe/apply/backups), but recall will be limited to whatever files you manually open into prompts.
+
+See also:
+- `skills/lucidity/memory-architecture/indexing-inputs.md`
+- `skills/lucidity/memory-architecture/hybrid-retrieval-policy.md`
+
 ## How recall works (T2/T3 vs T4)
 
 OpenClaw recall is driven by **searching files** (e.g., `memory_search`) and injecting only the most relevant snippets.

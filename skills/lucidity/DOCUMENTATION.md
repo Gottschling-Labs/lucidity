@@ -51,7 +51,40 @@ Canonical spec: `skills/lucidity/memory-architecture/tier-design.md`.
 
 ---
 
-## 2) How recall works in OpenClaw
+## 2) LLM + configuration dependencies
+
+Lucidity is intentionally **local-first**. Most of the functionality (distill/dedupe/apply/backups/rollback) runs as local scripts.
+
+However, **high-quality recall** depends on your OpenClaw deployment configuration:
+
+### 2.1 OpenClaw memory indexing (`memory-core`)
+
+To enable `memory_search` and `memory_get` retrieval, OpenClaw must have the **memory-core plugin** enabled and healthy.
+
+Practical expectations:
+- OpenClaw maintains an indexed corpus of chunks derived from eligible files (commonly `MEMORY.md` and `memory/*.md`).
+- The index supports:
+  - **Vector (embeddings) search** for semantic similarity
+  - **FTS** (full-text search) for exact/keyword matching
+
+If indexing is disabled or unhealthy:
+- Lucidity maintenance pipelines still produce well-structured Markdown files.
+- But retrieval will not work via `memory_search`; you’ll need to manually open files in prompts.
+
+See:
+- `skills/lucidity/memory-architecture/indexing-inputs.md`
+- `skills/lucidity/memory-architecture/hybrid-retrieval-policy.md`
+
+### 2.2 LLM dependencies (where models matter)
+
+- **Embeddings model:** required for semantic vector search (part of memory-core).
+- **Chat model:** used by your agent to decide when to run recall, which snippets to cite, and whether to promote candidates into curated memory (if you allow apply).
+
+Lucidity does not hardcode a specific provider/model, but it assumes:
+- embeddings are configured and available to memory-core
+- your agent can call `memory_search` before answering memory-dependent questions
+
+## 3) How recall works in OpenClaw
 
 OpenClaw recall is typically implemented as:
 

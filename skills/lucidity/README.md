@@ -53,6 +53,14 @@ Lucidity uses a tiered model to keep memory **cheap, auditable, and useful**:
 
 See: `skills/lucidity/memory-architecture/tier-design.md`.
 
+## LLM + configuration dependencies
+
+Lucidity’s scripts are local-first, but `memory_search` recall depends on OpenClaw **memory indexing** (memory-core) with **embeddings + vector search** and **FTS** enabled.
+
+See:
+- `skills/lucidity/memory-architecture/indexing-inputs.md`
+- `skills/lucidity/memory-architecture/hybrid-retrieval-policy.md`
+
 ## How recall works (T2/T3 vs T4)
 
 OpenClaw recall is driven by **searching files**, not by a tier “switch”.
