@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "mode": "high-confidence-only",
+  "safety": {
+    "denyPatterns": [
+      "BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY",
+      "AKIA[0-9A-Z]{16}",
+      "AIza[0-9A-Za-z-_]{35}",
+      "xox[baprs]-[0-9A-Za-z-]{10,}",
+      "(?:^|\\b)ghp_[0-9A-Za-z]{30,}",
+      "(?:^|\\b)github_pat_[0-9A-Za-z_]{20,}",
+      "sk-[0-9A-Za-z]{20,}",
+      "(?i)password\\s*[:=]",
+      "(?i)api[_ -]?key\\s*[:=]",
+      "(?i)secret\\s*[:=]",
+      "(?i)token\\s*[:=]"
+    ],
+    "denyIfContains": [
+      "1password",
+      "ssn",
+      "social security",
+      "routing number",
+      "bank account"
+    ]
+  },
+  "scoring": {
+    "highConfidenceScore": 4,
+    "procedural": {
+      "requireTrigger": true,
+      "requireVerification": true,
+      "allowTriggerPlaceholder": false,
+      "allowVerificationPlaceholder": false,
+      "points": {
+        "hasEvidence": 2,
+        "hasTrigger": 1,
+        "hasVerification": 2,
+        "hasSteps": 1
+      }
+    },
+    "semantic": {
+      "requireEvidence": true,
+      "denyTimeBoundLanguage": true,
+      "points": {
+        "hasEvidence": 2,
+        "noTimeBoundLanguage": 2
+      },
+      "timeBoundPhrases": [
+        "today",
+        "yesterday",
+        "this week",
+        "currently",
+        "for now",
+        "experiment",
+        "trying"
+      ]
+    }
+  },
+  "targets": {
+    "topicsDir": "memory/topics",
+    "memoryFile": "MEMORY.md"
+  },
+  "apply": {
+    "sourceDedupedTopicsDir": "memory/staging/deduped/topics",
+    "sourceDedupedMemoryCandidates": "memory/staging/deduped/MEMORY.candidates.md",
+    "manifestsDir": "memory/staging/manifests"
+  }
+}
