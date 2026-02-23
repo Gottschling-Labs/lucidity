@@ -30,6 +30,10 @@ Lucidity’s job is to keep those tiers well-structured and easy to retrieve.
 
 - `skills/lucidity/` — the distributable OpenClaw skill bundle
 
+## License
+
+GPL-3.0-or-later (see `LICENSE`).
+
 ## Status
 
 Private repo for now (Gottschling Labs). Public release should follow a security + sandboxing review.

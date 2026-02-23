@@ -64,4 +64,6 @@ See:
 
 ## License
 
+GPL-3.0-or-later (see `../../LICENSE`).
+
 Private (for now).

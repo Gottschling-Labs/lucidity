@@ -31,12 +31,7 @@ Status: **Not yet fully public-ready** (mostly very close). The primary remainin
 ### 1) License
 Public repos should ship a clear license.
 
-Options:
-- MIT (permissive)
-- Apache-2.0 (permissive + explicit patent grant)
-- GPLv3 (copyleft)
-
-**Decision needed from Brandon / Gottschling Labs.**
+Chosen: **GPL-3.0-or-later** (`LICENSE` added).
 
 ### 2) Contribution + governance docs
 Recommended:
