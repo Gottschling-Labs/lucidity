@@ -96,7 +96,7 @@ This addendum tracks those items.
 - [x] Wire recall tracking telemetry emission (JSONL event emission for maintenance/apply runs; stored at `workspace/state/memory-recall-events.jsonl`).
 - [x] Expand test suite to 10 queries across multiple topics and record PASS/FAIL (`memory-architecture/test-scenarios.md`, `memory-architecture/test-results.md`).
 - [x] Add configuration surface in a skill bundle (defaults + docs) and verify on a fresh agent workspace (`skills/lucidity`).
-- [x] Add install script to create cron job(s) for a new agent with sane defaults (skill: `skills/lucidity/install.sh`).
+- [x] Add installer to create Gateway cron job(s) for a new agent with sane defaults (skill: `skills/lucidity/gateway-cron-install.sh`).
 - [x] (Optional) Add `memorySearch.extraPaths` installer helper for meta-awareness indexing, with safe allowlist (skill doc: `skills/lucidity/extra-paths.md`).
 - [x] (Optional) Implement T-S encryption tooling using GPG (initial scripts in skill: `skills/lucidity/scripts/sensitive_store_gpg.py`, `skills/lucidity/scripts/sensitive_get_gpg.py`).
 
@@ -133,7 +133,7 @@ RC4 (public-ready): sandboxing plan implemented (or clearly documented constrain
 - [x] Observability dashboard hook (e.g. `/memory-stats`): implemented as local stats script `memory-architecture/scripts/memory_stats.py` (JSON/text) reporting last apply/backup, staging sizes, telemetry counts.
 
 ### Privacy & consent
-- [x] Explicit user consent and PII minimization on install (install-time prompt + safe defaults; `skills/lucidity/install.sh`).
+- [x] Explicit user consent and PII minimization on install (install-time prompt + safe defaults; `skills/lucidity/gateway-cron-install.sh`).
 
 ### Release engineering
 - [x] Version pinning + `CHANGELOG.md` (skill bundle: `skills/lucidity/VERSION`, `skills/lucidity/CHANGELOG.md`).

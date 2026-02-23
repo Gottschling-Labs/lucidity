@@ -51,4 +51,4 @@ openclaw cron rm --name lucidity.dedupe
 
 - These jobs run as an isolated agent turn (`--session isolated`) using agent id `main` by default.
 - The message payload instructs the agent to run the local Lucidity scripts with `--workspace`.
-- If you prefer OS cron, use `install.sh` instead, but OS cron jobs will not show up in Gateway cron lists.
+- OS crontab installation is intentionally not supported; Lucidity uses Gateway cron for scheduled jobs.

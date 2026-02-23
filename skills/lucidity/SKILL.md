@@ -1,6 +1,6 @@
 ---
 name: lucidity
-version: 0.1.0
+version: 0.1.3
 description: "Local-first, auditable, tiered memory maintenance + recall policy for OpenClaw. Distill → dedupe → (optional) apply to curated long-term memory, with receipts + backups."
 metadata:
   openclaw:
@@ -25,14 +25,15 @@ This skill packages a **tiered memory architecture** plus **maintenance pipeline
 ## Layout
 
 - `memory-architecture/` - full documentation + scripts + benchmarks + operating guide
-- `install.sh` - installs cron jobs + initializes required directories (with consent)
+- `gateway-cron-install.sh` - installs Gateway cron jobs + initializes required directories (with consent)
+- `gateway-cron-uninstall.sh` - removes Gateway cron jobs
 - `heartbeat.md` - how to run the same maintenance via HEARTBEAT instead of cron
 
 ## Quick start
 
 ```bash
-cd skills/memory-manager
-./install.sh
+cd skills/lucidity
+./gateway-cron-install.sh
 ```
 
 Then run a first maintenance pass (staging-only is safest):

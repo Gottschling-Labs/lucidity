@@ -14,6 +14,11 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.3] - 2026-02-23
+
+### Changed
+- Removed OS crontab installer. Lucidity now uses Gateway cron only for scheduled jobs.
+
 ## [0.1.2] - 2026-02-23
 
 ### Added

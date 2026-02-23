@@ -95,7 +95,7 @@ def main() -> None:
             "commands": [
                 "cd ~/code/gottschling-labs/lucidity",
                 "git pull --ff-only",
-                "./skills/lucidity/install.sh  # to refresh cron block if needed",
+                "cd skills/lucidity && ./gateway-cron-install.sh  # to refresh Gateway cron jobs if needed", 
             ]
         }
         print(json.dumps(out, indent=2))

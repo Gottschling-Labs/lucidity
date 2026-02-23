@@ -19,7 +19,7 @@ git pull --ff-only
 
 # Refresh cron job block if needed
 cd skills/lucidity
-./install.sh
+./gateway-cron-install.sh
 ```
 
 ## Optional: weekly update check via cron (notification-only)

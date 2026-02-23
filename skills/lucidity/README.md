@@ -14,8 +14,9 @@ It organizes memory into tiers and provides a staged pipeline:
 - `skills/lucidity/` - the OpenClaw skill bundle (what you install)
   - `DOCUMENTATION.md` - comprehensive manual (concepts, pipeline, retrieval model)
   - `memory-architecture/` - full design docs + scripts + policies
-  - `install.sh` - cron-based install (recommended default)
-  - `heartbeat.md` - how to run it via HEARTBEAT instead
+  - `gateway-cron-install.sh` - Gateway cron install (recommended)
+  - `gateway-cron-uninstall.sh` - remove Gateway cron jobs
+  - `heartbeat.md` - how to run the same maintenance via HEARTBEAT instead of cron
 
 ## Installation (Gateway cron, recommended)
 
@@ -33,22 +34,6 @@ This will:
 - create Gateway cron jobs visible via `openclaw cron list`
 
 Docs: `skills/lucidity/GATEWAY_CRON.md`
-
-## Installation (OS cron, alternative)
-
-If you prefer OS-level crontab:
-
-```bash
-cd skills/lucidity
-./install.sh
-```
-
-This will:
-- ask for consent + PII minimization defaults
-- create required workspace directories under `~/.openclaw/workspace/`
-- install OS cron entries for maintenance + backups
-
-Note: OS cron jobs will not appear in `openclaw cron list`.
 
 ## Installation (heartbeat)
 

@@ -19,9 +19,6 @@ cd skills/lucidity
 # Recommended: Gateway cron (jobs visible in OpenClaw)
 ./gateway-cron-install.sh
 
-# Alternative: OS crontab
-# ./install.sh
-
 # Verify indexing (recommended)
 openclaw status --deep
 
@@ -70,7 +67,7 @@ Automation maturity model:
   - `skills/lucidity/README.md` (install + verification)
   - `skills/lucidity/DOCUMENTATION.md` (comprehensive manual)
   - `skills/lucidity/gateway-cron-install.sh` (Gateway cron, recommended)
-  - `skills/lucidity/install.sh` (OS crontab, alternative)
+  - `skills/lucidity/gateway-cron-uninstall.sh` (remove Gateway cron jobs)
   - `skills/lucidity/heartbeat.md` (heartbeat-based alternative)
 
 ## Tier architecture (T0-T4)
@@ -166,7 +163,7 @@ cd ~/code/gottschling-labs/lucidity
 git pull --ff-only
 # Re-run installer to refresh cron block if needed
 cd skills/lucidity
-./install.sh
+./gateway-cron-install.sh
 ```
 
 ## Security + sandboxing

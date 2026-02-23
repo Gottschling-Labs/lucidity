@@ -290,7 +290,7 @@ Install:
 
 ```bash
 cd skills/lucidity
-./install.sh
+./gateway-cron-install.sh
 ```
 
 Default cron installs:
@@ -402,18 +402,18 @@ Why this helps retrieval:
 
 **Raw daily note (source)** (example):
 
-- To install Lucidity: run `./install.sh`, then test with `distill_daily.py --staging-only` and `dedupe_staging.py`.
+- To install Lucidity: run `./gateway-cron-install.sh`, then test with `distill_daily.py` and `dedupe_staging.py`.
 
 **Distilled procedural candidate (staging output)** (illustrative SOP):
 
 - **Type:** procedural
 - **Title:** Install Lucidity and run first staging maintenance
-- **Prereqs:** python3, crontab
+- **Prereqs:** python3, openclaw CLI
 - **Steps:**
   1. `cd skills/lucidity`
-  2. `./install.sh`
-  3. `python3 memory-architecture/scripts/distill_daily.py --workspace ~/.openclaw/workspace --staging-only`
-  4. `python3 memory-architecture/scripts/dedupe_staging.py --workspace ~/.openclaw/workspace`
+  2. `./gateway-cron-install.sh`
+  3. `python3 memory-architecture/scripts/distill_daily.py --workspace ~/.openclaw/workspace --date <YYYY-MM-DD>`
+  4. `python3 memory-architecture/scripts/dedupe_staging.py --workspace ~/.openclaw/workspace --write`
 - **Verify:** staging files exist under `memory/staging/` and a dedupe report exists under `memory/staging/reports/`.
 
 Why this helps retrieval:
