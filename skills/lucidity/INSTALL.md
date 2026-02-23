@@ -26,13 +26,17 @@ openclaw cron list | grep lucidity
 
 ## Reinstall (repair / refresh)
 
-If you want to refresh schedules, workspace path, timezone, or verbosity:
+If you want to refresh schedules, workspace path, timezone, verbosity, or the job payloads after upgrading the repo:
 
 ```bash
 cd skills/lucidity
 ./gateway-cron-uninstall.sh
 ./gateway-cron-install.sh
 ```
+
+Why this matters:
+- Gateway cron jobs store a message payload.
+- If Lucidity releases a new version that changes which script the job should run (e.g., switching distill to deterministic `distill_pending.py`), reinstalling ensures your existing cron jobs pick up the latest payload.
 
 ## Uninstall
 

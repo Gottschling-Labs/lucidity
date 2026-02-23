@@ -14,6 +14,15 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.6] - 2026-02-23
+
+### Fixed
+- Gateway cron uninstall script now removes jobs by id (compatible with current OpenClaw CLI).
+- Gateway cron install now uses deterministic catch-up distill (`distill_pending.py`) by default.
+
+### Docs
+- INSTALL guide explains why reinstalling refreshes Gateway cron payloads.
+
 ## [0.1.5] - 2026-02-23
 
 ### Added

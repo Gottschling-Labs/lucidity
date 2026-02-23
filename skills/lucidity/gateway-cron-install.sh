@@ -79,16 +79,16 @@ openclaw cron add \
   --message "Run Lucidity backup for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/backup_memory.py' --workspace '$WORKSPACE_ROOT_IN' --write. Then print the JSON output." \
   >/dev/null
 
-# Distill (staging-first)
+# Distill (deterministic catch-up)
 openclaw cron add \
   --name "lucidity.distill" \
-  --description "Lucidity nightly distill (staging-only) (workspace=$WORKSPACE_ROOT_IN)" \
+  --description "Lucidity nightly distill (deterministic catch-up) (workspace=$WORKSPACE_ROOT_IN)" \
   --cron "5 4 * * *" \
   "${TZ_ARGS[@]}" \
   --session isolated \
   --agent main \
   $ANNOUNCE_FLAG \
-  --message "Run Lucidity distill (staging-first) for workspace '$WORKSPACE_ROOT_IN'. Use the most recent daily log date (typically yesterday). Execute: python3 '$SKILL_DIR/memory-architecture/scripts/distill_daily.py' --workspace '$WORKSPACE_ROOT_IN' --date <YYYY-MM-DD>. Then summarize staged receipts count." \
+  --message "Run Lucidity pending distill for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/distill_pending.py' --workspace '$WORKSPACE_ROOT_IN' --limit 7. If it exits 2 (no pending), report that as OK." \
   >/dev/null
 
 # Dedupe

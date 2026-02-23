@@ -9,13 +9,17 @@ command -v openclaw >/dev/null 2>&1 || die "openclaw CLI not found"
 
 say "Removing Gateway cron jobs..."
 
-for name in lucidity.backup lucidity.distill lucidity.dedupe; do
-  if openclaw cron list | grep -q "\b${name}\b"; then
-    openclaw cron rm --name "$name" >/dev/null
-    say "Removed: $name"
-  else
-    say "Not found: $name"
-  fi
+# NOTE: `openclaw cron rm` expects a job id, not a name.
+
+ids=$(openclaw cron list | awk '$2 ~ /^lucidity\./ {print $1}')
+if [[ -z "${ids}" ]]; then
+  say "No lucidity.* jobs found."
+  exit 0
+fi
+
+for id in $ids; do
+  openclaw cron rm "$id" >/dev/null
+  say "Removed job id: $id"
 done
 
 say "Done."
