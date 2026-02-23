@@ -33,6 +33,10 @@ skills/lucidity/state/
 !skills/lucidity/demo-workspace/
 !skills/lucidity/demo-workspace/**
 
+# ...but still ignore generated artifacts inside the demo workspace
+skills/lucidity/demo-workspace/memory/staging/
+skills/lucidity/demo-workspace/state/
+
 # External repo; not part of lucidity
 mission-control/
 
