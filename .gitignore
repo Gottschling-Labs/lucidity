@@ -9,9 +9,18 @@ IDENTITY.md
 TOOLS.md
 HEARTBEAT.md
 AGENTS.md
+CURRENT_ROLE.md
+
+# Personal / deployment-specific notes (do not publish)
+NIGHTSHIFT.md
+request-queue.md
 
 # OS
 .DS_Store
 
 # Node
 node_modules/
+
+# Python
+__pycache__/
+*.pyc
