@@ -202,7 +202,51 @@ Instructions:
 
 ---
 
-## 5) Verification / “How do I know it works?”
+## 5) Examples (episodic vs procedural)
+
+These examples show how a raw daily note can be distilled into structured candidates that are easy to retrieve via `memory_search`.
+
+### 5.1 Episodic example
+
+**Raw daily note (source)** — `memory/2026-02-23.md` (example):
+
+- Met with BD proposal team about RFP response workflow.
+- Decision: standardize compliance matrix format for all RFPs.
+- Follow-up: ask Alex for the latest template and update our checklist.
+
+**Distilled episodic candidate (staging output)** (illustrative):
+
+- **Type:** episodic
+- **When:** 2026-02-23
+- **What:** Discussed RFP response workflow with BD proposal team
+- **Decision:** Standardize compliance matrix format
+- **Follow-ups:** Request latest template from Alex; update checklist
+
+Why this helps retrieval:
+- The “decision” and “follow-ups” become explicit fields/phrases that are easy to match.
+
+### 5.2 Procedural example
+
+**Raw daily note (source)** (example):
+
+- To install Lucidity: run `./install.sh`, then test with `distill_daily.py --staging-only` and `dedupe_staging.py`.
+
+**Distilled procedural candidate (staging output)** (illustrative SOP):
+
+- **Type:** procedural
+- **Title:** Install Lucidity and run first staging maintenance
+- **Prereqs:** python3, crontab
+- **Steps:**
+  1. `cd skills/lucidity`
+  2. `./install.sh`
+  3. `python3 memory-architecture/scripts/distill_daily.py --workspace ~/.openclaw/workspace --staging-only`
+  4. `python3 memory-architecture/scripts/dedupe_staging.py --workspace ~/.openclaw/workspace`
+- **Verify:** staging files exist under `memory/staging/` and a dedupe report exists under `memory/staging/reports/`.
+
+Why this helps retrieval:
+- If you later ask “how do I install Lucidity?” or “what command runs staging distill?”, `memory_search` can find this SOP quickly.
+
+## 6) Verification / “How do I know it works?”
 
 Minimum verification checklist:
 

@@ -146,10 +146,12 @@ RC4 (public-ready): sandboxing plan implemented (or clearly documented constrain
 - [x] Sandboxed execution guidance for all scripts (doc + required sandbox image prerequisites) (`skills/lucidity/SANDBOXING.md`).
 
 ### Performance
-- [x] Performance benchmarks: measure recall latency (p50/p90/p99) on demo corpus + real private corpus; outputs saved to `skills/lucidity/benchmarks/results-demo.json` and `memory-architecture/benchmarks-private-real.json` (target remains < 200 ms p50; current results exceed target).
+- [x] Performance benchmarks: measure recall latency (p50/p90/p99) on demo corpus + real private corpus.
+  - **Public repo:** commit **demo/sanitized** results only.
+  - **Private corpus results:** must remain **local-only** (do not commit).
 - [x] Benchmark harness: run on (a) real private workspace corpus and (b) sanitized demo corpus committed to repo (bundle: `skills/lucidity/scripts/bench_memory_search.py`, `benchmarks/`, `demo-workspace/`).
-- [x] Token efficiency benchmark: snippet injection proxy vs naive baseline on both corpora (bundle script: `skills/lucidity/scripts/bench_token_efficiency.py`; outputs: `benchmarks/results-token-demo.json`, local-only `memory-architecture/benchmarks-token-private-real.json`).
-- [x] Recall quality benchmark: PASS/FAIL suite on both corpora with reproducible query sets (bundle: `scripts/bench_recall_quality.py`, `benchmarks/recall-cases.json`; outputs: `benchmarks/results-recall-demo.json`, local-only `memory-architecture/benchmarks-recall-private-real.json`).
+- [x] Token efficiency benchmark: snippet injection proxy vs naive baseline on both corpora (commit demo results only).
+- [x] Recall quality benchmark: PASS/FAIL suite on both corpora with reproducible query sets (commit demo results only).
 
 ## Change Log
 - 2026-02-19: init plan and baseline assessment (memory-architecture)
