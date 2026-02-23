@@ -12,7 +12,8 @@ It organizes memory into tiers and provides a staged pipeline:
 ## What’s in this repo
 
 - `skills/lucidity/` — the OpenClaw skill bundle (what you install)
-  - `memory-architecture/` — full docs + scripts + policies
+  - `DOCUMENTATION.md` — comprehensive manual (concepts, pipeline, retrieval model)
+  - `memory-architecture/` — full design docs + scripts + policies
   - `install.sh` — cron-based install (recommended default)
   - `heartbeat.md` — how to run it via HEARTBEAT instead
 
@@ -35,6 +36,10 @@ If you prefer batching work into heartbeats (lower overhead, less rigid timing):
 1. Read: `skills/lucidity/heartbeat.md`
 2. Copy the provided checklist into your `HEARTBEAT.md`
 3. Disable cron jobs (or set them to staging-only)
+
+## Full documentation
+
+- `skills/lucidity/DOCUMENTATION.md`
 
 ## How recall works (T2/T3 vs T4)
 

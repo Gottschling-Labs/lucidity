@@ -56,6 +56,43 @@ References:
 - `skills/lucidity/memory-architecture/prompt-injection-policy.md`
 - `skills/lucidity/memory-architecture/hybrid-retrieval-policy.md`
 
+### 2.1 How episodic and procedural memories get created
+
+Lucidity does **not** magically create memories just because tiers exist. It creates structured episodic/procedural content via the **distillation pipeline**.
+
+Source input (most common):
+- Raw daily notes in `memory/YYYY-MM-DD.md`
+
+Generation mechanism:
+- `distill_daily.py` reads the raw notes and produces **structured candidates** in `memory/staging/…`.
+- `dedupe_staging.py` canonicalizes and de-duplicates those staged candidates.
+- Optionally, `apply_staging.py` promotes only high-confidence, durable items into `MEMORY.md` (T4).
+
+What makes something “episodic” vs “procedural” is the **schema** + **heuristics** used during distillation.
+
+- **Episodic** candidates typically capture: what happened, when, who/what was involved, decisions/outcomes, and any follow-ups.
+- **Procedural** candidates typically capture: a reusable workflow/SOP, commands, preconditions, expected output, and known pitfalls.
+
+Where to see the exact formats:
+- `skills/lucidity/memory-architecture/memory-schemas.md`
+
+Where to see the distillation pipeline rules/flow:
+- `skills/lucidity/memory-architecture/distillation-pipeline.md`
+- `skills/lucidity/memory-architecture/scripts/distill_daily.py`
+
+> Important: for retrieval, the only hard requirement is that the resulting Markdown ends up under paths searched by recall (typically `MEMORY.md` and `memory/*.md`).
+
+### 2.2 `memory_search` vs `memory_get`
+
+These are designed to be used together:
+
+- **`memory_search(query)`**: discovery. It searches across eligible memory sources and returns the best matching snippets (think “search results”).
+- **`memory_get(path, from, lines)`**: precision. It fetches a specific slice of a specific file once you know where the relevant content is (think “open the source around these lines”).
+
+Practical reasons to use both:
+- `memory_search` is broad/ranked; `memory_get` is narrow/controlled.
+- `memory_get` helps you pull enough surrounding context without loading an entire file into the prompt.
+
 ---
 
 ## 3) The maintenance pipeline

@@ -13,6 +13,7 @@ It provides:
 
 - **Installable skill bundle:** `skills/lucidity/`
   - `skills/lucidity/README.md` (install + verification)
+  - `skills/lucidity/DOCUMENTATION.md` (comprehensive manual)
   - `skills/lucidity/install.sh` (cron-based default)
   - `skills/lucidity/heartbeat.md` (heartbeat-based alternative)
 
