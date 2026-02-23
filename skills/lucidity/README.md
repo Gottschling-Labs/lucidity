@@ -41,6 +41,18 @@ If you prefer batching work into heartbeats (lower overhead, less rigid timing):
 
 - `skills/lucidity/DOCUMENTATION.md`
 
+## Tier architecture (T0–T4)
+
+Lucidity uses a tiered model to keep memory **cheap, auditable, and useful**:
+
+- **T0:** foundation (always-loaded identity/safety)
+- **T1:** working context (short-lived)
+- **T2:** daily logs (append-only)
+- **T3:** topic briefs (compressed)
+- **T4:** curated long-term (`MEMORY.md`)
+
+See: `skills/lucidity/memory-architecture/tier-design.md`.
+
 ## How recall works (T2/T3 vs T4)
 
 OpenClaw recall is driven by **searching files**, not by a tier “switch”.

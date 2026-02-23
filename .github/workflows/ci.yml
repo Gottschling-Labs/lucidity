@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python-sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Compile scripts
+        run: |
+          python3 -m compileall -q skills/lucidity/memory-architecture/scripts
+
+      - name: Idempotency regression
+        run: |
+          python3 skills/lucidity/memory-architecture/scripts/test_apply_idempotency.py

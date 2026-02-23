@@ -20,21 +20,34 @@ Lucidity is designed to:
 - Preserve **reversibility** (backups + rollback)
 - Minimize privacy risk via **staging-first** and **consent/PII defaults**
 
-### 1.2 Memory tiers (T2–T4)
+### 1.2 Memory tiers (T0–T4)
 
 Lucidity’s tier naming matches the architecture docs in `skills/lucidity/memory-architecture/`.
 
 At a practical level in OpenClaw workspaces:
 
-- **T4 (Curated long-term):** `MEMORY.md`
-  - Stable: preferences, decisions, durable facts
-  - Small and high-signal
+- **T0 (Foundation, always-loaded):** stable identity + operating constraints
+  - Examples: `SOUL.md`, `USER.md`, `IDENTITY.md`, `AGENTS.md`, `TOOLS.md`
+  - Keep small and stable; no secrets.
 
-- **T2/T3 (Near-term / topical / procedural):** files under `memory/`
-  - Larger, more granular, time-scoped
-  - Used as source material for distillation into T4
+- **T1 (Working context, short-lived):** what you are actively doing right now
+  - Examples: `HEARTBEAT.md` and other local-only coordination files
+  - Should decay quickly; prefer structured state where possible.
+
+- **T2 (Daily logs, append-only):** raw chronological record of what happened
+  - Example: `memory/YYYY-MM-DD.md`
+
+- **T3 (Topic briefs, compressed):** maintained summaries by topic or project
+  - Example: `memory/topics/<topic>.md`
+  - Should cite back to T2 for auditability.
+
+- **T4 (Curated long-term):** stable facts, preferences, and durable decisions
+  - Example: `MEMORY.md`
+  - Small and high-signal.
 
 > Note: tier boundaries are organizational. Actual retrieval is driven by search over file paths.
+
+Canonical spec: `skills/lucidity/memory-architecture/tier-design.md`.
 
 ---
 

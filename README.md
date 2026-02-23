@@ -17,6 +17,23 @@ It provides:
   - `skills/lucidity/install.sh` (cron-based default)
   - `skills/lucidity/heartbeat.md` (heartbeat-based alternative)
 
+## Tier architecture (T0–T4)
+
+Lucidity uses a tiered model so you can keep high-signal memory small and cheap, while still retaining an auditable paper trail.
+
+- **T0 — Foundation (always-loaded):** identity, safety rails, stable preferences.
+  - Examples: `SOUL.md`, `USER.md`, `IDENTITY.md`, `AGENTS.md`, `TOOLS.md`
+- **T1 — Working context (short-lived):** active tasks and near-term coordination.
+  - Examples: `HEARTBEAT.md` (and other local-only ops notes in your deployment)
+- **T2 — Daily logs (append-only):** raw, chronological record.
+  - Example: `memory/YYYY-MM-DD.md`
+- **T3 — Topic briefs (compressed):** maintained summaries by topic/project.
+  - Example: `memory/topics/<topic>.md`
+- **T4 — Curated long-term:** stable facts/decisions that remain true.
+  - Example: `MEMORY.md`
+
+See the canonical tier spec: `skills/lucidity/memory-architecture/tier-design.md`.
+
 ## How recall works (T2/T3 vs T4)
 
 OpenClaw recall is driven by **searching files** (e.g., `memory_search`) and injecting only the most relevant snippets.
