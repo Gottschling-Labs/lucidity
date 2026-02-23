@@ -14,6 +14,11 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.4] - 2026-02-23
+
+### Added
+- Comparisons and compatibility section (OpenClaw memory-core / "Elite LTM", mem0, other RAG stacks).
+
 ## [0.1.3] - 2026-02-23
 
 ### Changed

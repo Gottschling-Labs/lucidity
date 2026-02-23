@@ -117,6 +117,36 @@ OpenClaw recall is driven by **searching files** (e.g., `memory_search`) and inj
 
 Lucidity’s job is to keep those tiers well-structured and easy to retrieve.
 
+## Comparisons and compatibility
+
+### OpenClaw longterm memory (memory-core / "Elite LTM")
+
+- Relationship: **complementary**.
+  - OpenClaw memory-core provides indexing + retrieval (`memory_search` / `memory_get`).
+  - Lucidity maintains the underlying Markdown corpus (tiering, distill/dedupe/apply) so retrieval stays high-signal and token-efficient.
+
+Compatibility notes:
+- Lucidity assumes memory-core is enabled for best results (vector + FTS ready).
+- Lucidity does not replace memory-core; it improves the quality of what memory-core indexes.
+
+### mem0
+
+- Relationship: **different layer**.
+  - mem0 is typically used as a runtime memory service/library (store + search).
+  - Lucidity is a local-first memory hygiene and promotion pipeline (staging-first, auditability, backups).
+
+Compatibility notes:
+- You can index Lucidity outputs (e.g., `MEMORY.md`, `memory/topics/*.md`) into mem0.
+- Avoid dual-writing to two sources of truth. Pick one canonical memory store and treat the other as an index.
+
+### Other RAG/memory stacks
+
+Lucidity is compatible with most RAG stacks because its outputs are plain Markdown.
+
+Best practice:
+- Keep **Markdown as the source of truth**.
+- Let retrieval systems (OpenClaw memory-core, mem0, vector DBs) index the curated outputs.
+
 ## OpenClaw-specific vs portable
 
 - OpenClaw-specific:

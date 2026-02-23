@@ -110,6 +110,52 @@ Lucidity does not hardcode a specific provider/model, but it assumes:
 - embeddings are configured and available to memory-core
 - your agent can call `memory_search` before answering memory-dependent questions
 
+## 3) Comparisons and compatibility
+
+This section clarifies how Lucidity relates to other memory approaches.
+
+### 3.1 OpenClaw longterm memory (memory-core / "Elite LTM")
+
+OpenClaw memory-core is the retrieval/indexing layer:
+- chunks files
+- builds embeddings for vector search
+- supports keyword/FTS
+- powers `memory_search` and `memory_get`
+
+Lucidity is the corpus maintenance layer:
+- tiering (T0-T4)
+- distill -> dedupe -> apply
+- receipts/manifests + backups/rollback
+
+They are designed to work together: Lucidity improves the quality of what memory-core indexes.
+
+Compatibility notes:
+- Ensure memory-core is enabled and healthy (vector + FTS ready).
+- Prefer indexing the canonical outputs (`MEMORY.md`, `memory/topics/*.md`).
+
+### 3.2 mem0
+
+mem0 is commonly used as a runtime memory store/search API.
+
+Lucidity differs in that it:
+- keeps memory local-first and human-auditable
+- produces staged candidates and promotes them into canonical files
+
+How to combine them:
+- Treat Lucidity Markdown outputs as the canonical memory.
+- Use mem0 as an index/search layer over those outputs if desired.
+
+Compatibility notes:
+- Avoid two sources of truth. Do not independently promote/modify memory in two systems.
+
+### 3.3 Compatibility with other RAG stacks
+
+Because Lucidity outputs Markdown, it is compatible with most retrieval stacks.
+
+Recommended pattern:
+- Use Lucidity to keep canonical memory small and consistent.
+- Point your retrieval/indexing system at those canonical files.
+
 ## 3) OpenClaw-specific vs portable
 
 ### 3.1 What depends on OpenClaw + LLM configuration
