@@ -27,8 +27,34 @@ say "Gateway cron install"
 say "Repo root: $REPO_ROOT"
 say "Skill dir: $SKILL_DIR"
 
+# Agent id controls which OpenClaw agent/session runs the cron job.
+AGENT_DEFAULT="main"
+read -r -p "Agent id to run these jobs as? [$AGENT_DEFAULT]: " AGENT_ID
+AGENT_ID="${AGENT_ID:-$AGENT_DEFAULT}"
+
 read -r -p "Workspace root to maintain? [$WORKSPACE_ROOT_DEFAULT]: " WORKSPACE_ROOT_IN
 WORKSPACE_ROOT_IN="${WORKSPACE_ROOT_IN:-$WORKSPACE_ROOT_DEFAULT}"
+
+# Derive a readable workspace label from the folder name.
+WORKSPACE_BASENAME="$(basename "$WORKSPACE_ROOT_IN")"
+WORKSPACE_LABEL="$(echo "$WORKSPACE_BASENAME" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+if [[ -z "$WORKSPACE_LABEL" ]]; then
+  WORKSPACE_LABEL="workspace"
+fi
+
+# If multiple workspaces share the same label for the same agent, append a stable short hash.
+SHORT_HASH="$(python3 - <<PY
+import hashlib
+print(hashlib.sha1("$WORKSPACE_ROOT_IN".encode("utf-8")).hexdigest()[:8])
+PY
+)"
+
+JOB_PREFIX="lucidity.${AGENT_ID}.${WORKSPACE_LABEL}"
+if openclaw cron list | awk '{print $2}' | grep -qx "${JOB_PREFIX}.backup"; then
+  JOB_PREFIX="${JOB_PREFIX}-${SHORT_HASH}"
+fi
+
+say "Job prefix: ${JOB_PREFIX}.*"
 
 read -r -p "Timezone for schedules (IANA). Leave blank to use Gateway default. [$TZ_DEFAULT]: " TZ_IN
 TZ_IN="${TZ_IN:-$TZ_DEFAULT}"
@@ -64,7 +90,7 @@ say "Creating Gateway cron jobs..."
 
 COMMON=(
   --session isolated
-  --agent main
+  --agent "$AGENT_ID"
   $ANNOUNCE_FLAG
   --name
 )
@@ -76,36 +102,36 @@ fi
 
 # Backup
 openclaw cron add \
-  --name "lucidity.backup" \
-  --description "Lucidity nightly backup (workspace=$WORKSPACE_ROOT_IN)" \
+  --name "${JOB_PREFIX}.backup" \
+  --description "Lucidity nightly backup (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
   --cron "45 3 * * *" \
   "${TZ_ARGS[@]}" \
   --session isolated \
-  --agent main \
+  --agent "$AGENT_ID" \
   $ANNOUNCE_FLAG \
   --message "Run Lucidity backup for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/backup_memory.py' --workspace '$WORKSPACE_ROOT_IN' --write. Then print the JSON output." \
   >/dev/null
 
 # Distill (deterministic catch-up)
 openclaw cron add \
-  --name "lucidity.distill" \
-  --description "Lucidity nightly distill (deterministic catch-up) (workspace=$WORKSPACE_ROOT_IN)" \
+  --name "${JOB_PREFIX}.distill" \
+  --description "Lucidity nightly distill (deterministic catch-up) (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
   --cron "5 4 * * *" \
   "${TZ_ARGS[@]}" \
   --session isolated \
-  --agent main \
+  --agent "$AGENT_ID" \
   $ANNOUNCE_FLAG \
   --message "Run Lucidity pending distill for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/distill_pending.py' --workspace '$WORKSPACE_ROOT_IN' --limit 7. If it exits 2 (no pending), report that as OK." \
   >/dev/null
 
 # Dedupe
 openclaw cron add \
-  --name "lucidity.dedupe" \
-  --description "Lucidity nightly dedupe (workspace=$WORKSPACE_ROOT_IN)" \
+  --name "${JOB_PREFIX}.dedupe" \
+  --description "Lucidity nightly dedupe (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
   --cron "15 4 * * *" \
   "${TZ_ARGS[@]}" \
   --session isolated \
-  --agent main \
+  --agent "$AGENT_ID" \
   $ANNOUNCE_FLAG \
   --message "Run Lucidity dedupe for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/dedupe_staging.py' --workspace '$WORKSPACE_ROOT_IN' --write. Then print the JSON report." \
   >/dev/null
@@ -116,12 +142,12 @@ read -r -p "Run installation verification now? (yes/no) [yes]: " VERIFY
 VERIFY="${VERIFY:-yes}"
 if [[ "$VERIFY" == "yes" ]]; then
   say "Verification: listing installed jobs"
-  openclaw cron list | grep lucidity || true
+  openclaw cron list | grep "${JOB_PREFIX}" || true
   say "Verification: gateway cron status"
   openclaw cron status || true
   say "Verification: memory-core health (best effort)"
   openclaw status --deep || true
   say "Verification complete."
 else
-  say "Skipped verification. You can verify later with: openclaw cron list | grep lucidity"
+  say "Skipped verification. You can verify later with: openclaw cron list | grep ${JOB_PREFIX}"
 fi

@@ -14,6 +14,14 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.9] - 2026-02-23
+
+### Added
+- Multi-workspace-safe Gateway cron job naming derived from agent id + workspace label.
+
+### Changed
+- Gateway cron install/uninstall scripts now scope operations to the derived job prefix instead of global `lucidity.*`.
+
 ## [0.1.8] - 2026-02-23
 
 ### Changed

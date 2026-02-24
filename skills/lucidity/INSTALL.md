@@ -13,6 +13,12 @@ cd skills/lucidity
 ./gateway-cron-install.sh
 ```
 
+The installer derives job names from:
+- agent id (default: `main`)
+- workspace label (derived from the workspace folder name)
+
+This prevents collisions when you install Lucidity for multiple workspaces.
+
 The installer prompts for:
 - Workspace root (defaults to `~/.openclaw/workspace`)
 - Timezone (auto-detected when possible)

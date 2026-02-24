@@ -21,10 +21,13 @@ The installer will prompt for:
 
 ## What it creates
 
-By default it creates these Gateway cron jobs:
-- `lucidity.backup` (03:45 daily)
-- `lucidity.distill` (04:05 daily, deterministic "pending distill" - catches up any unprocessed days)
-- `lucidity.dedupe` (04:15 daily)
+By default it creates these Gateway cron jobs using a prefix derived from agent id + workspace label:
+
+- `lucidity.<agent>.<workspace>.backup` (03:45 daily)
+- `lucidity.<agent>.<workspace>.distill` (04:05 daily, deterministic "pending distill" - catches up any unprocessed days)
+- `lucidity.<agent>.<workspace>.dedupe` (04:15 daily)
+
+If there is a naming collision, the installer automatically appends a short hash suffix to the workspace label.
 
 Apply is intentionally not scheduled by default.
 
