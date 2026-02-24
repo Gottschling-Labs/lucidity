@@ -187,16 +187,16 @@ Lucidity does not auto-update itself.
 To check whether an update is available:
 
 ```bash
-cd ~/code/gottschling-labs/lucidity
+cd /path/to/lucidity
 python3 skills/lucidity/scripts/check_update.py
 ```
 
 To upgrade:
 
 ```bash
-cd ~/code/gottschling-labs/lucidity
+cd /path/to/lucidity
 git pull --ff-only
-# Re-run installer to refresh cron block if needed
+# Re-run installer to refresh Gateway cron payloads if needed
 cd skills/lucidity
 ./gateway-cron-install.sh
 ```

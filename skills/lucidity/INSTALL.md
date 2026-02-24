@@ -22,7 +22,11 @@ Verify:
 
 ```bash
 openclaw cron list | grep lucidity
+openclaw cron status
+openclaw status --deep
 ```
+
+The installer can also run this verification automatically if you answer "yes" when prompted.
 
 ## Reinstall (repair / refresh)
 

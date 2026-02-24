@@ -53,6 +53,13 @@ fi
 # - distill: 04:05 daily (staging-only)
 # - dedupe: 04:15 daily
 
+say "Initializing workspace directories"
+mkdir -p "$WORKSPACE_ROOT_IN/memory/staging" \
+         "$WORKSPACE_ROOT_IN/memory/staging/deduped" \
+         "$WORKSPACE_ROOT_IN/memory/staging/reports" \
+         "$WORKSPACE_ROOT_IN/state" \
+         "$WORKSPACE_ROOT_IN/backups"
+
 say "Creating Gateway cron jobs..."
 
 COMMON=(
@@ -104,5 +111,17 @@ openclaw cron add \
   >/dev/null
 
 say "Done."
-say "List jobs with: openclaw cron list | grep lucidity"
-say "Run one now with: openclaw cron run --name lucidity.backup"
+
+read -r -p "Run installation verification now? (yes/no) [yes]: " VERIFY
+VERIFY="${VERIFY:-yes}"
+if [[ "$VERIFY" == "yes" ]]; then
+  say "Verification: listing installed jobs"
+  openclaw cron list | grep lucidity || true
+  say "Verification: gateway cron status"
+  openclaw cron status || true
+  say "Verification: memory-core health (best effort)"
+  openclaw status --deep || true
+  say "Verification complete."
+else
+  say "Skipped verification. You can verify later with: openclaw cron list | grep lucidity"
+fi

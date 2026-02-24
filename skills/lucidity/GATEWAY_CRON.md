@@ -17,6 +17,7 @@ The installer will prompt for:
 - workspace root (defaults to `~/.openclaw/workspace`)
 - schedule timezone (defaults to the host timezone when detectable)
 - verbosity (announce to chat vs silent)
+- verification (run a quick health check at the end)
 
 ## What it creates
 
@@ -35,16 +36,32 @@ openclaw cron list | grep lucidity
 
 Run a job immediately (debug):
 
+1) Get the job id:
+
 ```bash
-openclaw cron run --name lucidity.backup
+openclaw cron list | grep lucidity.backup
+```
+
+2) Run by id:
+
+```bash
+openclaw cron run <job-id>
 ```
 
 ## Uninstall
 
+Use the uninstall script (recommended):
+
 ```bash
-openclaw cron rm --name lucidity.backup
-openclaw cron rm --name lucidity.distill
-openclaw cron rm --name lucidity.dedupe
+cd skills/lucidity
+./gateway-cron-uninstall.sh
+```
+
+Or remove jobs manually by id:
+
+```bash
+openclaw cron list | grep lucidity
+openclaw cron rm <job-id>
 ```
 
 ## Notes

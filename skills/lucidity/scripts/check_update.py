@@ -93,7 +93,7 @@ def main() -> None:
         out["status"] = "update-available"
         out["recommended"] = {
             "commands": [
-                "cd ~/code/gottschling-labs/lucidity",
+                "cd /path/to/lucidity",
                 "git pull --ff-only",
                 "cd skills/lucidity && ./gateway-cron-install.sh  # to refresh Gateway cron jobs if needed", 
             ]

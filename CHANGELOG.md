@@ -14,6 +14,17 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.8] - 2026-02-23
+
+### Changed
+- Docs no longer assume a specific clone path (use `/path/to/lucidity`).
+
+### Added
+- Gateway cron installer now initializes workspace directories and can run a verification step.
+
+### Fixed
+- Gateway cron docs now reflect running/removing jobs by id (matches current OpenClaw CLI).
+
 ## [0.1.7] - 2026-02-23
 
 ### Added

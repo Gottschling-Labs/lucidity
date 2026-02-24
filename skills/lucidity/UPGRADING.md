@@ -5,7 +5,7 @@ Lucidity does not auto-update itself. See `INSTALL.md` for install/reinstall/uni
 ## Check for updates
 
 ```bash
-cd ~/code/gottschling-labs/lucidity
+cd /path/to/lucidity
 python3 skills/lucidity/scripts/check_update.py
 ```
 
@@ -14,10 +14,10 @@ If an update is available, the script exits with code 10 and prints recommended 
 ## Upgrade
 
 ```bash
-cd ~/code/gottschling-labs/lucidity
+cd /path/to/lucidity
 git pull --ff-only
 
-# Refresh cron job block if needed
+# Refresh Gateway cron jobs/payloads if needed
 cd skills/lucidity
 ./gateway-cron-install.sh
 ```
@@ -27,7 +27,7 @@ cd skills/lucidity
 Example line (writes JSON to a local file):
 
 ```cron
-0 9 * * 1 cd ~/code/gottschling-labs/lucidity && python3 skills/lucidity/scripts/check_update.py > ~/.openclaw/workspace/state/lucidity-update-check.json 2>&1
+0 9 * * 1 cd /path/to/lucidity && python3 skills/lucidity/scripts/check_update.py > ~/.openclaw/workspace/state/lucidity-update-check.json 2>&1
 ```
 
 Notes:
