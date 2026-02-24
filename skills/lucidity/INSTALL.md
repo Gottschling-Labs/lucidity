@@ -10,7 +10,7 @@ From the repo root:
 
 ```bash
 cd skills/lucidity
-./gateway-cron-install.sh
+./install.sh
 ```
 
 The installer derives job names from:
@@ -40,8 +40,8 @@ If you want to refresh schedules, workspace path, timezone, verbosity, or the jo
 
 ```bash
 cd skills/lucidity
-./gateway-cron-uninstall.sh
-./gateway-cron-install.sh
+./uninstall.sh
+./install.sh
 ```
 
 Why this matters:
@@ -52,7 +52,7 @@ Why this matters:
 
 ```bash
 cd skills/lucidity
-./gateway-cron-uninstall.sh
+./uninstall.sh
 ```
 
 Notes:

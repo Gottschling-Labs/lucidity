@@ -17,7 +17,7 @@ cd lucidity
 cd skills/lucidity
 
 # Recommended: Gateway cron (jobs visible in OpenClaw)
-./gateway-cron-install.sh
+./install.sh
 
 # Verify indexing (recommended)
 openclaw status --deep

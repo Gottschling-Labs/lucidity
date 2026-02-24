@@ -14,8 +14,10 @@ It organizes memory into tiers and provides a staged pipeline:
 - `skills/lucidity/` - the OpenClaw skill bundle (what you install)
   - `DOCUMENTATION.md` - comprehensive manual (concepts, pipeline, retrieval model)
   - `memory-architecture/` - full design docs + scripts + policies
-  - `gateway-cron-install.sh` - Gateway cron install (recommended)
-  - `gateway-cron-uninstall.sh` - remove Gateway cron jobs
+  - `install.sh` - Gateway cron install (recommended)
+  - `uninstall.sh` - remove Gateway cron jobs
+  - `gateway-cron-install.sh` - deprecated wrapper (back-compat)
+  - `gateway-cron-uninstall.sh` - deprecated wrapper (back-compat)
   - `heartbeat.md` - how to run the same maintenance via HEARTBEAT instead of cron
 
 ## Installation (Gateway cron, recommended)
@@ -38,6 +40,7 @@ Docs:
 - `skills/lucidity/INSTALL.md`
 - `skills/lucidity/UPGRADING.md`
 - `skills/lucidity/CHAT_COMMANDS.md` (chat command cheat sheet)
+- `skills/lucidity/AGENTS_SNIPPET.md` (recommended AGENTS.md additions)
 
 ## Installation (heartbeat)
 

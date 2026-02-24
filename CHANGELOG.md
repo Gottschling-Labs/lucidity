@@ -14,6 +14,17 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.10] - 2026-02-23
+
+### Changed
+- Installer scripts are now named `install.sh` and `uninstall.sh`.
+
+### Fixed
+- Uninstall detects and removes legacy `lucidity.backup/distill/dedupe` jobs created by older installers.
+
+### Added
+- `AGENTS_SNIPPET.md` with recommended canonical memory locations to add to a workspace `AGENTS.md`.
+
 ## [0.1.9] - 2026-02-23
 
 ### Added

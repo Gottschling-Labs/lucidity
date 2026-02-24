@@ -10,7 +10,7 @@ Using Gateway cron (instead of OS crontab) has two benefits:
 
 ```bash
 cd skills/lucidity
-./gateway-cron-install.sh
+./install.sh
 ```
 
 The installer will prompt for:
@@ -57,7 +57,7 @@ Use the uninstall script (recommended):
 
 ```bash
 cd skills/lucidity
-./gateway-cron-uninstall.sh
+./uninstall.sh
 ```
 
 Or remove jobs manually by id:
