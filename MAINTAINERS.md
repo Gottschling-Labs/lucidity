@@ -52,7 +52,25 @@ Nice-to-have (future):
 - Add a demo-only benchmark harness + committed demo outputs (never private-corpus results)
 - Add CI smoke test that runs the demo pipeline with `--workspace demo-workspace`
 
-## 3) Policy reminders
+## 3) Versioning policy (SemVer)
+
+Lucidity follows SemVer with practical guidance:
+
+- Patch (0.1.x -> 0.1.(x+1))
+  - Docs/typos, CI tweaks, internal refactors that do not change behavior
+  - Bug fixes that do not change interfaces or defaults
+
+- Minor (0.x -> 0.(x+1))
+  - New features that are backward compatible
+  - Changes to scheduling/installers that remain backward compatible (wrappers and legacy uninstall supported)
+  - Meaningful new capabilities that users will rely on
+
+- Major (1.x -> 2.0.0)
+  - Breaking changes: removed/renamed commands without compatibility shims
+  - Default behavior becomes more destructive (e.g., apply --write enabled by default)
+  - Incompatible changes to canonical file layout or manifest formats
+
+## 4) Policy reminders
 
 - Never commit private workspace corpora, telemetry, or benchmarks derived from private data.
 - Keep apply optional and human-reviewed for new installs.
