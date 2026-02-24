@@ -250,6 +250,12 @@ def main() -> None:
         WORKSPACE = Path(args.workspace).expanduser().resolve()
 
     cfg_path = WORKSPACE / args.config
+    if not cfg_path.exists():
+        # Fallback: config shipped with the skill (memory-architecture/config)
+        fallback = Path(__file__).resolve().parents[1] / "config" / Path(args.config).name
+        if fallback.exists():
+            cfg_path = fallback
+
     cfg = json.loads(read_text(cfg_path) or "{}")
 
     apply_cfg = cfg.get("apply", {})
@@ -273,7 +279,7 @@ def main() -> None:
 
     manifest: Dict = {
         "run_ts": run_ts,
-        "config": str(cfg_path.relative_to(WORKSPACE)),
+        "config": str(cfg_path) if not str(cfg_path).startswith(str(WORKSPACE)) else str(cfg_path.relative_to(WORKSPACE)),
         "write": bool(args.write),
         "applied": [],
         "skipped": [],
@@ -399,7 +405,8 @@ def main() -> None:
         },
     )
 
-    print(f"Apply staging: write={args.write} config={cfg_path.relative_to(WORKSPACE)}")
+    cfg_disp = str(cfg_path) if not str(cfg_path).startswith(str(WORKSPACE)) else str(cfg_path.relative_to(WORKSPACE))
+    print(f"Apply staging: write={args.write} config={cfg_disp}")
     print(f"Manifest: {out_manifest.relative_to(WORKSPACE)}")
     print(f"Applied blocks: {len(manifest['applied'])}; skipped blocks: {len(manifest['skipped'])}")
 

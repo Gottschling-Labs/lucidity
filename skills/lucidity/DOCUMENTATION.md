@@ -263,6 +263,12 @@ Purpose:
 Deterministic catch-up (recommended for scheduled runs):
 - Use `distill_pending.py` to process any unprocessed days deterministically.
 
+Option A (make distill produce promotable content):
+- Use explicit markers in daily logs:
+  - Semantic: `Decision:`, `Policy:`, `Preference:`, `Canonical:`
+  - Procedural: `Steps:` (numbered) and `Verify:`
+- Episodic notes are still staged, but are not auto-promoted by default.
+
 Command (manual single-day distill):
 
 ```bash

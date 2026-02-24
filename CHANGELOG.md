@@ -14,6 +14,15 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.12] - 2026-02-23
+
+### Fixed
+- `apply_staging.py` now falls back to the skill-shipped config if the workspace does not contain `memory-architecture/config/auto-merge.json`.
+
+### Improved
+- Distill now extracts semantic candidates from explicit lines (Decision/Policy/Preference/etc.) and produces higher-quality procedural metadata.
+- Demo corpus updated so apply dry-run accepts at least one semantic + one procedural candidate.
+
 ## [0.1.11] - 2026-02-23
 
 ### Fixed

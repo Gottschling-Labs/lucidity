@@ -6,14 +6,17 @@ Reads a T2 daily log (memory/YYYY-MM-DD.md) and writes staged candidates into:
 - memory/staging/MEMORY.candidates.md
 - memory/staging/receipts/<date>.json
 
-This is a conservative v0:
-- no LLM calls
-- heuristic classification
-- does not modify canonical memory files
+Design goals:
+- Conservative, local-first (no LLM calls)
+- Staging-only (never writes canonical memory)
+- Deterministic heuristics that promote *structure*:
+  - procedural candidates from Steps/How-to sections
+  - semantic candidates from Decision/Policy/Preference/Fact statements
+  - episodic notes remain retrievable but are not auto-promoted by default
 
 Usage:
-  python3 memory-architecture/scripts/distill_daily.py --date 2026-02-16
-  python3 memory-architecture/scripts/distill_daily.py --path memory/2026-02-16.md
+  python3 memory-architecture/scripts/distill_daily.py --workspace ~/.openclaw/workspace --date 2026-02-16
+  python3 memory-architecture/scripts/distill_daily.py --workspace ~/.openclaw/workspace --path memory/2026-02-16.md
 """
 
 from __future__ import annotations
@@ -22,7 +25,6 @@ import argparse
 import datetime as dt
 import hashlib
 import json
-import os
 import re
 from pathlib import Path
 from typing import Dict, List, Tuple
@@ -44,7 +46,26 @@ TOPIC_KEYWORDS = {
     "cron": "automation",
     "heartbeat": "automation",
     "security": "security",
+    "gpl": "lucidity",
+    "lucidity": "lucidity",
 }
+
+SEMANTIC_PREFIXES = (
+    "decision:",
+    "policy:",
+    "preference:",
+    "fact:",
+    "rule:",
+    "canonical:",
+)
+
+PROCEDURAL_PREFIXES = (
+    "procedure:",
+    "how to:",
+    "steps:",
+    "run:",
+    "command:",
+)
 
 
 def sha256_text(s: str) -> str:
@@ -61,7 +82,6 @@ def split_sections(md: str) -> List[Tuple[str, str]]:
     if len(parts) <= 1:
         return [("(no heading)", md.strip())]
     out: List[Tuple[str, str]] = []
-    # parts[0] is preamble (before first ##)
     pre = parts[0].strip()
     if pre:
         out.append(("(preamble)", pre))
@@ -71,19 +91,6 @@ def split_sections(md: str) -> List[Tuple[str, str]]:
         body = "\n".join(lines[1:]).strip()
         out.append((heading, body))
     return out
-
-
-def classify(body: str) -> str:
-    b = body.lower()
-    if re.search(r"\n\s*steps:\s*\n", body, flags=re.I) or re.search(r"\n\s*1\)\s+", body):
-        return "procedural"
-    if re.search(r"\n\s*statement:\s+", body, flags=re.I) or re.search(r"\btype:\s*semantic\b", b):
-        return "semantic"
-    if re.search(r"\btype:\s*procedural\b", b):
-        return "procedural"
-    if re.search(r"\btype:\s*episodic\b", b):
-        return "episodic"
-    return "episodic"
 
 
 def infer_topic(text: str) -> str:
@@ -119,15 +126,91 @@ def append_memory_candidates(content: str) -> Path:
     return out
 
 
+def summarize_episodic(body: str) -> str:
+    # pick first non-empty bullet/line
+    for line in body.splitlines():
+        t = line.strip().lstrip("- ").strip()
+        if not t:
+            continue
+        if t.lower().startswith(SEMANTIC_PREFIXES) or t.lower().startswith(PROCEDURAL_PREFIXES):
+            continue
+        return (t[:140] + "...") if len(t) > 140 else t
+    return "(fill in)"
+
+
+def extract_semantic_lines(body: str) -> List[str]:
+    lines = []
+    for raw in body.splitlines():
+        s = raw.strip().lstrip("- ").strip()
+        if not s:
+            continue
+        lo = s.lower()
+        if lo.startswith(SEMANTIC_PREFIXES):
+            # strip prefix label
+            lines.append(s.split(":", 1)[1].strip() or s)
+    return lines
+
+
+def has_steps_block(body: str) -> bool:
+    if re.search(r"^\s*steps:\s*$", body, flags=re.I | re.M):
+        return True
+    if re.search(r"^\s*\d+[\).]\s+", body, flags=re.M):
+        return True
+    if re.search(r"^\s*1\)\s+", body, flags=re.M):
+        return True
+    return False
+
+
+def extract_verify_text(body: str) -> str | None:
+    # Capture lines after a "Verify:" marker.
+    m = re.search(r"^\s*(verify|verification)\s*:\s*$", body, flags=re.I | re.M)
+    if not m:
+        return None
+    tail = body[m.end() :].strip("\n")
+    lines: List[str] = []
+    for ln in tail.splitlines():
+        if not ln.strip():
+            break
+        # stop if a new section-like label starts
+        if re.match(r"^\s*(prereqs|steps|title)\s*:\s*$", ln, flags=re.I):
+            break
+        lines.append(ln.rstrip())
+    txt = "\n".join(lines).strip()
+    return txt or None
+
+
+def extract_procedural_block(body: str) -> str | None:
+    # If there's a Steps: section, take from that line onward
+    m = re.search(r"^\s*steps:\s*$", body, flags=re.I | re.M)
+    if m:
+        return body[m.start() :].strip()
+    # Otherwise if there are numbered steps, include the whole body (it is likely already a SOP)
+    if has_steps_block(body):
+        return body.strip()
+    # If the body has an explicit procedural prefix line, treat as procedural
+    for raw in body.splitlines():
+        s = raw.strip().lstrip("- ").strip().lower()
+        if any(s.startswith(p) for p in PROCEDURAL_PREFIXES):
+            return body.strip()
+    return None
+
+
+def now_ts() -> str:
+    return dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--workspace", help="Workspace root (default: auto-detected)")
-    ap.add_argument("--staging-only", action="store_true", help="Accepted for compatibility; distill is always staging-first")
+    ap.add_argument(
+        "--staging-only",
+        action="store_true",
+        help="Accepted for compatibility; distill is always staging-first",
+    )
     ap.add_argument("--date", help="YYYY-MM-DD")
     ap.add_argument("--path", help="Path to daily md, relative to workspace")
     args = ap.parse_args()
 
-    # Allow running against an arbitrary workspace root (e.g., demo-workspace or ~/.openclaw/workspace)
     global WORKSPACE, MEMORY_DIR, STAGING_DIR
     if args.workspace:
         WORKSPACE = Path(args.workspace).expanduser().resolve()
@@ -153,39 +236,96 @@ def main() -> None:
     for heading, body in sections:
         if not body.strip():
             continue
-        kind = classify(body)
+
+        ts = now_ts()
+        rel = in_path.relative_to(WORKSPACE)
         topic = infer_topic(heading + "\n" + body)
 
         source_excerpt = ("## " + heading + "\n" + body).strip()
         source_hash = sha256_text(source_excerpt)
 
-        ts = dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat().replace('+00:00','Z')
-
-        if kind == "procedural":
-            block = f"\n## Procedure (candidate): {heading}\n\n- type: procedural\n- source: {in_path.relative_to(WORKSPACE)}#{heading}\n- trigger: (when should this be used?)\n- verification: (how do we confirm it worked?)\n- generated_at: {ts}\n\n{body}\n\n"
-            out_path = append_topic_candidate(topic, block)
-            out_excerpt = block
-        elif kind == "semantic":
-            block = f"\n## Semantic candidate: {heading}\n\n- type: semantic\n- confidence: low\n- evidence:\n  - {in_path.relative_to(WORKSPACE)}#{heading}\n- generated_at: {ts}\n\n{body}\n\n"
+        # 1) Semantic candidates extracted from explicit lines (Decision/Policy/Preference/etc.)
+        semantic_lines = extract_semantic_lines(body)
+        for i, stmt in enumerate(semantic_lines):
+            title = heading if len(semantic_lines) == 1 else f"{heading} ({i+1})"
+            block = (
+                f"\n## Semantic candidate: {title}\n\n"
+                f"- type: semantic\n"
+                f"- confidence: medium\n"
+                f"- scope: project\n"
+                f"- statement: {stmt}\n"
+                f"- evidence:\n"
+                f"  - {rel}#{heading}\n"
+                f"- generated_at: {ts}\n\n"
+            )
             out_path = append_memory_candidates(block)
-            out_excerpt = block
-        else:
-            # episodic: do not promote by default; just create a tiny topic note
-            block = f"\n## Episodic note (candidate): {heading}\n\n- type: episodic\n- source: {in_path.relative_to(WORKSPACE)}#{heading}\n- generated_at: {ts}\n\n- summary: (fill in)\n\n"
-            out_path = append_topic_candidate(topic, block)
-            out_excerpt = block
+            receipts.append(
+                {
+                    "source": {"path": str(rel), "heading": heading, "sha256": source_hash},
+                    "output": {
+                        "path": str(out_path.relative_to(WORKSPACE)),
+                        "sha256": sha256_text(block),
+                        "kind": "semantic",
+                        "topic": topic,
+                    },
+                }
+            )
 
+        # 2) Procedural candidate from a steps block / numbered list
+        proc = extract_procedural_block(body)
+        if proc:
+            verify_txt = extract_verify_text(body)
+            trigger_txt = f"When you need: {heading}" if heading and heading != "(no heading)" else "When this procedure is needed"
+            if verify_txt:
+                # Keep the required field as a single non-placeholder line for apply scoring.
+                verification_line = "- verification: verification steps listed below\n"
+            else:
+                verification_line = "- verification: (how do we confirm it worked?)\n"
+
+            block = (
+                f"\n## Procedure (candidate): {heading}\n\n"
+                f"- type: procedural\n"
+                f"- source: {rel}#{heading}\n"
+                f"- trigger: {trigger_txt}\n"
+                f"- guardrails:\n  - (what not to do)\n"
+                f"{verification_line}"
+                f"- generated_at: {ts}\n\n"
+                f"{proc}\n\n"
+            )
+
+            # If we extracted Verify text, append it as a separate section (does not affect scoring).
+            if verify_txt:
+                block += f"\nVerification details (from daily log):\n{verify_txt}\n\n"
+            out_path = append_topic_candidate(topic, block)
+            receipts.append(
+                {
+                    "source": {"path": str(rel), "heading": heading, "sha256": source_hash},
+                    "output": {
+                        "path": str(out_path.relative_to(WORKSPACE)),
+                        "sha256": sha256_text(block),
+                        "kind": "procedural",
+                        "topic": topic,
+                    },
+                }
+            )
+
+        # 3) Always stage a minimal episodic note as retrievable context (not auto-promoted)
+        summary = summarize_episodic(body)
+        ep_block = (
+            f"\n## Episodic note (candidate): {heading}\n\n"
+            f"- type: episodic\n"
+            f"- source: {rel}#{heading}\n"
+            f"- generated_at: {ts}\n\n"
+            f"- summary: {summary}\n\n"
+        )
+        out_path = append_topic_candidate(topic, ep_block)
         receipts.append(
             {
-                "source": {
-                    "path": str(in_path.relative_to(WORKSPACE)),
-                    "heading": heading,
-                    "sha256": source_hash,
-                },
+                "source": {"path": str(rel), "heading": heading, "sha256": source_hash},
                 "output": {
                     "path": str(out_path.relative_to(WORKSPACE)),
-                    "sha256": sha256_text(out_excerpt),
-                    "kind": kind,
+                    "sha256": sha256_text(ep_block),
+                    "kind": "episodic",
                     "topic": topic,
                 },
             }

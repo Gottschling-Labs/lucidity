@@ -37,9 +37,15 @@ Extract:
 
 ### Step B: Classify into (episodic | semantic | procedural)
 Heuristics (until LLM-based classifier is wired):
-- If contains "steps:" or numbered list → procedural
-- If contains "statement:" or looks like preference/fact → semantic
-- Else → episodic
+
+Prefer explicit markers in your daily logs:
+- Procedural markers: `Steps:`, numbered lists (`1) ...`), `Procedure:`, `How to:`
+- Semantic markers: `Decision:`, `Policy:`, `Preference:`, `Fact:`, `Rule:`, `Canonical:`
+
+Fallback:
+- If a section contains steps/numbered instructions → procedural
+- If it contains an explicit semantic marker line → semantic candidate(s)
+- The remainder is treated as episodic context (retrievable, not auto-promoted)
 
 ### Step C: Map to topic
 Heuristics:

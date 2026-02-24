@@ -29,6 +29,8 @@ python3 memory-architecture/scripts/distill_daily.py \
   --workspace demo-workspace \
   --path memory/2026-02-23.md
 
+# This demo includes Decision:/Steps:/Verify: markers so apply will accept
+# at least one semantic + one procedural candidate.
 python3 memory-architecture/scripts/distill_daily.py \
   --workspace demo-workspace \
   --path memory/2026-02-24.md
