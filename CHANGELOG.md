@@ -14,6 +14,15 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.11] - 2026-02-23
+
+### Fixed
+- Installer now removes any existing Gateway cron jobs with the same name before adding (prevents duplicate jobs per task).
+- Uninstaller now matches jobs using JSON output (human list output truncates long names).
+
+### Docs
+- Apply guide clarifies that episodic blocks are skipped by default (`kind:episodic-not-auto`).
+
 ## [0.1.10] - 2026-02-23
 
 ### Changed

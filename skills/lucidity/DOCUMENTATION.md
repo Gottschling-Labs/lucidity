@@ -432,6 +432,7 @@ Example cron line (conceptual):
 - Apply is designed to be idempotent. Re-running should not duplicate blocks.
 - Keep apply off by default for new installs. Use dry-run first.
 - Always keep backups before applying.
+- By default, **episodic** blocks are not auto-promoted (you may see `reason: kind:episodic-not-auto` in the apply manifest). This is intentional to prevent noisy, time-bound logs from becoming canonical memory.
 
 ## 8) Examples (episodic vs procedural)
 

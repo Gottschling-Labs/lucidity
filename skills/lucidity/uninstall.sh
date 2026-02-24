@@ -32,11 +32,11 @@ PY
 BASE_PREFIX="lucidity.${AGENT_ID}.${WORKSPACE_LABEL}"
 ALT_PREFIX="${BASE_PREFIX}-${SHORT_HASH}"
 
-# NOTE: `openclaw cron rm` expects a job id.
-ids=$(openclaw cron list | awk -v p1="$BASE_PREFIX" -v p2="$ALT_PREFIX" '$2 ~ ("^"p1"\\.") || $2 ~ ("^"p2"\\.") {print $1}')
+# NOTE: use JSON output because the human list output truncates long names.
+ids=$(openclaw cron list --json | python3 -c 'import json,sys; obj=json.load(sys.stdin); p1=sys.argv[1]; p2=sys.argv[2]; ids=[j["id"] for j in obj.get("jobs",[]) if j.get("name","" ).startswith(p1+".") or j.get("name","" ).startswith(p2+".")]; print("\n".join(ids))' "$BASE_PREFIX" "$ALT_PREFIX")
 
 # Back-compat: older installers used global names (no agent/workspace prefix)
-legacy_ids=$(openclaw cron list | awk '$2 ~ /^lucidity\.(backup|distill|dedupe)$/ {print $1}')
+legacy_ids=$(openclaw cron list --json | python3 -c 'import json,sys; obj=json.load(sys.stdin); names={"lucidity.backup","lucidity.distill","lucidity.dedupe"}; ids=[j["id"] for j in obj.get("jobs",[]) if j.get("name") in names]; print("\n".join(ids))')
 
 if [[ -z "${ids}" ]] && [[ -z "${legacy_ids}" ]]; then
   say "No jobs found for prefixes: $BASE_PREFIX.* or $ALT_PREFIX.* (and no legacy lucidity.* jobs found)"

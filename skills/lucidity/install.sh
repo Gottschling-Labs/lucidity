@@ -88,6 +88,20 @@ mkdir -p "$WORKSPACE_ROOT_IN/memory/staging" \
 
 say "Creating Gateway cron jobs..."
 
+# Helper: remove any existing jobs with the same name (OpenClaw allows duplicate names).
+rm_jobs_by_name() {
+  local name="$1"
+  local ids
+  ids=$(openclaw cron list --json | python3 -c 'import json,sys; obj=json.load(sys.stdin); name=sys.argv[1]; print("\n".join([j["id"] for j in obj.get("jobs",[]) if j.get("name")==name]))' "$name")
+  if [[ -n "$ids" ]]; then
+    say "Removing existing job(s) named $name"
+    for id in $ids; do
+      openclaw cron rm "$id" >/dev/null
+      say "Removed job id: $id"
+    done
+  fi
+}
+
 COMMON=(
   --session isolated
   --agent "$AGENT_ID"
@@ -101,6 +115,7 @@ if [[ -n "$TZ_IN" ]]; then
 fi
 
 # Backup
+rm_jobs_by_name "${JOB_PREFIX}.backup"
 openclaw cron add \
   --name "${JOB_PREFIX}.backup" \
   --description "Lucidity nightly backup (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
@@ -113,6 +128,7 @@ openclaw cron add \
   >/dev/null
 
 # Distill (deterministic catch-up)
+rm_jobs_by_name "${JOB_PREFIX}.distill"
 openclaw cron add \
   --name "${JOB_PREFIX}.distill" \
   --description "Lucidity nightly distill (deterministic catch-up) (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
@@ -125,6 +141,7 @@ openclaw cron add \
   >/dev/null
 
 # Dedupe
+rm_jobs_by_name "${JOB_PREFIX}.dedupe"
 openclaw cron add \
   --name "${JOB_PREFIX}.dedupe" \
   --description "Lucidity nightly dedupe (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
