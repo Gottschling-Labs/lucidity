@@ -140,6 +140,27 @@ openclaw cron add \
   --message "Run Lucidity pending distill for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/distill_pending.py' --workspace '$WORKSPACE_ROOT_IN' --limit 7. If it exits 2 (no pending), report that as OK." \
   >/dev/null
 
+# Dream Reflection (optional)
+say "Dream reflection"
+say "- This is an LLM reflection step that proposes semantic/procedural candidates with evidence."
+say "- It writes ONLY to staging via reflect_apply_candidates.py."
+read -r -p "Enable nightly dream reflection job? (yes/no) [no]: " ENABLE_REFLECT
+ENABLE_REFLECT="${ENABLE_REFLECT:-no}"
+
+if [[ "$ENABLE_REFLECT" == "yes" ]]; then
+  rm_jobs_by_name "${JOB_PREFIX}.reflect"
+  openclaw cron add \
+    --name "${JOB_PREFIX}.reflect" \
+    --description "Lucidity nightly dream reflection (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
+    --cron "0 4 * * *" \
+    "${TZ_ARGS[@]}" \
+    --session isolated \
+    --agent "$AGENT_ID" \
+    $ANNOUNCE_FLAG \
+    --message "Lucidity Dream Reflection (daily, catch-up):\n\n1) Compute pending days:\npython3 '$SKILL_DIR/memory-architecture/scripts/reflect_pending.py' --workspace '$WORKSPACE_ROOT_IN' --limit 1\n\n2) If pendingCount==0, exit OK. Otherwise, for each planned day:\n- read the daily log at the given path\n- produce JSON candidates STRICTLY following: $SKILL_DIR/memory-architecture/scripts/reflect_prompt.md\n- then apply the candidates to staging by piping JSON into:\n  python3 '$SKILL_DIR/memory-architecture/scripts/reflect_apply_candidates.py' --workspace '$WORKSPACE_ROOT_IN' --in -\n\nReturn a short JSON summary: day processed, #semantic, #procedural, receipt path." \
+    >/dev/null
+fi
+
 # Dedupe
 rm_jobs_by_name "${JOB_PREFIX}.dedupe"
 openclaw cron add \

@@ -67,6 +67,8 @@ Canonical spec: `skills/lucidity/memory-architecture/tier-design.md`.
 
 Lucidity is intentionally **local-first**. Most of the functionality (distill/dedupe/apply/backups/rollback) runs as local scripts.
 
+Dream Reflection (optional) adds an LLM-powered nightly consolidation step. It proposes semantic/procedural candidates into staging with strict evidence requirements and then relies on dedupe + apply to promote safely.
+
 However, **high-quality recall** depends on your OpenClaw deployment configuration:
 
 ### 2.1 OpenClaw memory indexing (`memory-core`)
@@ -251,7 +253,28 @@ Practical reasons to use both:
 
 ---
 
-## 5) The maintenance pipeline
+## 5) Dream Reflection (LLM consolidation)
+
+Dream Reflection is an optional nightly step that makes Lucidity feel more like "a dream": it reflects on your daily log(s), extracts durable semantic facts and procedural SOPs, and proposes them as staged candidates.
+
+Key properties:
+- catch-up capable (processes unreflected days)
+- staged only (never writes canonical memory directly)
+- evidence required for semantic candidates (A-mode)
+
+How it works:
+1) `reflect_pending.py` chooses the next unreflected daily log(s).
+2) The OpenClaw agent reads the daily log and produces a JSON payload per `reflect_prompt.md`.
+3) `reflect_apply_candidates.py` writes those candidates into staging + writes a reflection receipt.
+4) Dedupe + apply proceed as normal.
+
+Artifacts:
+- Pending plan: `memory-architecture/scripts/reflect_pending.py`
+- Prompt contract: `memory-architecture/scripts/reflect_prompt.md`
+- Deterministic writer: `memory-architecture/scripts/reflect_apply_candidates.py`
+- Receipts: `memory/staging/reflect/receipts/YYYY-MM-DD.json`
+
+## 6) The maintenance pipeline
 
 Lucidity’s pipeline is **staging-first**:
 

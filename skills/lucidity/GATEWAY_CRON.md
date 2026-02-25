@@ -27,6 +27,9 @@ By default it creates these Gateway cron jobs using a prefix derived from agent 
 - `lucidity.<agent>.<workspace>.distill` (04:05 daily, deterministic "pending distill" - catches up any unprocessed days)
 - `lucidity.<agent>.<workspace>.dedupe` (04:15 daily)
 
+Optional (prompted at install):
+- `lucidity.<agent>.<workspace>.reflect` (04:00 daily, Dream Reflection - LLM proposes semantic/procedural candidates into staging)
+
 If there is a naming collision, the installer automatically appends a short hash suffix to the workspace label.
 
 Apply is intentionally not scheduled by default.

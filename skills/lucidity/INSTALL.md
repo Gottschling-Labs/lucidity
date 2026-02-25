@@ -23,6 +23,7 @@ The installer prompts for:
 - Workspace root (defaults to `~/.openclaw/workspace`)
 - Timezone (auto-detected when possible)
 - Verbosity (announce to chat by default)
+- Optional: enable Dream Reflection (LLM reflection into staging)
 
 Verify:
 

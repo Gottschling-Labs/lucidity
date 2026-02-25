@@ -14,6 +14,17 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.13] - 2026-02-24
+
+### Added
+- Dream Reflection (optional): catch-up capable LLM consolidation into staging.
+  - `reflect_pending.py` (pending day selection)
+  - `reflect_prompt.md` (JSON contract)
+  - `reflect_apply_candidates.py` (deterministic staged writer + receipts)
+
+### Changed
+- Installer can optionally create a nightly Gateway cron job `lucidity.<agent>.<workspace>.reflect`.
+
 ## [0.1.12] - 2026-02-23
 
 ### Fixed
