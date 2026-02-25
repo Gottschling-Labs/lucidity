@@ -14,6 +14,15 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.1.14] - 2026-02-24
+
+### Added
+- Staging sanitizer for reflection evidence quotes (redacts injection-like lines and secret-like patterns).
+- `sanitize_staging_quotes.py` utility for sanitizing existing staging `evidence_quote` blocks.
+
+### Changed
+- Reflection staged writer now requires `evidence_quote` and sanitizes it before writing.
+
 ## [0.1.13] - 2026-02-24
 
 ### Added

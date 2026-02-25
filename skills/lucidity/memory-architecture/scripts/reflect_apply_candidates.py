@@ -44,6 +44,8 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List
 
+from staging_sanitizer import sanitize_evidence_quote
+
 
 def sha256_text(s: str) -> str:
     return hashlib.sha256(s.encode("utf-8")).hexdigest()
@@ -154,6 +156,12 @@ def main() -> None:
             ev_lines = "\n".join(
                 [f"  - {e.get('path')}#{e.get('heading')}" for e in evidence if e.get("path") and e.get("heading")]
             )
+            quote_raw = (c.get("evidence_quote") or "").strip()
+            if not quote_raw:
+                # Extractive-first: require a concrete excerpt
+                continue
+            q = sanitize_evidence_quote(quote_raw)
+
             block = (
                 f"\n## Semantic candidate: {title}\n\n"
                 f"- type: semantic\n"
@@ -161,6 +169,8 @@ def main() -> None:
                 f"- scope: project\n"
                 f"- statement: {stmt}\n"
                 f"- evidence:\n{ev_lines}\n"
+                f"- evidence_quote: |\n  {q.text.replace('\n', '\n  ')}\n"
+                f"- evidence_sanitized: true\n"
                 f"- generated_at: {run_ts}\n\n"
             )
             out_path = append_memory_candidates(ws, block)
@@ -171,6 +181,11 @@ def main() -> None:
                     "title": title,
                     "topic": "MEMORY.md",
                     "block_sha256": sha256_text(block),
+                    "sanitizer": {
+                        "redacted_lines": q.redacted_lines,
+                        "redacted_secrets": q.redacted_secrets,
+                        "truncated": q.truncated,
+                    },
                 }
             )
 
@@ -194,6 +209,11 @@ def main() -> None:
             ev_path = ev_ref.get("path")
             ev_heading = ev_ref.get("heading")
 
+            quote_raw = (c.get("evidence_quote") or "").strip()
+            if not quote_raw:
+                continue
+            q = sanitize_evidence_quote(quote_raw)
+
             block = (
                 f"\n## Procedure (candidate): {title}\n\n"
                 f"- type: procedural\n"
@@ -201,6 +221,8 @@ def main() -> None:
                 f"- trigger: {trig}\n"
                 f"- guardrails:\n{guard_md}\n"
                 f"- verification: {verification}\n"
+                f"- evidence_quote: |\n  {q.text.replace('\n', '\n  ')}\n"
+                f"- evidence_sanitized: true\n"
                 f"- generated_at: {run_ts}\n\n"
                 f"Steps:\n{steps_md}\n\n"
             )
@@ -213,6 +235,11 @@ def main() -> None:
                     "title": title,
                     "topic": topic,
                     "block_sha256": sha256_text(block),
+                    "sanitizer": {
+                        "redacted_lines": q.redacted_lines,
+                        "redacted_secrets": q.redacted_secrets,
+                        "truncated": q.truncated,
+                    },
                 }
             )
 

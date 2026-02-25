@@ -25,6 +25,7 @@ Candidate rules:
   - statement (single sentence)
   - confidence (high|medium|low)
   - evidence: [{path, heading}]
+  - evidence_quote: short verbatim excerpt copied from the source section
 - kind=procedural:
   - title
   - topic
@@ -32,5 +33,6 @@ Candidate rules:
   - steps (array)
   - verification (single line)
   - evidence: [{path, heading}]
+  - evidence_quote: short verbatim excerpt copied from the source section
 
 Return only JSON. No markdown, no commentary.
