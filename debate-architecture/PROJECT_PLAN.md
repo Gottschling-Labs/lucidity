@@ -53,6 +53,7 @@ Goal: Implement a multi-model debate + consensus architecture (Proponent/Critic/
 - [x] Implement artifact persistence utilities (transcript writer + conventions).
   - Evidence: `skills/debate-orchestrator/scripts/artifacts.py` + `debate.py` initializes `debate-architecture/runs/<run_id>/meta.json` (verified 2026-02-25: `debate-20260225-135402Z-189e3c57/meta.json`)
 - [ ] Implement orchestration: spawn roles, run 2–4 rounds, compact each round, persist artifacts.
+  - Heartbeat evidence (scaffold run created run dir): `debate-architecture/runs/debate-20260304-132820Z-91a2549a/`
 
 ### Phase 4: Consensus + early-stopping (0%)
 - [ ] Implement consensus synthesis and stability-based early stopping.
