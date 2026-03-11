@@ -34,10 +34,6 @@ If context lives in OpenClaw transcripts (common!), generate a T2-like snapshot 
 python3 memory-architecture/scripts/distill_sessions.py --date 2026-03-11 --tz-offset-minutes -240
 ```
 
-This writes:
-- `memory/staging/sessions/2026-03-11.sessions.md`
-- a receipt under `memory/staging/receipts/`
-
 Then distill that snapshot like any other input:
 
 ```bash
@@ -67,7 +63,7 @@ Outputs:
 - `memory/staging/reports/dedupe-report.json`
 
 ### Apply (auto-merge, high-confidence)
-Auto-merge deduped staging candidates into canonical topic briefs (and later curated memory), gated by a configurable "high-confidence" policy.
+Auto-merge deduped staging candidates into canonical topic briefs (and later curated memory), gated by a configurable “high-confidence” policy.
 
 Dry run:
 

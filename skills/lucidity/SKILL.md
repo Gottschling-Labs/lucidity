@@ -33,7 +33,12 @@ This skill packages a **tiered memory architecture** plus **maintenance pipeline
 
 ```bash
 cd skills/lucidity
+
+# Preferred (Gateway-managed cron jobs)
 ./gateway-cron-install.sh
+
+# Alternative (local install helpers)
+# ./install.sh
 ```
 
 Then run a first maintenance pass (staging-only is safest):
