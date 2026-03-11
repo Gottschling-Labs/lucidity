@@ -137,7 +137,7 @@ openclaw cron add \
   --session isolated \
   --agent "$AGENT_ID" \
   $ANNOUNCE_FLAG \
-  --message "Run Lucidity dream for workspace '$WORKSPACE_ROOT_IN' (staging-first):\n\n1) Compute yesterday local date:\n   DAY=$(TZ='${TZ_IN}' date -d 'yesterday' +%F)\n\n2) Run transcript+daily-log distill + dedupe:\n   python3 '$SKILL_DIR/memory-architecture/scripts/dream_daily.py' --date $DAY --tz-offset-minutes 0\n\nReturn the final line + key output paths." \
+  --message "Run Lucidity dream for workspace '$WORKSPACE_ROOT_IN' (staging-first):\n\n1) Compute yesterday local date:\n   DAY=$(TZ='${TZ_IN}' date -d 'yesterday' +%F)\n\n2) Run transcript+daily-log distill + dedupe (bucket by local tz):\n   python3 '$SKILL_DIR/memory-architecture/scripts/dream_daily.py' --date $DAY --tz '${TZ_IN}'\n\nReturn the final line + key output paths." \
   >/dev/null
 
 # Distill (deterministic catch-up for missing daily files)
@@ -157,8 +157,8 @@ openclaw cron add \
 say "Dream reflection"
 say "- This is an LLM reflection step that proposes semantic/procedural candidates with evidence."
 say "- It writes ONLY to staging via reflect_apply_candidates.py."
-read -r -p "Enable nightly dream reflection job? (yes/no) [no]: " ENABLE_REFLECT
-ENABLE_REFLECT="${ENABLE_REFLECT:-no}"
+read -r -p "Enable nightly dream reflection job? (yes/no) [yes]: " ENABLE_REFLECT
+ENABLE_REFLECT="${ENABLE_REFLECT:-yes}"
 
 if [[ "$ENABLE_REFLECT" == "yes" ]]; then
   rm_jobs_by_name "${JOB_PREFIX}.reflect"

@@ -39,7 +39,8 @@ def run(cmd: list[str]) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", required=True, help="YYYY-MM-DD")
-    ap.add_argument("--tz-offset-minutes", type=int, default=0)
+    ap.add_argument("--tz", help="IANA timezone name for day bucketing (preferred)")
+    ap.add_argument("--tz-offset-minutes", type=int, default=0, help="Legacy; prefer --tz")
     ap.add_argument("--keyword-regex", help="Optional filter for transcript extraction")
     args = ap.parse_args()
 
@@ -51,9 +52,11 @@ def main() -> None:
         str(SCRIPTS_DIR / "distill_sessions.py"),
         "--date",
         day,
-        "--tz-offset-minutes",
-        str(args.tz_offset_minutes),
     ]
+    if args.tz:
+        cmd += ["--tz", args.tz]
+    else:
+        cmd += ["--tz-offset-minutes", str(args.tz_offset_minutes)]
     if args.keyword_regex:
         cmd += ["--keyword-regex", args.keyword_regex]
     run(cmd)

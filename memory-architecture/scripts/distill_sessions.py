@@ -37,6 +37,11 @@ import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
+try:
+    from zoneinfo import ZoneInfo  # py3.9+
+except Exception:  # pragma: no cover
+    ZoneInfo = None  # type: ignore
+
 WORKSPACE = Path(__file__).resolve().parents[2]
 MEMORY_DIR = WORKSPACE / "memory"
 STAGING_DIR = MEMORY_DIR / "staging"
@@ -124,10 +129,6 @@ def extract_events(
             ts = parse_ts(ts_raw) if isinstance(ts_raw, str) else None
             if ts is None:
                 continue
-            # shift for local-day bucketing if requested
-            if tz_offset_minutes:
-                ts = ts + dt.timedelta(minutes=tz_offset_minutes)
-
             if since and ts < since:
                 continue
             if until and ts >= until:
@@ -204,7 +205,8 @@ def main() -> None:
     ap.add_argument("--keyword-regex", help="Only include events whose extracted text matches regex")
     ap.add_argument("--include-tool-results", action="store_true")
     ap.add_argument("--include-thinking", action="store_true")
-    ap.add_argument("--tz-offset-minutes", type=int, default=0, help="Shift timestamps for day bucketing (e.g. -240 for EDT)")
+    ap.add_argument("--tz", help="IANA timezone name for day bucketing (e.g. America/New_York)")
+    ap.add_argument("--tz-offset-minutes", type=int, default=0, help="Shift timestamps for day bucketing (legacy; prefer --tz). Example: -240 for EDT")
     ap.add_argument("--max-events", type=int, default=4000)
     args = ap.parse_args()
 
@@ -227,10 +229,19 @@ def main() -> None:
         until = parse_ts(args.until)
 
     if args.date:
-        # interpret as day in shifted time
         d = dt.date.fromisoformat(args.date)
-        since = dt.datetime(d.year, d.month, d.day, tzinfo=dt.UTC)
-        until = since + dt.timedelta(days=1)
+        # Interpret date as a local day if --tz provided; else as UTC day.
+        if args.tz:
+            if ZoneInfo is None:
+                raise SystemExit("zoneinfo unavailable; use --tz-offset-minutes instead")
+            tz = ZoneInfo(args.tz)
+            local_start = dt.datetime(d.year, d.month, d.day, 0, 0, 0, tzinfo=tz)
+            local_end = local_start + dt.timedelta(days=1)
+            since = local_start.astimezone(dt.UTC)
+            until = local_end.astimezone(dt.UTC)
+        else:
+            since = dt.datetime(d.year, d.month, d.day, tzinfo=dt.UTC)
+            until = since + dt.timedelta(days=1)
 
     keyword_re = re.compile(args.keyword_regex, flags=re.I) if args.keyword_regex else None
 
@@ -260,6 +271,7 @@ def main() -> None:
         "keyword_regex": args.keyword_regex,
         "include_tool_results": args.include_tool_results,
         "include_thinking": args.include_thinking,
+        "tz": args.tz,
         "tz_offset_minutes": args.tz_offset_minutes,
         "stats": stats,
         "selected_events": len(events),
