@@ -156,7 +156,8 @@ openclaw cron add \
 # Dream Reflection (optional)
 say "Dream reflection"
 say "- This is an LLM reflection step that proposes semantic/procedural candidates with evidence."
-say "- It writes ONLY to staging via reflect_apply_candidates.py."
+say "- It writes ONLY to staging via reflect_apply_candidates.py (no canonical writes)."
+say "- Requires: you trust your agent to follow reflect_prompt.md and avoid secrets."
 read -r -p "Enable nightly dream reflection job? (yes/no) [yes]: " ENABLE_REFLECT
 ENABLE_REFLECT="${ENABLE_REFLECT:-yes}"
 
@@ -186,6 +187,28 @@ openclaw cron add \
   $ANNOUNCE_FLAG \
   --message "Run Lucidity dedupe for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/dedupe_staging.py' --workspace '$WORKSPACE_ROOT_IN' --write. Then print the JSON report." \
   >/dev/null
+
+# Apply (optional)
+say "Auto-apply (high-confidence)"
+say "- This promotes ONLY high-confidence deduped candidates into canonical memory (MEMORY.md + memory/topics)."
+say "- It is designed to be auditable (manifests + hashes) and idempotent, but it WILL modify canonical files."
+say "- Recommended: review a few dry runs / manifests before leaving this on permanently in a new deployment."
+read -r -p "Enable nightly high-confidence apply job? (yes/no) [yes]: " ENABLE_APPLY
+ENABLE_APPLY="${ENABLE_APPLY:-yes}"
+
+if [[ "$ENABLE_APPLY" == "yes" ]]; then
+  rm_jobs_by_name "${JOB_PREFIX}.apply"
+  openclaw cron add \
+    --name "${JOB_PREFIX}.apply" \
+    --description "Lucidity nightly apply (high-confidence) (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
+    --cron "25 4 * * *" \
+    "${TZ_ARGS[@]}" \
+    --session isolated \
+    --agent "$AGENT_ID" \
+    $ANNOUNCE_FLAG \
+    --message "Run Lucidity apply for workspace '$WORKSPACE_ROOT_IN' (high-confidence only). Execute: python3 '$SKILL_DIR/memory-architecture/scripts/apply_staging.py' --workspace '$WORKSPACE_ROOT_IN' --config '$SKILL_DIR/memory-architecture/config/auto-merge.json' --write. Then print the latest manifest JSON (best effort): MANIFEST=\"$WORKSPACE_ROOT_IN/memory/staging/manifests/\"\$(ls -t \"$WORKSPACE_ROOT_IN/memory/staging/manifests\" | head -n 1); echo \"manifest=$MANIFEST\"; cat \"$MANIFEST\"" \
+    >/dev/null
+fi
 
 say "Done."
 

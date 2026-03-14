@@ -14,6 +14,21 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.3.0] - 2026-03-14
+
+### Added
+- Installer prompt to schedule a nightly **high-confidence auto-apply** Gateway cron job (`lucidity.<agent>.<workspace>.apply`).
+
+### Changed
+- Installer defaults now enable Dream Reflection and high-confidence auto-apply unless you explicitly answer `no` (keeps the system hands-off by default, while still requiring explicit install-time consent).
+
+### Changed
+- Distill no longer writes low-signal episodic staging blocks with `- summary: (fill in)` (reduces staging noise; raw source logs remain the system of record).
+
+### Docs
+- Gateway cron documentation updated to reflect optional apply scheduling.
+- Dream Reflection docs clarify pairing with optional nightly apply.
+
 ## [0.1.14] - 2026-02-24
 
 ### Added

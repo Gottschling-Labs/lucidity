@@ -261,6 +261,7 @@ Key properties:
 - catch-up capable (processes unreflected days)
 - staged only (never writes canonical memory directly)
 - evidence required for semantic candidates (A-mode)
+- designed to pair with nightly dedupe, and (optionally) nightly high-confidence apply (promotion)
 
 How it works:
 1) `reflect_pending.py` chooses the next unreflected daily log(s).
@@ -290,7 +291,8 @@ Option A (make distill produce promotable content):
 - Use explicit markers in daily logs:
   - Semantic: `Decision:`, `Policy:`, `Preference:`, `Canonical:`
   - Procedural: `Steps:` (numbered) and `Verify:`
-- Episodic notes are still staged, but are not auto-promoted by default.
+- Episodic notes may be staged as retrievable context, but are not auto-promoted by default.
+- To avoid staging noise, distill suppresses episodic candidates when it cannot extract a concrete one-line summary (no `(fill in)` placeholders).
 
 Command (manual single-day distill):
 

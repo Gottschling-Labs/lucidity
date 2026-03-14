@@ -309,27 +309,31 @@ def main() -> None:
                 }
             )
 
-        # 3) Always stage a minimal episodic note as retrievable context (not auto-promoted)
+        # 3) Stage a minimal episodic note as retrievable context (not auto-promoted)
+        #
+        # IMPORTANT: we suppress low-signal placeholders to keep staging noise low.
+        # The full raw context remains in the source daily log / session snapshot.
         summary = summarize_episodic(body)
-        ep_block = (
-            f"\n## Episodic note (candidate): {heading}\n\n"
-            f"- type: episodic\n"
-            f"- source: {rel}#{heading}\n"
-            f"- generated_at: {ts}\n\n"
-            f"- summary: {summary}\n\n"
-        )
-        out_path = append_topic_candidate(topic, ep_block)
-        receipts.append(
-            {
-                "source": {"path": str(rel), "heading": heading, "sha256": source_hash},
-                "output": {
-                    "path": str(out_path.relative_to(WORKSPACE)),
-                    "sha256": sha256_text(ep_block),
-                    "kind": "episodic",
-                    "topic": topic,
-                },
-            }
-        )
+        if summary != "(fill in)":
+            ep_block = (
+                f"\n## Episodic note (candidate): {heading}\n\n"
+                f"- type: episodic\n"
+                f"- source: {rel}#{heading}\n"
+                f"- generated_at: {ts}\n\n"
+                f"- summary: {summary}\n\n"
+            )
+            out_path = append_topic_candidate(topic, ep_block)
+            receipts.append(
+                {
+                    "source": {"path": str(rel), "heading": heading, "sha256": source_hash},
+                    "output": {
+                        "path": str(out_path.relative_to(WORKSPACE)),
+                        "sha256": sha256_text(ep_block),
+                        "kind": "episodic",
+                        "topic": topic,
+                    },
+                }
+            )
 
     out_receipts = STAGING_DIR / "receipts" / (in_path.stem + ".json")
     out_receipts.write_text(json.dumps(receipts, indent=2) + "\n", encoding="utf-8")
