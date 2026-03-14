@@ -174,6 +174,27 @@ openclaw cron add \
   --message "Run Lucidity dedupe for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/dedupe_staging.py' --workspace '$WORKSPACE_ROOT_IN' --write. Then print the JSON report." \
   >/dev/null
 
+# Apply (optional)
+say "Auto-apply (optional)"
+say "- This promotes ONLY high-confidence deduped candidates into canonical memory."
+say "- Recommended to leave OFF for new installs until you're confident in the gates."
+read -r -p "Enable nightly high-confidence apply job? (yes/no) [no]: " ENABLE_APPLY
+ENABLE_APPLY="${ENABLE_APPLY:-no}"
+
+if [[ "$ENABLE_APPLY" == "yes" ]]; then
+  rm_jobs_by_name "${JOB_PREFIX}.apply"
+  openclaw cron add \
+    --name "${JOB_PREFIX}.apply" \
+    --description "Lucidity nightly apply (high-confidence) (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
+    --cron "25 4 * * *" \
+    "${TZ_ARGS[@]}" \
+    --session isolated \
+    --agent "$AGENT_ID" \
+    $ANNOUNCE_FLAG \
+    --message "Run Lucidity apply for workspace '$WORKSPACE_ROOT_IN' (high-confidence only). Execute: python3 '$SKILL_DIR/memory-architecture/scripts/apply_staging.py' --workspace '$WORKSPACE_ROOT_IN' --config '$SKILL_DIR/memory-architecture/config/auto-merge.json' --write. Then print the latest manifest JSON (best effort): MANIFEST=\"$WORKSPACE_ROOT_IN/memory/staging/manifests/\"\$(ls -t \"$WORKSPACE_ROOT_IN/memory/staging/manifests\" | head -n 1); echo \"manifest=$MANIFEST\"; cat \"$MANIFEST\"" \
+    >/dev/null
+fi
+
 say "Done."
 
 read -r -p "Run installation verification now? (yes/no) [yes]: " VERIFY

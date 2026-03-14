@@ -29,10 +29,11 @@ By default it creates these Gateway cron jobs using a prefix derived from agent 
 
 Optional (prompted at install):
 - `lucidity.<agent>.<workspace>.reflect` (04:00 daily, Dream Reflection - LLM proposes semantic/procedural candidates into staging)
+- `lucidity.<agent>.<workspace>.apply` (04:25 daily, high-confidence auto-apply into canonical memory; writes manifests)
 
 If there is a naming collision, the installer automatically appends a short hash suffix to the workspace label.
 
-Apply is intentionally not scheduled by default.
+Apply is intentionally **off by default** for new installs; enable only after you trust your scoring/safety gates and have reviewed a few dry runs.
 
 ## Verify
 
