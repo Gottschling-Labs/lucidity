@@ -127,7 +127,20 @@ openclaw cron add \
   --message "Run Lucidity backup for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/backup_memory.py' --workspace '$WORKSPACE_ROOT_IN' --write. Then print the JSON output." \
   >/dev/null
 
-# Distill (deterministic catch-up)
+# Dream (transcripts + daily log) staging-first
+rm_jobs_by_name "${JOB_PREFIX}.dream"
+openclaw cron add \
+  --name "${JOB_PREFIX}.dream" \
+  --description "Lucidity nightly dream (transcripts + daily log) (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
+  --cron "2 4 * * *" \
+  "${TZ_ARGS[@]}" \
+  --session isolated \
+  --agent "$AGENT_ID" \
+  $ANNOUNCE_FLAG \
+  --message "Run Lucidity dream for workspace '$WORKSPACE_ROOT_IN' (staging-first):\n\n1) Compute yesterday local date:\n   DAY=$(TZ='${TZ_IN}' date -d 'yesterday' +%F)\n\n2) Run transcript+daily-log distill + dedupe (bucket by local tz):\n   python3 '$SKILL_DIR/memory-architecture/scripts/dream_daily.py' --date $DAY --tz '${TZ_IN}'\n\nReturn the final line + key output paths." \
+  >/dev/null
+
+# Distill (deterministic catch-up for missing daily files)
 rm_jobs_by_name "${JOB_PREFIX}.distill"
 openclaw cron add \
   --name "${JOB_PREFIX}.distill" \
