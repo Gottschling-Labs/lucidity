@@ -261,7 +261,7 @@ Key properties:
 - catch-up capable (processes unreflected days)
 - staged only (never writes canonical memory directly)
 - evidence required for semantic candidates (A-mode)
-- designed to pair with nightly dedupe, and optionally nightly high-confidence apply (promotion) once gates are trusted
+- designed to pair with nightly dedupe, and (optionally) nightly high-confidence apply (promotion)
 
 How it works:
 1) `reflect_pending.py` chooses the next unreflected daily log(s).

@@ -33,7 +33,7 @@ Optional (prompted at install):
 
 If there is a naming collision, the installer automatically appends a short hash suffix to the workspace label.
 
-Apply is intentionally **off by default** for new installs; enable only after you trust your scoring/safety gates and have reviewed a few dry runs.
+Apply is prompted at install time and **defaults to enabled** (high-confidence-only). It will modify canonical memory files; rely on manifests + backups for audit/rollback, and consider disabling it during initial calibration.
 
 ## Verify
 

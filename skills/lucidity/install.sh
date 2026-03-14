@@ -143,9 +143,10 @@ openclaw cron add \
 # Dream Reflection (optional)
 say "Dream reflection"
 say "- This is an LLM reflection step that proposes semantic/procedural candidates with evidence."
-say "- It writes ONLY to staging via reflect_apply_candidates.py."
-read -r -p "Enable nightly dream reflection job? (yes/no) [no]: " ENABLE_REFLECT
-ENABLE_REFLECT="${ENABLE_REFLECT:-no}"
+say "- It writes ONLY to staging via reflect_apply_candidates.py (no canonical writes)."
+say "- Requires: you trust your agent to follow reflect_prompt.md and avoid secrets."
+read -r -p "Enable nightly dream reflection job? (yes/no) [yes]: " ENABLE_REFLECT
+ENABLE_REFLECT="${ENABLE_REFLECT:-yes}"
 
 if [[ "$ENABLE_REFLECT" == "yes" ]]; then
   rm_jobs_by_name "${JOB_PREFIX}.reflect"
@@ -175,11 +176,12 @@ openclaw cron add \
   >/dev/null
 
 # Apply (optional)
-say "Auto-apply (optional)"
-say "- This promotes ONLY high-confidence deduped candidates into canonical memory."
-say "- Recommended to leave OFF for new installs until you're confident in the gates."
-read -r -p "Enable nightly high-confidence apply job? (yes/no) [no]: " ENABLE_APPLY
-ENABLE_APPLY="${ENABLE_APPLY:-no}"
+say "Auto-apply (high-confidence)"
+say "- This promotes ONLY high-confidence deduped candidates into canonical memory (MEMORY.md + memory/topics)."
+say "- It is designed to be auditable (manifests + hashes) and idempotent, but it WILL modify canonical files."
+say "- Recommended: review a few dry runs / manifests before leaving this on permanently in a new deployment."
+read -r -p "Enable nightly high-confidence apply job? (yes/no) [yes]: " ENABLE_APPLY
+ENABLE_APPLY="${ENABLE_APPLY:-yes}"
 
 if [[ "$ENABLE_APPLY" == "yes" ]]; then
   rm_jobs_by_name "${JOB_PREFIX}.apply"
