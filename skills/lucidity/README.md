@@ -33,8 +33,9 @@ cd skills/lucidity
 
 This will:
 - ask for consent + workspace root
-- default maintenance runs to **silent** reporting
-- optionally enable chat announcements for runs you want surfaced
+- ask you to choose **Dream Mode** (recommended) or **Custom**
+- default routine maintenance runs to **silent** reporting
+- enable Dream Mode's backup + distill + reflection + dedupe + autonomous promotion flow by default
 - detect timezone from the host when possible
 - create Gateway cron jobs visible via `openclaw cron list`
 
