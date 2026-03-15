@@ -19,7 +19,7 @@ That means:
 
 ## 0.4.x — Dream Mode convergence
 
-Status: in progress / recently converged
+Status: recently converged
 
 Focus:
 - make Dream Mode the primary product path

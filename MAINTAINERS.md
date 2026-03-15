@@ -73,5 +73,5 @@ Lucidity follows SemVer with practical guidance:
 ## 4) Policy reminders
 
 - Never commit private workspace corpora, telemetry, or benchmarks derived from private data.
-- Keep apply optional and human-reviewed for new installs.
+- Keep autonomous promotion bounded, auditable, and reversible; require human review for ambiguous, sensitive, or contradictory cases.
 - Keep secrets out of always-loaded tiers.

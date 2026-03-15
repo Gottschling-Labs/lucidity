@@ -122,5 +122,4 @@ GPL-3.0-or-later (see `LICENSE`).
 
 ## Status
 
-Private repo for now (Gottschling Labs). Public release should follow a security + sandboxing review.
-w.
+Public, but still pre-1.0 and actively evolving.
