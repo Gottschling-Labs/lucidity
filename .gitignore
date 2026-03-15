@@ -46,3 +46,6 @@ mission-control/
 # Local state / telemetry (deployment-specific)
 /state/
 
+# Never commit private benchmark corpora/results
+memory-architecture/benchmarks-*private-real*.json
+
