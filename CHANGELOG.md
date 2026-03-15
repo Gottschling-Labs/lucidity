@@ -14,6 +14,28 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Security
 
+## [0.4.0] - 2026-03-15
+
+### Added
+- `skills/lucidity/DREAM_MODE.md` to define Dream Mode as Lucidity's primary product path.
+- `skills/lucidity/AUTO_PROMOTION_POLICY.md` to define safe autonomous promotion rules.
+- `AUDIT-2026-03-14-dream-mode.md` and `IMPLEMENTATION-PLAN-dream-mode-convergence.md` to anchor the product convergence work.
+- `skills/lucidity/anima-interface.md` to define the boundary between Lucidity and a future portable identity layer.
+- `skills/lucidity/profiles/` with initial runtime/retrieval profile examples.
+
+### Changed
+- Installer now presents `dream` (recommended) vs `custom` mode instead of only feature-by-feature prompting.
+- Dream Mode now defaults to backup + distill + reflection + dedupe + autonomous promotion, while keeping routine reporting silent by default.
+- Docs and repo positioning now present Lucidity as a safe-autonomous Dream Mode memory system for OpenClaw companions.
+- Semantic, procedural, and episodic memory are now explicitly first-class memory classes with different promotion behavior.
+
+### Fixed
+- Verification removed a broken installer reference to a non-existent `dream_daily.py` entrypoint.
+- Documentation now consistently treats episodic memory as preserved/searchable by default, rather than a direct canonical promotion target.
+
+### Security
+- Dream Mode docs and installer language more clearly reinforce auditability, backups, manifests, rollback, and bounded autonomous promotion.
+
 ## [0.3.0] - 2026-03-14
 
 ### Added

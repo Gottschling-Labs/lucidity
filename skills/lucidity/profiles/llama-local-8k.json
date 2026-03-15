@@ -1,0 +1,9 @@
+{
+  "runtimeProfileId": "llama-local-8k",
+  "retrievalProfile": "compact",
+  "maxSnippets": 3,
+  "preferCurated": true,
+  "topicBriefBias": true,
+  "latencyBias": "high",
+  "notes": "Tighter retrieval posture for smaller local-context model deployments."
+}

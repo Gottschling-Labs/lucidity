@@ -59,11 +59,33 @@ say "Job prefix: ${JOB_PREFIX}.*"
 read -r -p "Timezone for schedules (IANA). Leave blank to use Gateway default. [$TZ_DEFAULT]: " TZ_IN
 TZ_IN="${TZ_IN:-$TZ_DEFAULT}"
 
-say "Cron verbosity"
-say "- announce: send a short summary to chat each run (default)"
-say "- silent: do not announce"
-read -r -p "Announce to chat? (announce/silent) [announce]: " VERB
-VERB="${VERB:-announce}"
+say "Installation mode"
+say "- dream: recommended; quiet-by-default Dream Mode with autonomous maintenance"
+say "- custom: advanced/custom setup with per-feature prompts"
+read -r -p "Mode? (dream/custom) [dream]: " MODE
+MODE="${MODE:-dream}"
+
+VERB="silent"
+ENABLE_REFLECT="yes"
+ENABLE_APPLY="yes"
+
+if [[ "$MODE" == "dream" ]]; then
+  say "Dream Mode selected"
+  say "- enables backup + distill + reflection + dedupe + autonomous promotion"
+  say "- keeps routine maintenance quiet by default"
+  say "- preserves episodic memory in lower tiers while promoting durable semantic/procedural insights"
+  read -r -p "Surface routine summaries to chat? (announce/silent) [silent]: " VERB
+  VERB="${VERB:-silent}"
+elif [[ "$MODE" == "custom" ]]; then
+  say "Advanced / Custom mode selected"
+  say "Reporting mode"
+  say "- silent: maintenance runs without chat delivery (default)"
+  say "- announce: send a short summary to chat each run"
+  read -r -p "Reporting mode? (silent/announce) [silent]: " VERB
+  VERB="${VERB:-silent}"
+else
+  die "Invalid mode: $MODE"
+fi
 
 ANNOUNCE_FLAG=""
 if [[ "$VERB" == "announce" ]]; then
@@ -74,11 +96,6 @@ else
   die "Invalid verbosity: $VERB"
 fi
 
-# Schedules (local timezone via --tz when set)
-# - backup: 03:45 daily
-# - distill: 04:05 daily (staging-only)
-# - dedupe: 04:15 daily
-
 say "Initializing workspace directories"
 mkdir -p "$WORKSPACE_ROOT_IN/memory/staging" \
          "$WORKSPACE_ROOT_IN/memory/staging/deduped" \
@@ -88,7 +105,6 @@ mkdir -p "$WORKSPACE_ROOT_IN/memory/staging" \
 
 say "Creating Gateway cron jobs..."
 
-# Helper: remove any existing jobs with the same name (OpenClaw allows duplicate names).
 rm_jobs_by_name() {
   local name="$1"
   local ids
@@ -102,19 +118,11 @@ rm_jobs_by_name() {
   fi
 }
 
-COMMON=(
-  --session isolated
-  --agent "$AGENT_ID"
-  $ANNOUNCE_FLAG
-  --name
-)
-
 TZ_ARGS=()
 if [[ -n "$TZ_IN" ]]; then
   TZ_ARGS=(--tz "$TZ_IN")
 fi
 
-# Backup
 rm_jobs_by_name "${JOB_PREFIX}.backup"
 openclaw cron add \
   --name "${JOB_PREFIX}.backup" \
@@ -127,20 +135,9 @@ openclaw cron add \
   --message "Run Lucidity backup for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/backup_memory.py' --workspace '$WORKSPACE_ROOT_IN' --write. Then print the JSON output." \
   >/dev/null
 
-# Dream (transcripts + daily log) staging-first
-rm_jobs_by_name "${JOB_PREFIX}.dream"
-openclaw cron add \
-  --name "${JOB_PREFIX}.dream" \
-  --description "Lucidity nightly dream (transcripts + daily log) (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
-  --cron "2 4 * * *" \
-  "${TZ_ARGS[@]}" \
-  --session isolated \
-  --agent "$AGENT_ID" \
-  $ANNOUNCE_FLAG \
-  --message "Run Lucidity dream for workspace '$WORKSPACE_ROOT_IN' (staging-first):\n\n1) Compute yesterday local date:\n   DAY=$(TZ='${TZ_IN}' date -d 'yesterday' +%F)\n\n2) Run transcript+daily-log distill + dedupe (bucket by local tz):\n   python3 '$SKILL_DIR/memory-architecture/scripts/dream_daily.py' --date $DAY --tz '${TZ_IN}'\n\nReturn the final line + key output paths." \
-  >/dev/null
+# Dream Mode umbrella currently maps to distill + optional reflection + dedupe + apply.
+# Keep the explicit dream job out until a dedicated dream entrypoint exists in-repo.
 
-# Distill (deterministic catch-up for missing daily files)
 rm_jobs_by_name "${JOB_PREFIX}.distill"
 openclaw cron add \
   --name "${JOB_PREFIX}.distill" \
@@ -153,13 +150,13 @@ openclaw cron add \
   --message "Run Lucidity pending distill for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/distill_pending.py' --workspace '$WORKSPACE_ROOT_IN' --limit 7. If it exits 2 (no pending), report that as OK." \
   >/dev/null
 
-# Dream Reflection (optional)
-say "Dream reflection"
-say "- This is an LLM reflection step that proposes semantic/procedural candidates with evidence."
-say "- It writes ONLY to staging via reflect_apply_candidates.py (no canonical writes)."
-say "- Requires: you trust your agent to follow reflect_prompt.md and avoid secrets."
-read -r -p "Enable nightly dream reflection job? (yes/no) [yes]: " ENABLE_REFLECT
-ENABLE_REFLECT="${ENABLE_REFLECT:-yes}"
+if [[ "$MODE" == "custom" ]]; then
+  say "Dream reflection"
+  say "- This is an LLM reflection step that proposes semantic/procedural candidates with evidence."
+  say "- It writes ONLY to staging via reflect_apply_candidates.py."
+  read -r -p "Enable nightly dream reflection job? (yes/no) [yes]: " ENABLE_REFLECT
+  ENABLE_REFLECT="${ENABLE_REFLECT:-yes}"
+fi
 
 if [[ "$ENABLE_REFLECT" == "yes" ]]; then
   rm_jobs_by_name "${JOB_PREFIX}.reflect"
@@ -175,7 +172,6 @@ if [[ "$ENABLE_REFLECT" == "yes" ]]; then
     >/dev/null
 fi
 
-# Dedupe
 rm_jobs_by_name "${JOB_PREFIX}.dedupe"
 openclaw cron add \
   --name "${JOB_PREFIX}.dedupe" \
@@ -188,25 +184,25 @@ openclaw cron add \
   --message "Run Lucidity dedupe for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/dedupe_staging.py' --workspace '$WORKSPACE_ROOT_IN' --write. Then print the JSON report." \
   >/dev/null
 
-# Apply (optional)
-say "Auto-apply (high-confidence)"
-say "- This promotes ONLY high-confidence deduped candidates into canonical memory (MEMORY.md + memory/topics)."
-say "- It is designed to be auditable (manifests + hashes) and idempotent, but it WILL modify canonical files."
-say "- Recommended: review a few dry runs / manifests before leaving this on permanently in a new deployment."
-read -r -p "Enable nightly high-confidence apply job? (yes/no) [yes]: " ENABLE_APPLY
-ENABLE_APPLY="${ENABLE_APPLY:-yes}"
+if [[ "$MODE" == "custom" ]]; then
+  say "Autonomous promotion"
+  say "- Promotes only durable, high-confidence semantic/procedural candidates into canonical memory."
+  say "- Episodic memory remains searchable in lower tiers unless distilled into durable insight."
+  read -r -p "Enable nightly autonomous promotion job? (yes/no) [yes]: " ENABLE_APPLY
+  ENABLE_APPLY="${ENABLE_APPLY:-yes}"
+fi
 
 if [[ "$ENABLE_APPLY" == "yes" ]]; then
   rm_jobs_by_name "${JOB_PREFIX}.apply"
   openclaw cron add \
     --name "${JOB_PREFIX}.apply" \
-    --description "Lucidity nightly apply (high-confidence) (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
+    --description "Lucidity nightly apply (Dream Mode autonomous promotion) (agent=$AGENT_ID workspace=$WORKSPACE_ROOT_IN)" \
     --cron "25 4 * * *" \
     "${TZ_ARGS[@]}" \
     --session isolated \
     --agent "$AGENT_ID" \
     $ANNOUNCE_FLAG \
-    --message "Run Lucidity apply for workspace '$WORKSPACE_ROOT_IN' (high-confidence only). Execute: python3 '$SKILL_DIR/memory-architecture/scripts/apply_staging.py' --workspace '$WORKSPACE_ROOT_IN' --config '$SKILL_DIR/memory-architecture/config/auto-merge.json' --write. Then print the latest manifest JSON (best effort): MANIFEST=\"$WORKSPACE_ROOT_IN/memory/staging/manifests/\"\$(ls -t \"$WORKSPACE_ROOT_IN/memory/staging/manifests\" | head -n 1); echo \"manifest=$MANIFEST\"; cat \"$MANIFEST\"" \
+    --message "Run Lucidity autonomous promotion for workspace '$WORKSPACE_ROOT_IN'. Execute: python3 '$SKILL_DIR/memory-architecture/scripts/apply_staging.py' --workspace '$WORKSPACE_ROOT_IN' --config '$SKILL_DIR/memory-architecture/config/auto-merge.json' --write. This should promote only durable, high-confidence semantic/procedural candidates; episodic material should remain lower-tier unless distilled into durable insight. Then print the latest manifest JSON (best effort): MANIFEST=\"$WORKSPACE_ROOT_IN/memory/staging/manifests/\"\$(ls -t \"$WORKSPACE_ROOT_IN/memory/staging/manifests\" | head -n 1); echo \"manifest=$MANIFEST\"; cat \"$MANIFEST\"" \
     >/dev/null
 fi
 
