@@ -22,8 +22,12 @@ This prevents collisions when you install Lucidity for multiple workspaces.
 The installer prompts for:
 - Workspace root (defaults to `~/.openclaw/workspace`)
 - Timezone (auto-detected when possible)
-- Verbosity (announce to chat by default)
-- Optional: enable Dream Reflection (LLM reflection into staging)
+- Installation mode:
+  - `dream` (recommended) — quiet-by-default Dream Mode with backup + dream processing + reflection + dedupe + autonomous promotion
+  - `custom` — advanced/custom setup with per-feature prompts
+- Reporting mode (`silent` by default; `announce` optional)
+
+In Dream Mode, autonomous promotion is part of the default flow, but it should only promote durable semantic/procedural memory under the safety policy; episodic memory remains searchable in lower tiers by default.
 
 Verify:
 

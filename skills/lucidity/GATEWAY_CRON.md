@@ -16,24 +16,27 @@ cd skills/lucidity
 The installer will prompt for:
 - workspace root (defaults to `~/.openclaw/workspace`)
 - schedule timezone (defaults to the host timezone when detectable)
-- verbosity (announce to chat vs silent)
+- installation mode:
+  - `dream` (recommended) — quiet-by-default Dream Mode
+  - `custom` — advanced/custom setup
+- reporting mode (`silent` by default, `announce` optional)
 - verification (run a quick health check at the end)
 
 ## What it creates
 
-By default it creates these Gateway cron jobs using a prefix derived from agent id + workspace label:
+In **Dream Mode** (recommended), it creates these Gateway cron jobs using a prefix derived from agent id + workspace label:
 
 - `lucidity.<agent>.<workspace>.backup` (03:45 daily)
-- `lucidity.<agent>.<workspace>.distill` (04:05 daily, deterministic "pending distill" - catches up any unprocessed days)
+- `lucidity.<agent>.<workspace>.reflect` (04:00 daily, Dream Reflection - LLM proposes stronger semantic/procedural candidates into staging)
+- `lucidity.<agent>.<workspace>.distill` (04:05 daily, deterministic catch-up for missed daily files and lower-tier episodic preservation)
 - `lucidity.<agent>.<workspace>.dedupe` (04:15 daily)
+- `lucidity.<agent>.<workspace>.apply` (04:25 daily, autonomous promotion of durable high-confidence semantic/procedural memory)
 
-Optional (prompted at install):
-- `lucidity.<agent>.<workspace>.reflect` (04:00 daily, Dream Reflection - LLM proposes semantic/procedural candidates into staging)
-- `lucidity.<agent>.<workspace>.apply` (04:25 daily, high-confidence auto-apply into canonical memory; writes manifests)
+In **Custom** mode, reflection and autonomous promotion are still configurable via prompts.
 
 If there is a naming collision, the installer automatically appends a short hash suffix to the workspace label.
 
-Apply is prompted at install time and **defaults to enabled** (high-confidence-only). It will modify canonical memory files; rely on manifests + backups for audit/rollback, and consider disabling it during initial calibration.
+Episodic memory is preserved in lower tiers/searchable outputs by default; autonomous promotion is intended for durable semantic/procedural memory, not direct canonization of raw episodic context.
 
 ## Verify
 

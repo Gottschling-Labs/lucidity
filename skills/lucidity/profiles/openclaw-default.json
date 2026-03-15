@@ -1,0 +1,9 @@
+{
+  "runtimeProfileId": "openclaw-default",
+  "retrievalProfile": "balanced",
+  "maxSnippets": 6,
+  "preferCurated": true,
+  "topicBriefBias": true,
+  "latencyBias": "balanced",
+  "notes": "Balanced default for normal OpenClaw companion use with Lucidity-managed Markdown memory."
+}

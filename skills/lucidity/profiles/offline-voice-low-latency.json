@@ -1,0 +1,9 @@
+{
+  "runtimeProfileId": "offline-voice-low-latency",
+  "retrievalProfile": "latency-first",
+  "maxSnippets": 2,
+  "preferCurated": true,
+  "topicBriefBias": true,
+  "latencyBias": "very-high",
+  "notes": "Aggressively compact retrieval for offline or voice-first companion loops where response speed matters more than breadth."
+}

@@ -1,13 +1,15 @@
 # Gottschling Labs - Lucidity
 
-Lucidity is a **local-first memory architecture + maintenance toolkit** for OpenClaw.
+Lucidity is a **local-first, auditable memory system for OpenClaw companions**.
 
-It organizes memory into tiers and provides a staged pipeline:
+It organizes memory into tiers and provides a staged pipeline across three memory classes — **semantic, procedural, and episodic**:
 
-1) **Distill** daily notes into structured candidates (staging)
+1) **Distill** daily/session material into structured candidates (staging)
 2) **Dedupe/canonicalize** staging
-3) (Optional) **Apply** vetted candidates into `MEMORY.md` (curated long-term)
+3) (Optional) **Apply** vetted durable candidates into canonical memory
 4) Always emit **receipts**, keep **backups**, and support **rollback**
+
+By default, episodic memory is preserved as searchable lower-tier context, while semantic and procedural memory are the main candidates for durable promotion.
 
 ## What’s in this repo
 
@@ -31,7 +33,8 @@ cd skills/lucidity
 
 This will:
 - ask for consent + workspace root
-- ask for cron verbosity (announce to chat by default)
+- default maintenance runs to **silent** reporting
+- optionally enable chat announcements for runs you want surfaced
 - detect timezone from the host when possible
 - create Gateway cron jobs visible via `openclaw cron list`
 
@@ -53,6 +56,10 @@ If you prefer batching work into heartbeats (lower overhead, less rigid timing):
 ## Full documentation
 
 - `skills/lucidity/DOCUMENTATION.md`
+- `skills/lucidity/DREAM_MODE.md` - primary Dream Mode product definition
+- `skills/lucidity/AUTO_PROMOTION_POLICY.md` - safe autonomous promotion rules
+- `skills/lucidity/anima-interface.md` - Lucidity ↔ Anima boundary and portability contract
+- `skills/lucidity/profiles/README.md` - initial runtime/retrieval profile examples
 
 ## Tier architecture (T0-T4)
 
@@ -91,7 +98,7 @@ OpenClaw recall is driven by **searching files**, not by a tier "switch".
 
 Lucidity works because:
 - your agent runs a recall step (e.g., `memory_search`) before answering memory-dependent questions
-- `memory_search` searches `MEMORY.md` + `memory/*.md` so tier files are eligible
+- `memory_search` searches `MEMORY.md` + `memory/*.md` so semantic, procedural, and episodic tier files are eligible
 - the prompt injection policy limits how much content gets injected and prefers higher-signal snippets
 
 See: `skills/lucidity/memory-architecture/prompt-injection-policy.md`.
@@ -102,6 +109,18 @@ See:
 - `skills/lucidity/memory-architecture/test-scenarios.md`
 - `skills/lucidity/memory-architecture/test-results.md`
 - `skills/lucidity/memory-architecture/eval-harness.md`
+
+## Community positioning
+
+Near-term, Lucidity should be understood as:
+
+> a local-first, auditable memory system for OpenClaw companions
+
+That means:
+- **safe defaults** (staging-first, backups, reversibility)
+- **quiet defaults** (silent maintenance unless explicitly announced)
+- **simple install story** (install → nightly pipeline → inspect receipts if needed)
+- **clear separation of concerns** between Lucidity (memory operations) and future portable identity layers such as Anima
 
 ## License
 

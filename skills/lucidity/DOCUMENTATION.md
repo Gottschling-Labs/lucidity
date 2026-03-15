@@ -67,7 +67,7 @@ Canonical spec: `skills/lucidity/memory-architecture/tier-design.md`.
 
 Lucidity is intentionally **local-first**. Most of the functionality (distill/dedupe/apply/backups/rollback) runs as local scripts.
 
-Dream Reflection (optional) adds an LLM-powered nightly consolidation step. It proposes semantic/procedural candidates into staging with strict evidence requirements and then relies on dedupe + apply to promote safely.
+Dream Reflection (optional) adds an LLM-powered nightly consolidation step. It uses episodic daily/session material to propose stronger semantic/procedural candidates into staging with strict evidence requirements, then relies on dedupe + apply to promote safely.
 
 However, **high-quality recall** depends on your OpenClaw deployment configuration:
 
@@ -216,7 +216,7 @@ References:
 
 ### 4.1 How episodic and procedural memories get created
 
-Lucidity does **not** magically create memories just because tiers exist. It creates structured episodic/procedural content via the **distillation pipeline**.
+Lucidity does **not** magically create memories just because tiers exist. It creates structured semantic/episodic/procedural content via the **distillation pipeline**.
 
 Source input (most common):
 - Raw daily notes in `memory/YYYY-MM-DD.md`
@@ -226,8 +226,9 @@ Generation mechanism:
 - `dedupe_staging.py` canonicalizes and de-duplicates those staged candidates.
 - Optionally, `apply_staging.py` promotes only high-confidence, durable items into `MEMORY.md` (T4).
 
-What makes something "episodic" vs "procedural" is the **schema** + **heuristics** used during distillation.
+What makes something "semantic", "episodic", or "procedural" is the **schema** + **heuristics** used during distillation.
 
+- **Semantic** candidates typically capture: stable facts, preferences, durable decisions, and identity/configuration truths.
 - **Episodic** candidates typically capture: what happened, when, who/what was involved, decisions/outcomes, and any follow-ups.
 - **Procedural** candidates typically capture: a reusable workflow/SOP, commands, preconditions, expected output, and known pitfalls.
 
@@ -535,3 +536,4 @@ References:
 - `skills/lucidity/memory-architecture/sensitive-tier-encryption.md`
 - `skills/lucidity/memory-architecture/require-review.md`
 - `skills/lucidity/memory-architecture/SANDBOXING.md` (if present in your version)
+)
