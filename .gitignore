@@ -37,12 +37,6 @@ skills/lucidity/state/
 skills/lucidity/demo-workspace/memory/staging/
 skills/lucidity/demo-workspace/state/
 
-# External repo; not part of lucidity
-mission-control/
-
-# Generated debate run artifacts
-/debate-architecture/runs/
-
 # Local state / telemetry (deployment-specific)
 /state/
 

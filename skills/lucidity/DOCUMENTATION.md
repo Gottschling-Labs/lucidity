@@ -538,4 +538,3 @@ References:
 - `skills/lucidity/memory-architecture/sensitive-tier-encryption.md`
 - `skills/lucidity/memory-architecture/require-review.md`
 - `skills/lucidity/memory-architecture/SANDBOXING.md` (if present in your version)
-)

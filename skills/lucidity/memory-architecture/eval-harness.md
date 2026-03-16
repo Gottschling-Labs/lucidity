@@ -76,8 +76,8 @@ These queries are designed to cover episodic, semantic, and procedural recall in
 7) "What went wrong with Telegram earlier and how did we fix it?"
    - Expect: hardcoded botToken in config causing 401, moved to env `TELEGRAM_BOT_TOKEN`, restart.
 
-8) "What repo contains the Ops Deck UI work and what branch are we using?"
-   - Expect: `Gottschling-Labs/mission-control` on branch `ops-deck-ui`.
+8) "What repo contains the active UI work and what branch are we using?"
+   - Expect: the relevant UI repo + active branch for the current workspace/project under test.
 
 9) "What does the overnight NIGHTSHIFT loop do, and what are its key guardrails?"
    - Expect: one tight iteration, no public posting, no irreversible actions, git only in repos, etc.
