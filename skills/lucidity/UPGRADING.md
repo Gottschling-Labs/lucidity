@@ -19,7 +19,7 @@ git pull --ff-only
 
 # Refresh Gateway cron jobs/payloads if needed
 cd skills/lucidity
-./gateway-cron-install.sh
+./install.sh
 ```
 
 ## Optional: weekly update check via cron (notification-only)

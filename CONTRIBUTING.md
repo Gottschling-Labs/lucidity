@@ -10,6 +10,12 @@ Thanks for your interest in improving Lucidity.
 
 ## Development workflow
 
+### Canonical paths
+
+- Treat `skills/lucidity/` as the canonical installable/distributable surface.
+- Treat `skills/lucidity/memory-architecture/` as the canonical runtime/docs tree for Lucidity feature work.
+- Keep top-level docs focused on repo overview, roadmap, governance, and contributor guidance.
+
 1. Fork the repo (or create a branch if you have write access).
 2. Make changes.
 3. Run basic checks:
@@ -23,6 +29,9 @@ python3 skills/lucidity/memory-architecture/scripts/test_apply_idempotency.py
 - what changed
 - why
 - how you tested
+
+Optional reviewer aid:
+- `.github/PR_REVIEW_CHECKLIST.md`
 
 ## What we accept
 
