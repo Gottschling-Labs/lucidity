@@ -146,5 +146,7 @@ See `automation-jobs.md` for details.
 ---
 
 ## Safety
-- Canonical memory files (`MEMORY.md`, `memory/YYYY-MM-DD.md`, `memory/topics/*.md`) are never modified automatically by these scripts.
+- Most Lucidity scripts are staging-first and do not modify canonical memory files directly.
+- `apply_staging.py --write` is the exception: it can update canonical memory files such as `MEMORY.md` and `memory/topics/*.md`, but only with backups, manifests/receipts, and idempotent merge behavior.
+- `memory/YYYY-MM-DD.md` is not modified automatically by the maintenance scripts documented here.
 - Staging-first + receipts/manifests are required for auditability.

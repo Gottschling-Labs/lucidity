@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 """Session transcript distiller (staging-first).
 
-See the canonical copy in:
-- workspace/memory-architecture/scripts/distill_sessions.py
-
-This skill-local copy exists so the Lucidity skill is self-contained.
+This is the canonical Lucidity copy shipped with the skill bundle.
 """
 
 from __future__ import annotations

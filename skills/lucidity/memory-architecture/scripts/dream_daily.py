@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 """Dream job: daily recall + long-term storage staging.
 
-See canonical copy in:
-- workspace/memory-architecture/scripts/dream_daily.py
-
-This skill-local copy exists so the Lucidity skill is self-contained.
+This is the canonical Lucidity copy shipped with the skill bundle.
 """
 
 from __future__ import annotations
