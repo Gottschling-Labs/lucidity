@@ -25,8 +25,9 @@ This skill packages a **safe-autonomous Dream Mode memory system** plus supporti
 ## Layout
 
 - `memory-architecture/` - full documentation + scripts + benchmarks + operating guide
-- `gateway-cron-install.sh` - installs Gateway cron jobs + initializes required directories (with consent)
-- `gateway-cron-uninstall.sh` - removes Gateway cron jobs
+- `install.sh` - installs Gateway cron jobs + initializes required directories (with consent)
+- `uninstall.sh` - removes Gateway cron jobs
+- `gateway-cron-install.sh` / `gateway-cron-uninstall.sh` - deprecated wrappers kept for back-compat
 - `heartbeat.md` - how to run the same maintenance via HEARTBEAT instead of cron
 
 ## Quick start
@@ -35,10 +36,10 @@ This skill packages a **safe-autonomous Dream Mode memory system** plus supporti
 cd skills/lucidity
 
 # Preferred (Dream Mode via Gateway-managed cron jobs)
-./gateway-cron-install.sh
+./install.sh
 
-# Alternative (local install helpers)
-# ./install.sh
+# Deprecated wrapper (still works for back-compat)
+# ./gateway-cron-install.sh
 ```
 
 Then run a first maintenance pass (staging-first is safest):
@@ -62,4 +63,5 @@ Start here:
 - `DREAM_MODE.md`
 - `AUTO_PROMOTION_POLICY.md`
 - `memory-architecture/README.md`
-- `memory-architecture/HANDOVER.md`
+- `anima-interface.md`
+- `profiles/README.md`

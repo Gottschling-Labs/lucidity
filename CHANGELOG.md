@@ -9,17 +9,24 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ### Added
 
 ### Changed
+- Clarified contributor guidance that `skills/lucidity/` and `skills/lucidity/memory-architecture/` are the canonical paths for new Lucidity feature work, and removed the stale top-level duplicate `memory-architecture/` tree.
+- Updated upgrade/check-update guidance and skill docs to prefer `./install.sh` over the deprecated wrapper name.
+- Removed stale convergence/task scaffolding and outdated historical planning/handover files that no longer reflect the post-Dream-Mode repo state.
+- Moved the PR review checklist under `.github/` to reduce root-level clutter while keeping reviewer guidance available.
 
 ### Fixed
+- Corrected stale/deprecated install references in skill-facing documentation.
+- Fixed section numbering and quick-navigation alignment in `skills/lucidity/DOCUMENTATION.md`.
+- `distill_sessions.py` now detects agent session directories more flexibly instead of assuming the `main` agent path.
 
 ### Security
+- Hardened `skills/lucidity/install.sh` by removing shell interpolation from the Python heredoc used for workspace hashing.
 
 ## [0.4.0] - 2026-03-15
 
 ### Added
 - `skills/lucidity/DREAM_MODE.md` to define Dream Mode as Lucidity's primary product path.
 - `skills/lucidity/AUTO_PROMOTION_POLICY.md` to define safe autonomous promotion rules.
-- `AUDIT-2026-03-14-dream-mode.md` and `IMPLEMENTATION-PLAN-dream-mode-convergence.md` to anchor the product convergence work.
 - `skills/lucidity/anima-interface.md` to define the boundary between Lucidity and a future portable identity layer.
 - `skills/lucidity/profiles/` with initial runtime/retrieval profile examples.
 
@@ -43,8 +50,6 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Changed
 - Installer defaults now enable Dream Reflection and high-confidence auto-apply unless you explicitly answer `no` (keeps the system hands-off by default, while still requiring explicit install-time consent).
-
-### Changed
 - Distill no longer writes low-signal episodic staging blocks with `- summary: (fill in)` (reduces staging noise; raw source logs remain the system of record).
 
 ### Docs

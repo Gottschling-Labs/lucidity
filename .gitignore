@@ -47,5 +47,5 @@ mission-control/
 /state/
 
 # Never commit private benchmark corpora/results
-memory-architecture/benchmarks-*private-real*.json
+skills/lucidity/memory-architecture/benchmarks-*private-real*.json
 

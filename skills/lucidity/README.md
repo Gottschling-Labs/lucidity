@@ -28,7 +28,7 @@ Gateway cron jobs are visible to OpenClaw and are the expected user experience.
 
 ```bash
 cd skills/lucidity
-./gateway-cron-install.sh
+./install.sh
 ```
 
 This will:
@@ -127,4 +127,4 @@ That means:
 
 GPL-3.0-or-later (see `../../LICENSE`).
 
-Private (for now).
+Public, but still pre-1.0.

@@ -27,7 +27,22 @@ except Exception:  # pragma: no cover
 WORKSPACE = Path(__file__).resolve().parents[4]
 MEMORY_DIR = WORKSPACE / "memory"
 STAGING_DIR = MEMORY_DIR / "staging"
-DEFAULT_SESSIONS_DIR = Path(os.path.expanduser("~/.openclaw/agents/main/sessions"))
+
+
+def default_sessions_dir(agent_id: Optional[str] = None) -> Path:
+    base = Path(os.path.expanduser("~/.openclaw/agents"))
+    requested = (agent_id or os.environ.get("OPENCLAW_AGENT_ID") or os.environ.get("AGENT_ID") or "").strip()
+    candidates: List[Path] = []
+    if requested:
+        candidates.append(base / requested / "sessions")
+    candidates.append(base / "main" / "sessions")
+    for p in sorted(base.glob("*/sessions")):
+        if p not in candidates:
+            candidates.append(p)
+    for p in candidates:
+        if p.exists():
+            return p
+    return base / (requested or "main") / "sessions"
 
 
 def ensure_dirs() -> None:
@@ -171,7 +186,8 @@ def write_sessions_md(out_path: Path, title: str, events: List[Dict[str, Any]], 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--sessions-dir", default=str(DEFAULT_SESSIONS_DIR))
+    ap.add_argument("--agent-id", help="OpenClaw agent id to derive the default sessions path from")
+    ap.add_argument("--sessions-dir", help="Explicit sessions directory override (defaults to detected agent sessions path)")
     ap.add_argument("--date", help="YYYY-MM-DD (local day if tz offset set)")
     ap.add_argument("--since", help="ISO timestamp (inclusive)")
     ap.add_argument("--until", help="ISO timestamp (exclusive)")
@@ -184,7 +200,7 @@ def main() -> None:
     ap.add_argument("--max-events", type=int, default=4000)
     args = ap.parse_args()
 
-    sessions_dir = Path(args.sessions_dir).expanduser().resolve()
+    sessions_dir = Path(args.sessions_dir or default_sessions_dir(args.agent_id)).expanduser().resolve()
     if not sessions_dir.exists():
         raise SystemExit(f"sessions dir not found: {sessions_dir}")
 

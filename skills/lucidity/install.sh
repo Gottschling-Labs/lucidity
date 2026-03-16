@@ -43,9 +43,10 @@ if [[ -z "$WORKSPACE_LABEL" ]]; then
 fi
 
 # If multiple workspaces share the same label for the same agent, append a stable short hash.
-SHORT_HASH="$(python3 - <<PY
+SHORT_HASH="$(WORKSPACE_ROOT_IN="$WORKSPACE_ROOT_IN" python3 - <<'PY'
 import hashlib
-print(hashlib.sha1("$WORKSPACE_ROOT_IN".encode("utf-8")).hexdigest()[:8])
+import os
+print(hashlib.sha1(os.environ["WORKSPACE_ROOT_IN"].encode("utf-8")).hexdigest()[:8])
 PY
 )"
 

@@ -105,8 +105,9 @@ Outputs:
 
 ## Documents (index)
 
-### Plan
-- `PROJECT_PLAN.md`
+### Overview
+- `README.md`
+- `../../ROADMAP.md`
 
 ### Tier design + schemas
 - `tier-design.md`

@@ -11,12 +11,15 @@ Recommended reading order:
 Quick navigation:
 - Concepts + tiers: section 1
 - Dependencies (memory-core indexing): section 2
-- Portability + demo workspace: section 3
-- Recall model: section 4
-- Maintenance pipeline (distill/dedupe): section 5
-- Automation (cron/heartbeat): section 6
-- Apply (promotion): section 7
-- Verification + security notes: sections 9-10
+- Comparisons + compatibility: section 3
+- Portability + demo workspace: section 4
+- Recall model: section 5
+- Dream Reflection: section 6
+- Maintenance pipeline: section 7
+- Automation (cron/heartbeat): section 8
+- Apply (promotion): section 9
+- Examples: section 10
+- Verification + security notes: sections 11-12
 
 ---
 
@@ -159,9 +162,9 @@ Recommended pattern:
 - Use Lucidity to keep canonical memory small and consistent.
 - Point your retrieval/indexing system at those canonical files.
 
-## 3) OpenClaw-specific vs portable
+## 4) OpenClaw-specific vs portable
 
-### 3.1 What depends on OpenClaw + LLM configuration
+### 4.1 What depends on OpenClaw + LLM configuration
 
 OpenClaw-specific pieces:
 - `memory_search` / `memory_get` tools and the agent policy of using them.
@@ -170,7 +173,7 @@ OpenClaw-specific pieces:
   - FTS (keyword search)
 - Health checks such as `openclaw status --deep`.
 
-### 3.2 What is portable (runs without OpenClaw)
+### 4.2 What is portable (runs without OpenClaw)
 
 The Lucidity scripts are local-first and can run against any folder that follows the workspace layout:
 - `MEMORY.md`
@@ -178,7 +181,7 @@ The Lucidity scripts are local-first and can run against any folder that follows
 
 You can use them to produce staging outputs and receipts even if you are not using OpenClaw retrieval.
 
-### 3.3 Demo workspace (sanitized)
+### 4.3 Demo workspace (sanitized)
 
 This repo includes a tiny sanitized corpus you can use to validate Lucidity without using private data:
 - `skills/lucidity/demo-workspace/`
@@ -196,7 +199,7 @@ python3 memory-architecture/scripts/apply_staging.py --workspace demo-workspace 
 Inspect outputs under:
 - `skills/lucidity/demo-workspace/memory/staging/`
 
-## 4) How recall works in OpenClaw
+## 5) How recall works in OpenClaw
 
 OpenClaw recall is typically implemented as:
 
@@ -214,7 +217,7 @@ References:
 - `skills/lucidity/memory-architecture/prompt-injection-policy.md`
 - `skills/lucidity/memory-architecture/hybrid-retrieval-policy.md`
 
-### 4.1 How episodic and procedural memories get created
+### 5.1 How episodic and procedural memories get created
 
 Lucidity does **not** magically create memories just because tiers exist. It creates structured semantic/episodic/procedural content via the **distillation pipeline**.
 
@@ -241,7 +244,7 @@ Where to see the distillation pipeline rules/flow:
 
 > Important: for retrieval, the only hard requirement is that the resulting Markdown ends up under paths searched by recall (typically `MEMORY.md` and `memory/*.md`).
 
-### 4.2 `memory_search` vs `memory_get`
+### 5.2 `memory_search` vs `memory_get`
 
 These are designed to be used together:
 
@@ -254,7 +257,7 @@ Practical reasons to use both:
 
 ---
 
-## 5) Dream Reflection (LLM consolidation)
+## 6) Dream Reflection (LLM consolidation)
 
 Dream Reflection is an optional nightly step that makes Lucidity feel more like "a dream": it reflects on your daily log(s), extracts durable semantic facts and procedural SOPs, and proposes them as staged candidates.
 
@@ -276,11 +279,11 @@ Artifacts:
 - Deterministic writer: `memory-architecture/scripts/reflect_apply_candidates.py`
 - Receipts: `memory/staging/reflect/receipts/YYYY-MM-DD.json`
 
-## 6) The maintenance pipeline
+## 7) The maintenance pipeline
 
 Lucidity’s pipeline is **staging-first**:
 
-### 3.1 Distill (daily → staged candidates)
+### 7.1 Distill (daily → staged candidates)
 
 Purpose:
 - Convert raw daily notes into structured memory candidates.
@@ -315,7 +318,7 @@ Outputs:
 - Writes into `memory/staging/…`
 - Produces receipts linking sources → outputs
 
-### 3.2 Dedupe / canonicalize staging
+### 7.2 Dedupe / canonicalize staging
 
 Purpose:
 - Remove duplicates, normalize phrasing, unify canonical entries.
@@ -331,7 +334,7 @@ Outputs:
 - `memory/staging/deduped/…`
 - `memory/staging/reports/…`
 
-### 3.3 Apply (optional) - merge into `MEMORY.md`
+### 7.3 Apply (optional) - merge into `MEMORY.md`
 
 Purpose:
 - Promote only high-confidence, non-time-bound, safe items into curated long-term memory.
@@ -348,7 +351,7 @@ Safety properties:
 - Writes manifests/receipts
 - Designed to be **idempotent** (reruns should not duplicate content)
 
-### 3.4 Backup & rollback
+### 7.4 Backup & rollback
 
 Backups:
 
@@ -369,9 +372,9 @@ References:
 
 ---
 
-## 6) Cron vs Heartbeat operation
+## 8) Cron vs Heartbeat operation
 
-### 4.1 Cron (recommended default)
+### 8.1 Cron (recommended default)
 
 Best when:
 - You want predictable timing (nightly backups, consistent staging maintenance)
@@ -380,17 +383,16 @@ Install:
 
 ```bash
 cd skills/lucidity
-./gateway-cron-install.sh
+./install.sh
 ```
 
 Default cron installs:
 - nightly backup
 - deterministic pending distill (catch-up)
 - staging dedupe
+- and in Dream Mode, reflection + autonomous promotion by default (quiet unless configured otherwise)
 
-> Apply is intentionally *not* enabled by default.
-
-### 4.2 Heartbeat
+### 8.2 Heartbeat
 
 Best when:
 - You want to batch maintenance with other checks
@@ -401,11 +403,11 @@ Instructions:
 
 ---
 
-## 7) Apply (promotion) guide
+## 9) Apply (promotion) guide
 
 Apply is the step that turns staged, deduped candidates into canonical memory. It is where most of the day-to-day value comes from.
 
-### 5.1 What apply does
+### 9.1 What apply does
 
 `apply_staging.py` reads:
 - `memory/staging/deduped/topics/*.md`
@@ -418,7 +420,7 @@ and writes (when `--write` is used) into:
 It also emits an apply manifest under:
 - `memory/staging/manifests/apply-<timestamp>.json`
 
-### 5.2 How to run apply manually
+### 9.2 How to run apply manually
 
 Dry run first:
 
@@ -441,7 +443,7 @@ python3 memory-architecture/scripts/apply_staging.py \
   --write
 ```
 
-### 5.3 Making apply automatic (recommended progression)
+### 9.3 Making apply automatic (recommended progression)
 
 Stage 0: Manual only
 - Run apply manually while you learn what gets promoted.
@@ -459,18 +461,18 @@ Example cron line (conceptual):
 30 4 * * * WORKSPACE_ROOT="$HOME/.openclaw/workspace" python3 "/path/to/skills/lucidity/memory-architecture/scripts/apply_staging.py" --workspace "$WORKSPACE_ROOT" --write >/dev/null 2>&1
 ```
 
-### 5.4 Safety notes
+### 9.4 Safety notes
 
 - Apply is designed to be idempotent. Re-running should not duplicate blocks.
 - Keep apply off by default for new installs. Use dry-run first.
 - Always keep backups before applying.
 - By default, **episodic** blocks are not auto-promoted (you may see `reason: kind:episodic-not-auto` in the apply manifest). This is intentional to prevent noisy, time-bound logs from becoming canonical memory.
 
-## 8) Examples (episodic vs procedural)
+## 10) Examples (episodic vs procedural)
 
 These examples show how a raw daily note can be distilled into structured candidates that are easy to retrieve via `memory_search`.
 
-### 5.1 Episodic example
+### 10.1 Episodic example
 
 **Raw daily note (source)** - `memory/2026-02-23.md` (example):
 
@@ -489,11 +491,11 @@ These examples show how a raw daily note can be distilled into structured candid
 Why this helps retrieval:
 - The "decision" and "follow-ups" become explicit fields/phrases that are easy to match.
 
-### 5.2 Procedural example
+### 10.2 Procedural example
 
 **Raw daily note (source)** (example):
 
-- To install Lucidity: run `./gateway-cron-install.sh`, then test with `distill_daily.py` and `dedupe_staging.py`.
+- To install Lucidity: run `./install.sh`, then test with `distill_daily.py` and `dedupe_staging.py`.
 
 **Distilled procedural candidate (staging output)** (illustrative SOP):
 
@@ -502,7 +504,7 @@ Why this helps retrieval:
 - **Prereqs:** python3, openclaw CLI
 - **Steps:**
   1. `cd skills/lucidity`
-  2. `./gateway-cron-install.sh`
+  2. `./install.sh`
   3. `python3 memory-architecture/scripts/distill_daily.py --workspace ~/.openclaw/workspace --date <YYYY-MM-DD>`
   4. `python3 memory-architecture/scripts/dedupe_staging.py --workspace ~/.openclaw/workspace --write`
 - **Verify:** staging files exist under `memory/staging/` and a dedupe report exists under `memory/staging/reports/`.
@@ -510,7 +512,7 @@ Why this helps retrieval:
 Why this helps retrieval:
 - If you later ask "how do I install Lucidity?" or "what command runs staging distill?", `memory_search` can find this SOP quickly.
 
-## 9) Verification / "How do I know it works?"
+## 11) Verification / "How do I know it works?"
 
 Minimum verification checklist:
 
@@ -526,7 +528,7 @@ References:
 
 ---
 
-## 10) Security / privacy notes
+## 12) Security / privacy notes
 
 - Keep secrets out of always-loaded files.
 - Prefer staging-first + review for the first week of a new install.
